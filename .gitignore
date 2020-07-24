@@ -1,0 +1,4 @@
+/nocomment-workspace.code-workspace
+nocomment-frontend/node_modules/*
+nocomment-backend/node_modules/*
+nocomment-backend/.env
