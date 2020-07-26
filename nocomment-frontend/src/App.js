@@ -1,18 +1,20 @@
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import './App.css';
 import PostListPage from './pages/PostListPage';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
   return (
     <>
       <Route
         component={PostListPage}
-        path={(['/@:StringId'], '/')}
+        path={(['/@:stringId'], '/')}
         exact
       ></Route>
-      <Router component={LoginPage} path="/register" />
+      <Route component={LoginPage} path="/login" />
+      <Route component={RegisterPage} path="/register" />
     </>
   );
 }

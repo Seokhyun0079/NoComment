@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 const { Schema } = mongoose;
 
 const noCommenterSchema = new Schema({
-  StringId: String,
+  stringId: String,
   name: String,
   email: String,
   hashPassword: String,
