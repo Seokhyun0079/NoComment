@@ -61,6 +61,9 @@ const RegisterForm = ({ history }) => {
         setError('이미 존재하는 계정명입니다.');
         return;
       }
+      if (authError.response.status === 410) {
+        setError('이미 가입된 이메일입니다.');
+      }
       console.log('회원가입에 실패했습니다');
       console.log(authError);
       return;

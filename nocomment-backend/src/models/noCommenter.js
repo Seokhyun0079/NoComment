@@ -19,6 +19,10 @@ noCommenterSchema.statics.findByStringId = function (stringId) {
   return this.findOne({ stringId });
 };
 
+noCommenterSchema.statics.findByEmail = function (email) {
+  return this.findOne({ email });
+};
+
 noCommenterSchema.methods.checkPassword = async function (password) {
   const result = await bcrypt.compare(password, this.hashPassword);
   return result;

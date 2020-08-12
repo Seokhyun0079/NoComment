@@ -9,9 +9,14 @@ export const signup = async (ctx) => {
   });
 
   try {
-    const exist = await NoCommenter.findByStringId(stringId);
-    if (exist) {
+    const idExists = await NoCommenter.findByStringId(stringId);
+    if (idExists) {
       ctx.status = 409;
+      return;
+    }
+    const emailExists = await NoCommenter.findByEmail(email);
+    if (emailExists) {
+      ctx.status = 410;
       return;
     }
     await noCommenter.setPassword(password);
