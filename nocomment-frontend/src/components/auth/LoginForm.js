@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeField, initiallizeForm } from '../../modules/auth';
+import { changeField, initializeForm } from '../../modules/auth';
 import AuthForm from './AuthForm';
 
 const LoginForm = () => {
@@ -24,7 +24,7 @@ const LoginForm = () => {
   };
 
   useEffect(() => {
-    dispatch(initiallizeForm('login'));
+    dispatch(initializeForm('login'));
   });
 
   return (

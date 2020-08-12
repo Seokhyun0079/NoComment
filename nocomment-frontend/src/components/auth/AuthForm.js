@@ -49,7 +49,14 @@ const textMap = {
   register: '회원가입',
 };
 
-const AuthForm = ({ type, form, onChange, onSubmit }) => {
+const ErrorMessage = styled.div`
+  color: red;
+  text-align: center;
+  font-size: 0.875em;
+  marign-top: 1rem;
+`;
+
+const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
   const text = textMap[type];
   return (
     <AuthFormBlock>
@@ -60,15 +67,33 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
           name="stringId"
           placeholder="아이디"
           onChange={onChange}
-          value={form.value}
+          value={form.stringId}
         />
+        {type === 'register' && (
+          <>
+            <StyledInput
+              autoComplete="nickname"
+              name="name"
+              placeholder="별칭"
+              onChange={onChange}
+              value={form.name}
+            />
+            <StyledInput
+              autoComplete="email"
+              name="email"
+              placeholder="이메일"
+              onChange={onChange}
+              value={form.email}
+            />
+          </>
+        )}
         <StyledInput
           autoComplete="new-password"
           name="password"
           placeholder="비밀번호"
           type="password"
           onChange={onChange}
-          value={form.passowrd}
+          value={form.password}
         />
         {type === 'register' && (
           <StyledInput
@@ -77,11 +102,12 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
             placeholder="비밀번호 확인"
             type="password"
             onChange={onChange}
-            value={form.passowrdConfirm}
+            value={form.passwordConfirm}
           />
         )}
+        <ErrorMessage>{error}</ErrorMessage>
         <ButtonWidthMarginTop cyan fullWidth>
-          로그인
+          {text}
         </ButtonWidthMarginTop>
       </form>
       <Footer>

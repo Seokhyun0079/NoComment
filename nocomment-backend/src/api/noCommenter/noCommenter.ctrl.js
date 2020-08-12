@@ -1,24 +1,29 @@
 import NoCommenter from '../../models/noCommenter';
 
 export const signup = async (ctx) => {
-  const { id, name, email, password } = ctx.request.body;
-  console.log(password);
-
+  const { stringId, name, email, password } = ctx.request.body;
   const noCommenter = new NoCommenter({
-    id,
+    stringId,
     name,
     email,
   });
 
   try {
-    const exist = await NoCommenter.findByUsername(id);
+    const exist = await NoCommenter.findByStringId(stringId);
     if (exist) {
       ctx.status = 409;
       return;
     }
     await noCommenter.setPassword(password);
     await noCommenter.save();
-    ctx.body = noCommenter;
+
+    ctx.body = noCommenter.serialize();
+
+    const token = noCommenter.generateToken();
+    ctx.cookies.set('access_token', token, {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      httpOnly: true,
+    });
   } catch (e) {
     ctx.throw(500, e);
   }
@@ -31,7 +36,7 @@ export const signin = async (ctx) => {
     return;
   }
   try {
-    const noCommenter = await NoCommenter.findByUsername(id);
+    const noCommenter = await NoCommenter.findByStringId(id);
     if (!noCommenter) {
       ctx.status = 401;
       return;

@@ -15,8 +15,8 @@ noCommenterSchema.methods.setPassword = async function (password) {
   this.hashPassword = hash;
 };
 
-noCommenterSchema.statics.findByUsername = function (id) {
-  return this.findOne({ id });
+noCommenterSchema.statics.findByStringId = function (stringId) {
+  return this.findOne({ stringId });
 };
 
 noCommenterSchema.methods.checkPassword = async function (password) {
@@ -24,7 +24,7 @@ noCommenterSchema.methods.checkPassword = async function (password) {
   return result;
 };
 
-noCommenterSchema.methodsserialize = function () {
+noCommenterSchema.methods.serialize = function () {
   const data = this.toJSON();
   delete data.hashPassword;
   return data;
@@ -33,7 +33,7 @@ noCommenterSchema.methodsserialize = function () {
 noCommenterSchema.methods.generateToken = function () {
   const token = jwt.sign(
     {
-      _id: this.id,
+      _id: this.stringId,
       name: this.name,
       email: this.email,
     },

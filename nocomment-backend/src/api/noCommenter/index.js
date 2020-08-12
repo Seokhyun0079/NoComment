@@ -4,6 +4,6 @@ const noCommenters = new Router();
 
 noCommenters.post('/register', noCommenterCtrl.signup);
 noCommenters.post('/login', noCommenterCtrl.signin);
-noCommenters.get('/cehck', noCommenterCtrl.check);
+noCommenters.get('/check', noCommenterCtrl.check);
 noCommenters.post('/logout', noCommenterCtrl.logout);
 module.exports = noCommenters;
