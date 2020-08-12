@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm } from '../../modules/auth';
 import AuthForm from './AuthForm';
+import { withRouter } from 'react-router-dom';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     dispatch(initializeForm('login'));
-  });
+  }, [dispatch]);
 
   return (
     <AuthForm
@@ -33,8 +34,9 @@ const LoginForm = () => {
       form={form}
       onChange={onChange}
       onSubmit={onSubmit}
+      // error={error}
     />
   );
 };
 
-export default LoginForm;
+export default withRouter(LoginForm);
