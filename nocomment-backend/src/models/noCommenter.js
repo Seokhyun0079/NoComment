@@ -33,6 +33,7 @@ noCommenterSchema.methods.checkPassword = async function (password) {
 noCommenterSchema.methods.serialize = function () {
   const data = this.toJSON();
   delete data.hashPassword;
+  delete data.authCode;
   return data;
 };
 
