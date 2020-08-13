@@ -1,11 +1,14 @@
 import NoCommenter from '../../models/noCommenter';
-
+import emailSender from '../../lib/emailSender';
 export const signup = async (ctx) => {
   const { stringId, name, email, password } = ctx.request.body;
+  const authCode = Math.random().toString(16).substr(2, 6);
   const noCommenter = new NoCommenter({
     stringId,
     name,
     email,
+    authCode,
+    emailCheck: false,
   });
 
   try {
@@ -21,9 +24,8 @@ export const signup = async (ctx) => {
     }
     await noCommenter.setPassword(password);
     await noCommenter.save();
-
+    emailSender(stringId, email, authCode);
     ctx.body = noCommenter.serialize();
-
     const token = noCommenter.generateToken();
     ctx.cookies.set('access_token', token, {
       maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -35,18 +37,18 @@ export const signup = async (ctx) => {
 };
 
 export const signin = async (ctx) => {
-  const { id, password } = ctx.request.body;
-  if (!id || !password) {
+  const { stringId, password } = ctx.request.body;
+  if (!stringId || !password) {
     ctx.status = 401;
     return;
   }
   try {
-    const noCommenter = await NoCommenter.findByStringId(id);
+    const noCommenter = await NoCommenter.findByStringId(stringId);
     if (!noCommenter) {
       ctx.status = 401;
       return;
     }
-    const vaild = await NoCommenter.checkPassword(password);
+    const vaild = await noCommenter.checkPassword(password);
     if (!vaild) {
       ctx.status = 401;
       return;

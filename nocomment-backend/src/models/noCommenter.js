@@ -7,6 +7,8 @@ const noCommenterSchema = new Schema({
   stringId: String,
   name: String,
   email: String,
+  emailCheck: Boolean,
+  authCode: String,
   hashPassword: String,
 });
 
@@ -40,6 +42,7 @@ noCommenterSchema.methods.generateToken = function () {
       _id: this.stringId,
       name: this.name,
       email: this.email,
+      emailCheck: this.emailCheck,
     },
     process.env.JWT_SECRET,
     {

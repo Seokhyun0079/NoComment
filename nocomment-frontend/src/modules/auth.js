@@ -36,6 +36,11 @@ export const register = createAction(
   }),
 );
 
+export const login = createAction(LOGIN, ({ stringId, password }) => ({
+  stringId,
+  password,
+}));
+
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
 export function* authSaga() {
@@ -53,6 +58,8 @@ const initialState = {
   },
   login: {
     stringId: '',
+    name: '',
+    email: '',
     password: '',
   },
   auth: null,
@@ -81,7 +88,7 @@ const auth = handleActions(
     }),
 
     [LOGIN_SUCCESS]: (state, { payload: auth }) => ({
-      state,
+      ...state,
       authError: null,
       auth,
     }),
