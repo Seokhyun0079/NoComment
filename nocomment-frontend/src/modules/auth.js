@@ -62,6 +62,9 @@ const initialState = {
     email: '',
     password: '',
   },
+  authCode: {
+    authCode: '',
+  },
   auth: null,
   authError: null,
 };
