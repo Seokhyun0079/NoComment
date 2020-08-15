@@ -16,6 +16,12 @@ const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes(
   'noCommenters/LOGIN',
 );
 
+const [
+  AUTH_CODE_CHECK,
+  AUTH_CODE_CHECK_SUCCESS,
+  AUTH_CODE_CHECK_FAILURE,
+] = createRequestActionTypes('noCommenters/AUTHCODE');
+
 export const changeField = createAction(
   CHANGE_FILED,
   ({ form, key, value }) => ({
@@ -41,11 +47,21 @@ export const login = createAction(LOGIN, ({ stringId, password }) => ({
   password,
 }));
 
+export const authCodeCheck = createAction(
+  AUTH_CODE_CHECK,
+  ({ stringId, authCode }) => ({
+    stringId,
+    authCode,
+  }),
+);
+
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
+const authCodeSaga = createRequestSaga(LOGIN, authAPI.authCode);
 export function* authSaga() {
   yield takeLatest(REGISTER, registerSaga);
   yield takeLatest(LOGIN, loginSaga);
+  yield takeLatest(AUTH_CODE_CHECK, authCodeSaga);
 }
 
 const initialState = {
@@ -63,6 +79,7 @@ const initialState = {
     password: '',
   },
   authCode: {
+    stringId: '',
     authCode: '',
   },
   auth: null,
@@ -96,6 +113,14 @@ const auth = handleActions(
       auth,
     }),
     [LOGIN_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      authError: error,
+    }),
+    [AUTH_CODE_CHECK_SUCCESS]: (state, { payload: authCode }) => ({
+      ...state,
+      authCode,
+    }),
+    [AUTH_CODE_CHECK_FAILURE]: (state, { payload: error }) => ({
       ...state,
       authError: error,
     }),

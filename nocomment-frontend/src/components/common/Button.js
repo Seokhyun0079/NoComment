@@ -42,11 +42,11 @@ const StyledLink = styled(Link)`
   ${buttonStyle}
 `;
 
-const Button = (props) => {
-  return props.to ? (
-    <StyledLink {...props} cyan={props.cyan ? 1 : 0} />
+const Button = ({ staticContext, ...rest }) => {
+  return rest.to ? (
+    <StyledLink {...rest} cyan={rest.cyan ? 1 : 0} />
   ) : (
-    <StyledButton {...props} />
+    <StyledButton {...rest} />
   );
 };
 export default withRouter(Button);

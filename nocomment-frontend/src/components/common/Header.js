@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Responsive from './Responsive';
 import Button from './Button';
 import { Link } from 'react-router-dom';
+import LogoutButton from './LogoutButton';
 
 const HeaderBlock = styled.div`
   position: flexd;
@@ -36,7 +37,7 @@ const UserInfo = styled.div`
   margin-right: 1rem;
 `;
 
-const Header = ({ user, onLogout }) => {
+const Header = ({ user }) => {
   return (
     <>
       <HeaderBlock>
@@ -47,7 +48,7 @@ const Header = ({ user, onLogout }) => {
           {user ? (
             <div className="right">
               <UserInfo>{user.name}</UserInfo>
-              <Button onClick={onLogout}>로그아웃</Button>
+              <LogoutButton>로그아웃</LogoutButton>
             </div>
           ) : (
             <Button to="/login">로그인</Button>

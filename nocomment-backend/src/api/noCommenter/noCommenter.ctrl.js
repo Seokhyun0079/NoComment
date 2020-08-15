@@ -77,3 +77,30 @@ export const logout = async (ctx) => {
   ctx.cookies.set('access_token');
   ctx.status = 204;
 };
+
+export const authCode = async (ctx) => {
+  const { stringId, authCode } = ctx.request.body;
+  const noCommenter = new NoCommenter({
+    stringId,
+    authCode,
+  });
+
+  try {
+    const dataForCehck = await NoCommenter.findByStringId(stringId);
+    if (dataForCehck.authCode == !authCode) {
+      ctx.status = 409;
+      return;
+    }
+    console.log('불리고 있긴 한걸까요?');
+    console.log(stringId);
+    await NoCommenter.update({ stringId: stringId }, { emailCheck: true });
+    // ctx.body = noCommenter.serialize();
+    // const token = noCommenter.generateToken();
+    // ctx.cookies.set('access_token', token, {
+    //   maxAge: 1000 * 60 * 60 * 24 * 7,
+    //   httpOnly: true,
+    // });
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};

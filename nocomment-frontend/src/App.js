@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import './App.css';
 import PostListPage from './pages/PostListPage';
@@ -13,15 +13,18 @@ function App() {
   const { user } = useSelector(({ user }) => ({
     user: user.user,
   }));
-  if (user !== null && !user.emailCheck) {
-    history.push('/emailCheck');
-  }
+
+  useEffect(() => {
+    if (user !== null && !user.emailCheck) {
+      history.push('/authCode');
+    }
+  }, [history, user]);
   return (
     <>
       <Route component={PostListPage} path={(['/@:stringId'], '/')} exact />
       <Route component={LoginPage} path="/login" />
       <Route component={RegisterPage} path="/register" />
-      <Route component={AuthCodePage} path="/emailCheck" />
+      <Route component={AuthCodePage} path="/authCode" />
     </>
   );
 }

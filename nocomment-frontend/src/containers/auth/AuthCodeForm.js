@@ -1,12 +1,12 @@
 import React from 'react';
-import { logout } from '../../modules/user';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/common/Button';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
-import { changeField, initializeForm } from '../../modules/auth';
+import { changeField, initializeForm, authCodeCheck } from '../../modules/auth';
 import { useEffect } from 'react';
+import LogoutButton from '../../components/common/LogoutButton';
 
 const AuthFormBlock = styled.div`
   h3 {
@@ -36,10 +36,18 @@ const ButtonWidthMarginTop = styled(Button)`
 `;
 
 const AuthCodeForm = () => {
+  //   const [error, setError] = useState(null);
   const dispatch = useDispatch();
-  const onLogout = () => {
-    dispatch(logout());
-  };
+  const {
+    form,
+    // , auth, authError, user
+  } = useSelector(({ auth, user }) => ({
+    form: auth.authCode,
+    auth: auth.auth,
+    authError: auth.authError,
+    user: user.user,
+  }));
+
   const onChange = (e) => {
     const { value, name } = e.target;
     dispatch(
@@ -55,6 +63,8 @@ const AuthCodeForm = () => {
   }, [dispatch]);
   const onSubmit = (e) => {
     e.preventDefault();
+    const { stringId, authCode } = form;
+    dispatch(authCodeCheck({ stringId, authCode }));
   };
   return (
     <AuthFormBlock>
@@ -66,13 +76,13 @@ const AuthCodeForm = () => {
           type="text"
           onChange={onChange}
           onSubmit={onSubmit}
-          //   value={form.authCode}
+          value={form.authCode}
         />
         <ButtonWidthMarginTop cyan fullWidth>
           인증
         </ButtonWidthMarginTop>
       </form>
-      <Button onClick={onLogout}>로그아웃</Button>
+      <LogoutButton />
     </AuthFormBlock>
   );
 };
