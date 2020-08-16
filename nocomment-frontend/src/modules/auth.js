@@ -57,7 +57,7 @@ export const authCodeCheck = createAction(
 
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
-const authCodeSaga = createRequestSaga(LOGIN, authAPI.authCode);
+const authCodeSaga = createRequestSaga(AUTH_CODE_CHECK, authAPI.authCode);
 export function* authSaga() {
   yield takeLatest(REGISTER, registerSaga);
   yield takeLatest(LOGIN, loginSaga);
@@ -116,9 +116,9 @@ const auth = handleActions(
       ...state,
       authError: error,
     }),
-    [AUTH_CODE_CHECK_SUCCESS]: (state, { payload: authCode }) => ({
+    [AUTH_CODE_CHECK_SUCCESS]: (state, { payload: auth }) => ({
       ...state,
-      authCode,
+      auth,
     }),
     [AUTH_CODE_CHECK_FAILURE]: (state, { payload: error }) => ({
       ...state,

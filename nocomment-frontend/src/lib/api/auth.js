@@ -10,6 +10,10 @@ export const register = ({ stringId, name, email, password }) =>
     password,
   });
 
+export const authCode = ({ stringId, authCode }) =>
+  client.post('/api/noCommenters/authCode', {
+    stringId,
+    authCode,
+  });
 export const check = () => client.get('/api/noCommenters/check');
 export const logout = () => client.post('/api/noCommenters/logout');
-export const authCode = () => client.post('/api/noCommenters/authCode');

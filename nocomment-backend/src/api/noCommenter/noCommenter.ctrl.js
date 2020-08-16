@@ -28,7 +28,7 @@ export const signup = async (ctx) => {
     ctx.body = noCommenter.serialize();
     const token = noCommenter.generateToken();
     ctx.cookies.set('access_token', token, {
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      maxAge: 1000 * 60 * 10,
       httpOnly: true,
     });
   } catch (e) {
@@ -56,7 +56,7 @@ export const signin = async (ctx) => {
     ctx.body = noCommenter.serialize();
     const token = noCommenter.generateToken();
     ctx.cookies.set('access_token', token, {
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      maxAge: 1000 * 60 * 10,
       httpOnly: true,
     });
   } catch (e) {
@@ -80,26 +80,26 @@ export const logout = async (ctx) => {
 
 export const authCode = async (ctx) => {
   const { stringId, authCode } = ctx.request.body;
-  const noCommenter = new NoCommenter({
-    stringId,
-    authCode,
-  });
 
   try {
-    const dataForCehck = await NoCommenter.findByStringId(stringId);
-    if (dataForCehck.authCode == !authCode) {
-      ctx.status = 409;
+    const noCommenter = await NoCommenter.findByStringId(stringId);
+    /*
+    프론트단에서 전송된 값이 디비의 값과 다를 경우 에러처리함.
+    サーバーで検索した認証コードとクライアントから受け取った認証コードが
+    一致しなかった場合はエラーとする。
+    */
+    if (noCommenter.authCode !== authCode) {
+      ctx.status = 401;
       return;
     }
-    console.log('불리고 있긴 한걸까요?');
-    console.log(stringId);
-    await NoCommenter.update({ stringId: stringId }, { emailCheck: true });
-    // ctx.body = noCommenter.serialize();
-    // const token = noCommenter.generateToken();
-    // ctx.cookies.set('access_token', token, {
-    //   maxAge: 1000 * 60 * 60 * 24 * 7,
-    //   httpOnly: true,
-    // });
+    await NoCommenter.updateOne({ stringId: stringId }, { emailCheck: true });
+    noCommenter.emailCheck = true;
+    ctx.body = noCommenter.serialize();
+    const token = noCommenter.generateToken();
+    ctx.cookies.set('access_token', token, {
+      maxAge: 1000 * 60 * 10,
+      httpOnly: true,
+    });
   } catch (e) {
     ctx.throw(500, e);
   }
