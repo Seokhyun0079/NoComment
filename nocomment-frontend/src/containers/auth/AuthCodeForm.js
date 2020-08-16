@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { changeField, initializeForm, authCodeCheck } from '../../modules/auth';
 import { useEffect } from 'react';
-import LogoutButton from '../../components/common/LogoutButton';
 import { check } from '../../modules/user';
+import LogoutComponent from '../../components/common/LogoutButton';
 
 const AuthFormBlock = styled.div`
   h3 {
@@ -131,7 +131,7 @@ const AuthCodeForm = ({ history }) => {
         </ButtonWidthMarginTop>
       </form>
       <Footer>
-        <LogoutButton />
+        <LogoutComponent type={'Link'} />
       </Footer>
     </AuthFormBlock>
   );
