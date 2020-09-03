@@ -4,7 +4,7 @@ const posts = [
   {
     id: 1,
     title: '제목',
-    body: '네용',
+    body: '내용용',
   },
 ];
 
