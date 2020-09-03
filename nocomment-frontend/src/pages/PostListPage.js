@@ -5,7 +5,6 @@ const PostListPage = () => {
   return (
     <>
       <HeaderContainer />
-      <div>헬로 리액트</div>
     </>
   );
 };

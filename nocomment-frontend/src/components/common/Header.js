@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
 
 const HeaderBlock = styled.div`
-  position: flexd;
+  position: fixed;
   width: 100%;
   background: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
@@ -16,11 +16,13 @@ const Wrapper = styled(Responsive)`
   height: 4rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; /* 자식 엘리먼트 사이에 여백을 최대로 설정 */
   .logo {
     font-size: 1.125rem;
     font-weight: 800;
     letter-spacing: 2px;
+    margin-right: auto;
+    margin-left: auto;
   }
   .right {
     display: flex;
@@ -47,7 +49,7 @@ const Header = ({ user }) => {
           </Link>
           {user ? (
             <div className="right">
-              <UserInfo>{user.name}</UserInfo>
+              <UserInfo>{user.username}</UserInfo>
               <LogoutButton>로그아웃</LogoutButton>
             </div>
           ) : (
