@@ -95,7 +95,6 @@ const AuthCodeForm = ({ history }) => {
     }
     if (auth) {
       console.log('이메일 인증 성공');
-      console.log(auth);
       dispatch(check());
     }
   }, [auth, authError, dispatch]);
@@ -103,7 +102,6 @@ const AuthCodeForm = ({ history }) => {
     if (user) {
       if (user.emailCheck) {
         console.log('check API 성공');
-        console.log(user);
         history.push('/');
       }
       try {

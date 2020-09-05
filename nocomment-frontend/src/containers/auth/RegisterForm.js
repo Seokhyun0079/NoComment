@@ -70,7 +70,6 @@ const RegisterForm = ({ history }) => {
     }
     if (auth) {
       console.log('회원가입 성공');
-      console.log(auth);
       dispatch(check());
     }
   }, [auth, authError, dispatch]);
@@ -78,7 +77,6 @@ const RegisterForm = ({ history }) => {
   useEffect(() => {
     if (user) {
       console.log('check API 성공');
-      console.log(user);
       history.push('/');
       try {
         localStorage.setItem('user', JSON.stringify(user));

@@ -11,7 +11,6 @@ const jwtMiddleware = (ctx, next) => {
       email: decoded.email,
       emailCheck: decoded.emailCheck,
     };
-    console.log(decoded);
     return next();
   } catch (e) {
     return next();
