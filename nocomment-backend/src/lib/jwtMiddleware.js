@@ -7,6 +7,7 @@ const jwtMiddleware = (ctx, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     ctx.state.noCommenter = {
       _id: decoded._id,
+      stringId: decoded.stringId,
       username: decoded.name,
       email: decoded.email,
       emailCheck: decoded.emailCheck,

@@ -7,4 +7,4 @@ noCommenters.post('/login', noCommenterCtrl.signin);
 noCommenters.get('/check', noCommenterCtrl.check);
 noCommenters.post('/logout', noCommenterCtrl.logout);
 noCommenters.post('/authCode', noCommenterCtrl.authCode);
-module.exports = noCommenters;
+export default noCommenters;

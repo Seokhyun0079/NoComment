@@ -1,5 +1,6 @@
 import Post from '../../models/post';
-
+import mongoose from 'mongoose';
+const { ObjectId } = mongoose.Types;
 const posts = [
   {
     id: 1,
@@ -14,6 +15,7 @@ export const write = async (ctx) => {
     title,
     body,
     tags,
+    noCommenter: ctx.state.noCommenter,
   });
   try {
     await post.save();

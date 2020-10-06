@@ -40,7 +40,8 @@ noCommenterSchema.methods.serialize = function () {
 noCommenterSchema.methods.generateToken = function () {
   const token = jwt.sign(
     {
-      _id: this.stringId,
+      _id: this.id,
+      stringId: this.stringId,
       name: this.name,
       email: this.email,
       emailCheck: this.emailCheck,

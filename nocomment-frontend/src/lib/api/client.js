@@ -1,5 +1,5 @@
 import axios from 'axios';
 
-const clinet = axios.create();
+const client = axios.create();
 
-export default clinet;
+export default client;

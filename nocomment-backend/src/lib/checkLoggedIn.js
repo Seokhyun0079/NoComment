@@ -1,9 +1,10 @@
 const checkLoggedIn = (ctx, next) => {
-  if (!ctx.state.user) {
+  if (!ctx.state.noCommenter) {
     ctx.status = 401;
     return;
   }
-  next();
+  console.log('why 404 notFound');
+  return next();
 };
 
 export default checkLoggedIn;
