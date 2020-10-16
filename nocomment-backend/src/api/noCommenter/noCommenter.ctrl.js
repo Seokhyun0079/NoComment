@@ -80,7 +80,6 @@ export const logout = async (ctx) => {
 
 export const authCode = async (ctx) => {
   const { stringId, authCode } = ctx.request.body;
-
   try {
     const noCommenter = await NoCommenter.findByStringId(stringId);
     /*
