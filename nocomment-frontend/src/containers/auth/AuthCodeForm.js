@@ -77,7 +77,7 @@ const AuthCodeForm = ({ history }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const { authCode } = form;
-    dispatch(authCodeCheck({ stringId: user._id, authCode }));
+    dispatch(authCodeCheck({ stringId: user.stringId, authCode }));
   };
   useEffect(() => {
     dispatch(initializeForm('authCode'));

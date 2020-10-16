@@ -2,3 +2,6 @@
 nocomment-frontend/node_modules/*
 nocomment-backend/node_modules/*
 nocomment-backend/.env
+nocomment-frontend/.prettierrc
+nocomment-frontend/yarn-error.log
+nocomment.code-workspace
