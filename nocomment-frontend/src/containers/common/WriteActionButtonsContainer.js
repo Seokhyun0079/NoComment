@@ -31,8 +31,7 @@ const WriteActionButtonsContainer = ({ history }) => {
     console.log(post);
     if (post) {
       const { _id, noCommenter } = post;
-      console.log(noCommenter);
-      history.push(`/@${noCommenter.username}/${_id}`);
+      history.push(`/@${noCommenter.stringId}/${_id}`);
     }
     if (postError) {
       console.log('에러 발생');

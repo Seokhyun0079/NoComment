@@ -3,7 +3,6 @@ const checkLoggedIn = (ctx, next) => {
     ctx.status = 401;
     return;
   }
-  console.log('why 404 notFound');
   return next();
 };
 
