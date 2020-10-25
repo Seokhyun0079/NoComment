@@ -7,7 +7,7 @@ import { writePost } from '../../modules/write';
 const WriteActionButtonsContainer = ({ history }) => {
   const dispatch = useDispatch();
   const { title, body, tags, post, postError } = useSelector(({ write }) => ({
-    write: write.title,
+    title: write.title,
     body: write.body,
     tags: write.tags,
     post: write.post,
@@ -15,7 +15,6 @@ const WriteActionButtonsContainer = ({ history }) => {
   }));
 
   const onPublish = () => {
-    console.log(body);
     dispatch(
       writePost({
         title,
@@ -28,7 +27,6 @@ const WriteActionButtonsContainer = ({ history }) => {
     history.goBack();
   };
   useEffect(() => {
-    console.log(post);
     if (post) {
       const { _id, noCommenter } = post;
       history.push(`/@${noCommenter.stringId}/${_id}`);
