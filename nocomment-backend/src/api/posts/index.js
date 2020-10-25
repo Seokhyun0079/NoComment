@@ -3,14 +3,15 @@ import * as postsCtrl from './post.ctrl';
 import checkLoggedIn from '../../lib/checkLoggedIn';
 const posts = new Router();
 
+
 posts.get('/', postsCtrl.list);
 posts.post('/', checkLoggedIn, postsCtrl.write);
 
-const post = new Router();
+const post = new Router(); // /api/posts/:id
+post.get('/', postsCtrl.read);
+// post.delete('/', checkLoggedIn, postsCtrl.checkOwnPost, postsCtrl.remove);
+// post.patch('/', checkLoggedIn, postsCtrl.checkOwnPost, postsCtrl.update);
 
-post.get('/:id', postsCtrl.read);
-// post.put('/:id', postsCtrl.replace);
-post.delete('/', checkLoggedIn, postsCtrl.remove);
-post.patch('/', checkLoggedIn, postsCtrl.update);
-// posts.use('/:id', postsCtrl.checkObjectId, post.route());
+posts.use('/:id', postsCtrl.getPostById, post.routes());
+
 export default posts;

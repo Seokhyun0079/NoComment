@@ -8,6 +8,7 @@ import AuthCodePage from './pages/AuthCodePage';
 import { useSelector } from 'react-redux';
 import { Route, useHistory } from 'react-router-dom';
 import WritePage from './pages/WritePage';
+import PostPage from './pages/Postpage';
 //App.js
 function App() {
   let history = useHistory();
@@ -33,11 +34,12 @@ function App() {
   }, [history, user]);
   return (
     <>
-      <Route component={PostListPage} path={(['/@:stringId'], '/')} exact />
+      <Route component={PostListPage} path={['/@:username', '/']} exact />
       <Route component={LoginPage} path="/login" />
       <Route component={RegisterPage} path="/register" />
       <Route component={AuthCodePage} path="/authCode" />
       <Route component={WritePage} path="/write" />
+      <Route component={PostPage} path="/@:username/:postId" />
     </>
   );
 }
