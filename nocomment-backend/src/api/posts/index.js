@@ -14,4 +14,5 @@ post.get('/', postsCtrl.read);
 
 posts.use('/:id', postsCtrl.getPostById, post.routes());
 
+
 export default posts;
