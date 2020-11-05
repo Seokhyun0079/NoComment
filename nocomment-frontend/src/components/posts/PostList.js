@@ -42,7 +42,6 @@ const PostItemBlock = styled.div`
 
 const PostItem = ({ post }) => {
   const { publishedDate, noCommenter, tags, title, body, _id } = post;
-  console.dir(noCommenter);
   return (
     <PostItemBlock>
       <h2>

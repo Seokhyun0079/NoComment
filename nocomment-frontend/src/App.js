@@ -34,12 +34,12 @@ function App() {
   }, [history, user]);
   return (
     <>
-      <Route component={PostListPage} path={['/@:username', '/']} exact />
+      <Route component={PostListPage} path={['/@:stringId', '/']} exact />
       <Route component={LoginPage} path="/login" />
       <Route component={RegisterPage} path="/register" />
       <Route component={AuthCodePage} path="/authCode" />
       <Route component={WritePage} path="/write" />
-      <Route component={PostPage} path="/@:username/:postId" />
+      <Route component={PostPage} path="/@:stringId/:postId" />
     </>
   );
 }

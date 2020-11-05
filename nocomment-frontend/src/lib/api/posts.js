@@ -11,7 +11,8 @@ export const writePost = ({ title, body, tags }) =>
       stringId,
       tag,
     });
-    return client.get(`/api/posts?${queryString}`);
+    const url = `/api/posts?${queryString}`;
+    return client.get(url);
   };
   
   export const updatePost = ({ id, title, body, tags }) =>

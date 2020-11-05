@@ -1,4 +1,3 @@
-  
 import React, { useEffect } from 'react';
 import qs from 'qs';
 import { withRouter } from 'react-router-dom';
@@ -16,17 +15,15 @@ const PostListContainer = ({ location, match }) => {
       user: user.user,
     }),
   );
+  
+  const { stringId } = match.params;
   useEffect(() => {
-    console.log(match.params);
-    const { stringId } = match.params;
-    // const stringId = 'test';
-    console.log(stringId);
     const { tag, page } = qs.parse(location.search, {
       ignoreQueryPrefix: true,
     });
     dispatch(listPosts({ tag, stringId, page }));
-  }, [dispatch, location.search, match.params]);
-  console.log("PostListContainer.js");
+  }, [dispatch, location.search, stringId]);
+
   return (
     <PostList
       loading={loading}
