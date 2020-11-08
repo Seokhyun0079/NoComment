@@ -2,29 +2,34 @@ import React, { useState } from 'react';
 import Button from '../../components/common/Button';
 import { Motion, spring } from 'react-motion';
 import { Link } from 'react-router-dom';
+import palette from '../../lib/styles/palette';
 
 const LoginMenuContainer = ({ onLogout }) => {
   const [state, setState] = useState({
     height: 30,
     marginTop: 20,
+    opacity: 1.0
   });
-  const animate = ({ height, marginTop }) => {
-    setState((state) => ({ height: height, marginTop: marginTop }));
+  const animate = ({ height, marginTop, opacity }) => {
+    setState((state) => ({ height: height, marginTop: marginTop, opacity: opacity }));
   };
   return (
     <>
+
       <Motion
         style={{
           height: spring(state.height),
           marginTop: spring(state.marginTop),
+          opacity: spring(state.opacity)
         }}
       >
-        {({ height, marginTop }) => (
-          <div
+        {({ height, marginTop, opacity }) => (
+          <Button
             onMouseOver={() => {
               animate({
-                height: 330,
-                marginTop: 320,
+                height: 70,
+                marginTop: 60,
+                opacity: 1.0
               });
             }}
             onMouseOut={() => {
@@ -34,21 +39,23 @@ const LoginMenuContainer = ({ onLogout }) => {
               });
             }}
             style={{
-            height, 
-            marginTop, 
-            overflow: 'hidden', 
-            marginBottom : 20
-            } }
+              height,
+              marginTop,
+              overflow: 'hidden',
+              color: 'white',
+              opacity,
+              marginBottom: 20,
+              backgroundColor: palette.gray[8],
+              border: "none",
+              borderRadius: "4px"
+            }}
           >
-            <Button>
-              로그아웃
-              <br></br>
-              <br></br>
-              <Link to="/write">회원정보수정</Link>
-              <br></br>
-              <Link to="/">내가 쓴 글</Link>
-            </Button>
-          </div>
+            <Link onClick={onLogout}>로그아웃</Link>
+            <br></br>
+            <Link to="/write">회원정보수정</Link>
+            <br></br>
+            <Link to="/">내가 쓴 글</Link>
+          </Button>
         )}
       </Motion>
     </>

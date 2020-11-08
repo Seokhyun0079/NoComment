@@ -21,7 +21,7 @@ const LogoutButton = ({ type }) => {
       로그아웃
     </Link>
   ) : (
-    <LoginMenuContainer>
+    <LoginMenuContainer onLogout={onLogout}>
     </LoginMenuContainer>
   );
 };
