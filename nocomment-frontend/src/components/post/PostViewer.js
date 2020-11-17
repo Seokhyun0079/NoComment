@@ -23,6 +23,7 @@ const PostHead = styled.div`
 const PostContent = styled.div`
   font-size: 1.3125rem;
   color: ${palette.gray[8]};
+  border-bottom: 1px solid ${palette.gray[2]};
 `;
 
 const PostViewer = ({ post, error, loading, actionButtons, ownPost }) => {
@@ -42,7 +43,7 @@ const PostViewer = ({ post, error, loading, actionButtons, ownPost }) => {
   return (
     <PostViewerBlock>
       <Helmet>
-      <title>{title} NOCOMMENT</title>
+        <title>{title} NOCOMMENT</title>
       </Helmet>
       <PostHead>
         <h1>{title}</h1>
@@ -59,4 +60,4 @@ const PostViewer = ({ post, error, loading, actionButtons, ownPost }) => {
   );
 };
 
-export default PostViewer;
+export default PostViewer;             
