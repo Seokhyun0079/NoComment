@@ -2,16 +2,27 @@
 バグメモ
 <table>
   <tbody>
+      <tr>
+      <th>
+        Time
+      </th>
+      <th>
+        Korean
+      </th>
+      <th>
+        Japanese
+      </th>
+    </tr>
     <tr>
       <th>
         [20200815:0334]
       </th>
-      <th>
+      <td>
         이메일 인증 구현중 버그 발견
-      </th>
-      <th>
+      </td>
+      <td>
         メールアドレス認証画面製造中発見
-      </th>
+      </td>
     </tr>
   </tbody>
 <table>
