@@ -44,15 +44,19 @@
 서버쪽에서 title을 받지못해 디비에 저장되지 않고 있었음. 
 WriteActionButtonsContainer.js에서 변수이름을 write로 받고 있어서 안들어가고 있었음. 
 title로 수정.
+<div style="background : blue">
 [20201025:1737]
 サーバー側からtitleを貰っていない状況になっていてDBに登録されずにいた。
 WriteActionButtonsContainer.jsから引数の名前をwriteで貰っていたからだった。
 titleに修正。
+</div>
+<div>
 [20201105:2352]
 꽤 오랫동안 한 버그를 잡고 있었는데 해결책을 찾음.
 버그 내용은 PostListContainer.js에서 useEffect에 match.params를 돌리면 무한루프에 걸려버린다.
 match.params가 너무 깊은 게 원인으로 보이는데 애초에 match.params를 전부 넣어야할 필요가 없기때문에
 match.params에서 필요한 stringId값만 가져와 useEffect에서 사용한 뒤 해당 값을 useEffect의 인자값으로 사용했다.
+<div>
 [20201105:2352]
 結構長い間、一つのバグに取り込んでいたが、ようやく解決した。
 不具合の内容はPostListContainer.jsからuseEffectにmatch.paramsを入れてしまうと無限ルーフに落ちる、ということ。
