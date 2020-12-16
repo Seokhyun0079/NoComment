@@ -14,8 +14,8 @@ console.log(LIST_POSTS);
 export const listPosts = createAction(
   LIST_POSTS,
   ({ tag, stringId, page }) => ({ tag, stringId, page }),
-);
-
+  );
+  
 const listPostsSaga = createRequestSaga(LIST_POSTS, postsAPI.listPosts);
 export function* postsSaga() {
   yield takeLatest(LIST_POSTS, listPostsSaga);

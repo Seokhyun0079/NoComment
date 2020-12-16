@@ -1,12 +1,10 @@
 import React, { createRef, useEffect } from 'react';
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../components/common/Button';
 import Responsive from '../../components/common/Responsive';
 import palette from '../../lib/styles/palette';
-import { insert, initialize } from '../../modules/drawingComment';
-import axios from 'axios';
+import { insert, initialize } from '../../modules/drawingComment'
 const CommentsViewerBlock = styled(Responsive)`
   padding-bottom: 3rem;
   margin-top: 4rem;
@@ -60,15 +58,14 @@ export const CommentContainer = () => {
   }
   const onSubmit = () => {
     let image = canvasRef.current.toDataURL("image/png");
-    let blobBin = atob(image.split(',')[1]);	// base64 데이터 디코딩
+    let blobBin = atob(image.split(',')[1]);   // base64 데이터 디코딩
     let array = [];
     for (let i = 0; i < blobBin.length; i++) {
       array.push(blobBin.charCodeAt(i));
     }
-    console.log(image);
-    let file = new Blob([new Uint8Array(array)], { type: 'image/png' });	// Blob 생성
-    let formdata = new FormData();	// formData 생성
-    formdata.append("file", file);	// file data 추가
+    let imageFile = new Blob([new Uint8Array(array)], { type: 'image/png' });   // Blob 생성
+    let formdata = new FormData();   // formData 생성
+    formdata.append("file", imageFile);   // file data 추가
     dispatch(
       insert(formdata)
     );
@@ -78,7 +75,6 @@ export const CommentContainer = () => {
       dispatch(initialize());
     }
   }, [dispatch]);
-
   return (
     <div style={{
       'height': 'auto',
@@ -101,7 +97,6 @@ export const CommentContainer = () => {
           }
         >댓글등록</Button>
       </CommentWriteBlock>
-      
     </div >
   );
 };
