@@ -1,4 +1,4 @@
-const Router = require('koa-router');
+const Router = require('@koa/router');
 const noCommenterCtrl = require('./noCommenter.ctrl');
 const noCommenters = new Router();
 

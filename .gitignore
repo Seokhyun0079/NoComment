@@ -5,3 +5,4 @@ nocomment-backend/.env
 nocomment-frontend/.prettierrc
 nocomment-frontend/yarn-error.log
 nocomment.code-workspace
+nocomment-backend/commentImage/*
