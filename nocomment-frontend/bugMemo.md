@@ -1,5 +1,6 @@
 버그 메모
 バグメモ
+
 <table>
   <tbody>
       <tr>
@@ -98,41 +99,83 @@
 その時、userがobjectではなく、stringとして入って来ている。（原因把握出来ず）<br><br>
         解決方法 : userがstringで入って来た場合はstringをjsonに変換し、emailCheckを確認する。objectではなくstringが入ってくる理由を把握し、必ずjsonが入って来るようにしたかったのだが、方法を探すことが出来なかった。
       </td>
-    </tr>        
-  </tbody>
-<table>
+    </tr>
+    <tr>
+    <th>
+    [20200922:2337]
+    </th>
+    <td>
+    게시글 작성 후 리턴값이 안들어옴. 화면단에선 404 에러만 받아오고 있음. 
+    </td>
+    <td>掲示板作成後、リターン値が帰ってこない。画面側からは404エラーだけ持って来ている状況。
+    </td>
+    </tr>
+    <tr>
+    <th>
+    [20200922:2354]
+    </th>
+    <td>
+    원인 파악, WRTIE_POST 후에 SUCCESS로 안들어옴. 계속 FAILURE로 들어감. 필터로 쓰던 메서드 문제인 걸로 추측됨.
+    </td>
+    <td>
+    原因：WRITE_POST 後に sUCCESS へ入ってこない。フィルターに使っているファンクションの問題じゃないか推測中。
+    </td>
+    </tr>
+    <tr>
+    <th>
+    [20201004:2037]
+    </th>
+    <td>
+    상당히 오랜 시간이 지나서야 이유를 파악했음. return next()해야하는데 next()해서 동작이 끊어져버리는듯. 단순한 오타였지만 귀중한 시간을 담보로 귀중한 배움을 얻었다.
+    </td>
+    <td>
+結構詰まっていたが、理由は突き止めた。return next()しなくちゃいけないのにただ next()してるからファンクションが終わったと判断した模様。
+    </td>
+    </tr>
+    <tr>
+    <th>
+[20201013:2003]    
+    </th>
+    <td>
+    authForm.js에서 아이디값에 \_id, 객체 아이디 값을 집어넣고 있었음. 수정함.
+    </td>
+    <td>
+    authForm.js から StringId に\_id,オブジェクト ID を入れていた。修正済み。
+    </td>
+    </tr>
+    <tr>
+    <th>
+    [20201025:1737]
+    </th>
+    <td>
+    서버쪽에서 title을 받지못해 디비에 저장되지 않고 있었음.
 
-
-
-
-
-[20200922:2337]게시글 작성 후 리턴값이 안들어옴. 화면단에선 404 에러만 받아오고 있음. 
-[20200922:2337]掲示板作成後、リターン値が帰ってこない。画面側からは404エラーだけ持って来ている状況。
-[20200922:2354]원인 파악, WRTIE_POST 후에 SUCCESS로 안들어옴. 계속 FAILURE로 들어감. 필터로 쓰던 메서드 문제인 걸로 추측됨. 
-[20200922:2354]原因：WRITE_POST後にsUCCESSへ入ってこない。フィルターに使っているファンクションの問題じゃないか推測中。
-[20201004:2037]상당히 오랜 시간이 지나서야 이유를 파악했음. return next()해야하는데 next()해서 동작이 끊어져버리는듯. 단순한 오타였지만 귀중한 시간을 담보로 귀중한 배움을 얻었다.
-[20201004:2037]結構詰まっていたが、理由は突き止めた。return next()しなくちゃいけないのにただnext()してるからファンクションが終わったと判断した模様。
-[20201013:2003]authForm.js에서 아이디값에 _id, 객체 아이디 값을 집어넣고 있었음. 수정함.
-[20201013:2003]authForm.jsからStringIdに_id,オブジェクトIDを入れていた。修正済み。
-[20201025:1737]
-서버쪽에서 title을 받지못해 디비에 저장되지 않고 있었음. 
-WriteActionButtonsContainer.js에서 변수이름을 write로 받고 있어서 안들어가고 있었음. 
+WriteActionButtonsContainer.js에서 변수이름을 write로 받고 있어서 안들어가고 있었음.
 title로 수정.
-<div style="background : blue">
-[20201025:1737]
-サーバー側からtitleを貰っていない状況になっていてDBに登録されずにいた。
-WriteActionButtonsContainer.jsから引数の名前をwriteで貰っていたからだった。
-titleに修正。
-</div>
-<div>
-[20201105:2352]
-꽤 오랫동안 한 버그를 잡고 있었는데 해결책을 찾음.
+
+</td>
+<td>
+サーバー側から title を貰っていない状況になっていて DB に登録されずにいた。
+WriteActionButtonsContainer.js から引数の名前を write で貰っていたからだった。
+title に修正。
+</td>
+</tr>
+  <tr>
+  <th>
+  [20201105:2352]
+  </th>
+  <td>
+  꽤 오랫동안 한 버그를 잡고 있었는데 해결책을 찾음.
 버그 내용은 PostListContainer.js에서 useEffect에 match.params를 돌리면 무한루프에 걸려버린다.
 match.params가 너무 깊은 게 원인으로 보이는데 애초에 match.params를 전부 넣어야할 필요가 없기때문에
 match.params에서 필요한 stringId값만 가져와 useEffect에서 사용한 뒤 해당 값을 useEffect의 인자값으로 사용했다.
-<div>
-[20201105:2352]
-結構長い間、一つのバグに取り込んでいたが、ようやく解決した。
-不具合の内容はPostListContainer.jsからuseEffectにmatch.paramsを入れてしまうと無限ルーフに落ちる、ということ。
-match.paramsの構造が深すぎるのが原因とみているが、そもそもmatch.paramsを全部入れる必要はなかったので、
-mtach.paramsに必要なstringIdの値だけ持ってきてuseEffectに使ったあと、useEffectの値を引数に渡した。
+  </td>
+  <td>
+  結構長い間、一つのバグに取り込んでいたが、ようやく解決した。
+不具合の内容は PostListContainer.js から useEffect に match.params を入れてしまうと無限ルーフに落ちる、ということ。
+match.params の構造が深すぎるのが原因とみているが、そもそも match.params を全部入れる必要はなかったので、
+mtach.params に必要な stringId の値だけ持ってきて useEffect に使ったあと、useEffect の値を引数に渡した。
+  </td>
+  </tr>
+  </tbody>
+<table>
