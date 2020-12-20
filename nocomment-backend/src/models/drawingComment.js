@@ -1,7 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
 const DrawingCommentSchema = new Schema({
     post: {
-        _id: mongoose.Types.ObjectId
+        _id: mongoose.Types.ObjectId,
+        
     },
     noCommenter: {
         _id: mongoose.Types.ObjectId,
