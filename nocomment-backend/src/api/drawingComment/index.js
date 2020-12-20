@@ -19,5 +19,6 @@ const limits = {
 }
 
 const upload = multer({ storage, limits }); // note you c/an pass `multer` options here
-drawingComment.post('/insert', upload.single('file'), drawingCommentCtrl.insert)
+drawingComment.post('/insert', upload.single('file'), drawingCommentCtrl.insert);
+drawingComment.get('/list/:postId', drawingCommentCtrl.list);
 export default drawingComment;

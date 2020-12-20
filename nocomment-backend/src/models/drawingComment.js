@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-const DrawingCommentSchema = new Schema({
+const drawingCommentSchema = new Schema({
     post: {
         _id: mongoose.Types.ObjectId,
         
@@ -11,5 +11,5 @@ const DrawingCommentSchema = new Schema({
     fileName: String
 });
 
-const DrawingComment = mongoose.model('DrawingComment', DrawingCommentSchema);
+const DrawingComment = mongoose.model('DrawingComment', drawingCommentSchema);
 export default DrawingComment;
