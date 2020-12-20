@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import Button from '../../components/common/Button';
 import Responsive from '../../components/common/Responsive';
 import palette from '../../lib/styles/palette';
-import { insert, initialize } from '../../modules/drawingComment'
+import { insert, initialize } from '../../modules/drawingComment';
+import { withRouter } from 'react-router-dom';
 const CommentsViewerBlock = styled(Responsive)`
   padding-bottom: 3rem;
   margin-top: 4rem;
@@ -15,7 +16,8 @@ padding : 0 0 0 0;
 `;
 
 
-export const CommentContainer = () => {
+export const CommentContainer = ({ match }) => {
+  const { postId } = match.params;
   const dispatch = useDispatch();
   let canvas;
   let canvasRef = createRef();
@@ -66,6 +68,7 @@ export const CommentContainer = () => {
     let imageFile = new Blob([new Uint8Array(array)], { type: 'image/png' });   // Blob 생성
     let formdata = new FormData();   // formData 생성
     formdata.append("file", imageFile);   // file data 추가
+    formdata.append("postId", postId);
     dispatch(
       insert(formdata)
     );
@@ -101,4 +104,4 @@ export const CommentContainer = () => {
   );
 };
 
-export default CommentContainer;
+export default withRouter(CommentContainer);

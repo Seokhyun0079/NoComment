@@ -18,11 +18,6 @@ const limits = {
     files: 1//Number of documents
 }
 
-const upload = multer({storage, limits}); // note you can pass `multer` options here
-drawingComment.post('/insert', upload.single('file') , (ctx) => {
-    console.log('ctx.request.file', ctx.request.file);
-    console.log('ctx.file', ctx.file);
-    console.log('ctx.request.body', ctx.request.body);
-    ctx.body = 'done';
-})
+const upload = multer({ storage, limits }); // note you c/an pass `multer` options here
+drawingComment.post('/insert', upload.single('file'), drawingCommentCtrl.insert)
 export default drawingComment;

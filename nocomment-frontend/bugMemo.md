@@ -177,5 +177,16 @@ match.params の構造が深すぎるのが原因とみているが、そもそ�
 mtach.params に必要な stringId の値だけ持ってきて useEffect に使ったあと、useEffect の値を引数に渡した。
   </td>
   </tr>
+  <tr>
+  <th>
+  [20201217:2327]
+  </th>
+  <td>
+  코멘트를 등록할 때 ctx.state가 없어서 유저 정보를 못받음<br><br>
+  일일이 모든 필요한 정보를 폼데이터에 저장해서 보내려고 했는데 확인해보니 그러지 않아도 될 것 같음
+  <br><br>
+  ...state로 해결할 수 있을 것으로 보임
+  </td>
+  </tr>
   </tbody>
 <table>
