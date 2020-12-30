@@ -4,21 +4,26 @@ import * as drawingCommentCtrl from './drawingComment.ctrl';
 const path = require('path');
 const drawingComment = new Router();
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join('./commentImage'))
-    },
-    filename: function (req, file, cb) {
-        let type = 'png';
-        cb(null, `${file.fieldname}-${Date.now().toString(16)}.${type}`)
-    }
-})
+  destination: function (req, file, cb) {
+    cb(null, path.join('./public/commentImage'));
+  },
+  filename: function (req, file, cb) {
+    let type = 'png';
+    cb(null, `${file.fieldname}-${Date.now().toString(16)}.${type}`);
+  },
+});
 const limits = {
-    fields: 10,//Number of non-file fields
-    fileSize: 1024 * 1024 * 1024,//File Size Unit b
-    files: 1//Number of documents
-}
+  fields: 10, //Number of non-file fields
+  fileSize: 1024 * 1024 * 1024, //File Size Unit b
+  files: 1, //Number of documents
+};
 
 const upload = multer({ storage, limits }); // note you c/an pass `multer` options here
-drawingComment.post('/insert', upload.single('file'), drawingCommentCtrl.insert);
+drawingComment.post(
+  '/insert',
+  upload.single('file'),
+  drawingCommentCtrl.insert,
+);
 drawingComment.get('/list/:postId', drawingCommentCtrl.list);
+drawingComment.get('/getImageFile/:fileName', drawingCommentCtrl.getImageFile);
 export default drawingComment;

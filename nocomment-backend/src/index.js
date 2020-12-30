@@ -34,13 +34,17 @@ app.use(jwtMiddleware);
 
 // app 인스턴스에 라우터 적용
 app.use(router.routes()).use(router.allowedMethods());
-
 const buildDirectory = path.resolve(
   __dirname,
   '../../nocomment-frontend/build',
 );
+app.use(serve(__dirname + '/public/commentImage'));
 app.use(serve(buildDirectory));
 app.use(async (ctx) => {
+  console.log(ctx);
+  await send(ctx, 'file-1767eb23f45.png', {
+    root: __dirname + '/public/commentImage',
+  });
   // Not Found 이고, 주소가 /api 로 시작하지 않는 경우
   if (ctx.status === 404 && ctx.path.indexOf('/api') !== 0) {
     // index.html 내용을 반환
