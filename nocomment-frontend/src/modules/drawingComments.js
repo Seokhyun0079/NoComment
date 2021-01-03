@@ -11,7 +11,7 @@ const [
   LIST_DRAWING_COMMENT_FAILURE,
 ] = createRequestActionTypes('drawingComment/LIST_DRAWING_COMMENT');
 
-const UNLOAD_LIST_DRAWING_COMMENT = 'drawingComment/LISTDRAWING_COMMENT';
+const UNLOAD_LIST_DRAWING_COMMENT = 'drawingComment/UNLOAD_COMMENT_LIST';
 
 export const listDrawingComment = createAction(
   LIST_DRAWING_COMMENT,
@@ -22,16 +22,17 @@ const listDrawingCommentSaga = createRequestSaga(
   LIST_DRAWING_COMMENT,
   drawingCommentAPI.listComment,
 );
-export function* listCommentsSaga() {
+export function* drawingCommentsSaga() {
   yield takeLatest(LIST_DRAWING_COMMENT, listDrawingCommentSaga);
 }
 
 const initialState = {
   drawingComments: null,
   error: null,
+  lastPage: 1,
 };
 
-const listComment = handleActions(
+const drawingCommentsHandleActions = handleActions(
   {
     [LIST_DRAWING_COMMENT_SUCCESS]: (
       state,
@@ -39,7 +40,7 @@ const listComment = handleActions(
     ) => ({
       ...state,
       drawingComments,
-      lastPage: parseInt(response.headers['last-page'], 10),
+      lastPage: parseInt(response.headers['last-page'], 10), // 문자열을 숫자로 변환
     }),
     [LIST_DRAWING_COMMENT_FAILURE]: (state, { payload: error }) => ({
       ...state,
@@ -50,4 +51,4 @@ const listComment = handleActions(
   initialState,
 );
 
-export default listComment;
+export default drawingCommentsHandleActions;

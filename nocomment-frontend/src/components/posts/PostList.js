@@ -75,7 +75,7 @@ const PostList = ({ posts, loading, error, showWriteButton }) => {
       {/*  로딩 중 아니고, 포스트 배열이 존재할 때만 보여줌 */}
       {!loading && posts && (
         <div>
-          {posts.map(post => (
+          {posts.map((post) => (
             <PostItem post={post} key={post._id} />
           ))}
         </div>

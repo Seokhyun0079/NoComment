@@ -15,8 +15,6 @@ const PostListContainer = ({ location, match }) => {
       user: user.user,
     }),
   );
-  console.log(posts);
-
   const { stringId } = match.params;
   useEffect(() => {
     const { tag, page } = qs.parse(location.search, {
@@ -24,7 +22,6 @@ const PostListContainer = ({ location, match }) => {
     });
     dispatch(listPosts({ tag, stringId, page }));
   }, [dispatch, location.search, stringId]);
-
   return (
     <PostList
       loading={loading}

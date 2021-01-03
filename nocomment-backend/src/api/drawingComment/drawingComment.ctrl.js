@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import DrawingComment from '../../models/drawingComment';
 import Post from '../../models/post';
-
+import path from 'path';
 import send from 'koa-send';
 const { ObjectId } = mongoose.Types;
 export const insert = async (ctx) => {
@@ -24,7 +24,7 @@ export const insert = async (ctx) => {
 
 export const list = async (ctx) => {
   console.log('drawingComment list');
-  const { postId } = ctx.params;
+  const { postId } = ctx.query;
   const id = postId;
   if (!ObjectId.isValid(id)) {
     console.log('not valid');
@@ -37,11 +37,13 @@ export const list = async (ctx) => {
       ctx.status = 404;
       return;
     }
-    const comments = await DrawingComment.find({
+    const drawingComments = await DrawingComment.find({
       'post._id': postId,
-    });
-    ctx.body = comments.map((comment) => ({
-      ...comment,
+    })
+      .lean()
+      .exec();
+    ctx.body = drawingComments.map((drawingComment) => ({
+      ...drawingComment,
     }));
   } catch (e) {
     ctx.throw(500, e);
@@ -49,9 +51,9 @@ export const list = async (ctx) => {
 };
 
 export const getImageFile = async (ctx) => {
-  console.log(ctx);
+  const directory = path.resolve(__dirname, '../../');
   const { fileName } = ctx.params;
   await send(ctx, fileName, {
-    root: __dirname + '/public/commentImage',
+    root: directory + '/public/commentImage',
   });
 };

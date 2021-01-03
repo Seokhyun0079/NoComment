@@ -41,10 +41,8 @@ const buildDirectory = path.resolve(
 app.use(serve(__dirname + '/public/commentImage'));
 app.use(serve(buildDirectory));
 app.use(async (ctx) => {
-  console.log(ctx);
-  await send(ctx, 'file-1767eb23f45.png', {
-    root: __dirname + '/public/commentImage',
-  });
+  console.log('not expect root ' + ctx.path);
+  console.log('original URI  : ' + ctx.originalUrl);
   // Not Found 이고, 주소가 /api 로 시작하지 않는 경우
   if (ctx.status === 404 && ctx.path.indexOf('/api') !== 0) {
     // index.html 내용을 반환

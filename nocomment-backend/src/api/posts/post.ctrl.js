@@ -4,7 +4,6 @@ import sanitizeHtml from 'sanitize-html';
 import Joi from 'joi';
 const { ObjectId } = mongoose.Types;
 
-
 const sanitizeOption = {
   allowedTags: [
     'h1',
@@ -44,16 +43,16 @@ export const write = async (ctx) => {
   }
 };
 
-export const list = async ctx => {
+export const list = async (ctx) => {
   // query 는 문자열이기 때문에 숫자로 변환해주어야합니다.
   // 값이 주어지지 않았다면 1 을 기본으로 사용합니다.
   const page = parseInt(ctx.query.page || '1', 10);
-  
+
   if (page < 1) {
     ctx.status = 400;
     return;
   }
-  
+
   const { tag, stringId } = ctx.query;
   // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음
   const query = {
@@ -70,7 +69,7 @@ export const list = async ctx => {
       .exec();
     const postCount = await Post.countDocuments(query).exec();
     ctx.set('Last-Page', Math.ceil(postCount / 10));
-    ctx.body = posts.map(post => ({
+    ctx.body = posts.map((post) => ({
       ...post,
       body: removeHtmlAndShorten(post.body),
     }));
@@ -79,7 +78,7 @@ export const list = async ctx => {
   }
 };
 // html 을 없애고 내용이 너무 길으면 200자로 제한시키는 함수
-const removeHtmlAndShorten = body => {
+const removeHtmlAndShorten = (body) => {
   const filtered = sanitizeHtml(body, {
     allowedTags: [],
   });
@@ -90,7 +89,7 @@ export const read = async (ctx) => {
   ctx.body = ctx.state.post;
 };
 
-export const remove = async ctx => {
+export const remove = async (ctx) => {
   const { id } = ctx.params;
   try {
     await Post.findByIdAndRemove(id).exec();
@@ -100,7 +99,7 @@ export const remove = async ctx => {
   }
 };
 
-export const update = async ctx => {
+export const update = async (ctx) => {
   const { id } = ctx.params;
   // write 에서 사용한 schema 와 비슷한데, required() 가 없습니다.
   const schema = Joi.object().keys({

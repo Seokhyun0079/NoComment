@@ -24,6 +24,6 @@ drawingComment.post(
   upload.single('file'),
   drawingCommentCtrl.insert,
 );
-drawingComment.get('/list/:postId', drawingCommentCtrl.list);
+drawingComment.get('/list', drawingCommentCtrl.list);
 drawingComment.get('/getImageFile/:fileName', drawingCommentCtrl.getImageFile);
 export default drawingComment;
