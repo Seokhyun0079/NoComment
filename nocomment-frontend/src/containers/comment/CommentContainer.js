@@ -1,15 +1,12 @@
 import React, { createRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../components/common/Button';
 import Responsive from '../../components/common/Responsive';
 import palette from '../../lib/styles/palette';
 import { insert, initialize } from '../../modules/drawingComment';
 import { withRouter } from 'react-router-dom';
-const CommentsViewerBlock = styled(Responsive)`
-  padding-bottom: 3rem;
-  margin-top: 4rem;
-`;
+
 const CommentWriteBlock = styled(Responsive)`
   border: 1px solid ${palette.gray[8]};
   padding: 0 0 0 0;
@@ -18,6 +15,7 @@ const CommentWriteBlock = styled(Responsive)`
 export const CommentContainer = ({ match }) => {
   const { postId } = match.params;
   const dispatch = useDispatch();
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
   let canvas;
   let canvasRef = createRef();
   let pos = {
@@ -30,11 +28,13 @@ export const CommentContainer = ({ match }) => {
 
   useEffect(() => {
     canvas = canvasRef.current;
-    ctx = canvas.getContext('2d');
-    canvas.addEventListener('mousedown', initDraw);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', finishDraw);
-    canvas.addEventListener('mouseout', finishDraw);
+    if (canvas) {
+      ctx = canvas.getContext('2d');
+      canvas.addEventListener('mousedown', initDraw);
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('mouseup', finishDraw);
+      canvas.addEventListener('mouseout', finishDraw);
+    }
   }, []);
 
   const initDraw = (event) => {
@@ -82,21 +82,22 @@ export const CommentContainer = ({ match }) => {
         marginBottom: '50px',
       }}
     >
-      <CommentsViewerBlock>댓글창</CommentsViewerBlock>
-      <CommentWriteBlock height="480px">
-        <canvas ref={canvasRef} id="stockGraph" width="925px" height="480px">
-          댓글판을 불러오는 데 실패했습니다.
-        </canvas>
-        <Button
-          style={{
-            height: '480px',
-            float: 'right',
-          }}
-          onClick={onSubmit}
-        >
-          댓글등록
-        </Button>
-      </CommentWriteBlock>
+      {user && (
+        <CommentWriteBlock height="480px">
+          <canvas ref={canvasRef} id="stockGraph" width="925px" height="480px">
+            댓글판을 불러오는 데 실패했습니다.
+          </canvas>
+          <Button
+            style={{
+              height: '480px',
+              float: 'right',
+            }}
+            onClick={onSubmit}
+          >
+            댓글등록
+          </Button>
+        </CommentWriteBlock>
+      )}
     </div>
   );
 };

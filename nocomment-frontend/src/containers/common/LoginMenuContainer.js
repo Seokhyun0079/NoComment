@@ -8,19 +8,22 @@ const LoginMenuContainer = ({ onLogout }) => {
   const [state, setState] = useState({
     height: 30,
     marginTop: 20,
-    opacity: 1.0
+    opacity: 1.0,
   });
   const animate = ({ height, marginTop, opacity }) => {
-    setState((state) => ({ height: height, marginTop: marginTop, opacity: opacity }));
+    setState((state) => ({
+      height: height,
+      marginTop: marginTop,
+      opacity: opacity,
+    }));
   };
   return (
     <>
-
       <Motion
         style={{
           height: spring(state.height),
           marginTop: spring(state.marginTop),
-          opacity: spring(state.opacity)
+          opacity: spring(state.opacity),
         }}
       >
         {({ height, marginTop, opacity }) => (
@@ -29,7 +32,7 @@ const LoginMenuContainer = ({ onLogout }) => {
               animate({
                 height: 70,
                 marginTop: 60,
-                opacity: 1.0
+                opacity: 1.0,
               });
             }}
             onMouseOut={() => {
@@ -46,11 +49,13 @@ const LoginMenuContainer = ({ onLogout }) => {
               opacity,
               marginBottom: 20,
               backgroundColor: palette.gray[8],
-              border: "none",
-              borderRadius: "4px"
+              border: 'none',
+              borderRadius: '4px',
             }}
           >
-            <Link onClick={onLogout}>로그아웃</Link>
+            <Link to="/" onClick={onLogout}>
+              로그아웃
+            </Link>
             <br></br>
             <Link to="/write">회원정보수정</Link>
             <br></br>

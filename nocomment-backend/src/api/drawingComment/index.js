@@ -1,11 +1,13 @@
 import Router from '@koa/router';
 import multer from '@koa/multer';
 import * as drawingCommentCtrl from './drawingComment.ctrl';
+import checkLoggedIn from '../../lib/checkLoggedIn';
+
 const path = require('path');
 const drawingComment = new Router();
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join('./public/commentImage'));
+    cb(null, path.join('src/public/commentImage'));
   },
   filename: function (req, file, cb) {
     let type = 'png';
@@ -21,6 +23,7 @@ const limits = {
 const upload = multer({ storage, limits }); // note you c/an pass `multer` options here
 drawingComment.post(
   '/insert',
+  checkLoggedIn,
   upload.single('file'),
   drawingCommentCtrl.insert,
 );
