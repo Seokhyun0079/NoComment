@@ -30,7 +30,7 @@ const LoginMenuContainer = ({ onLogout }) => {
           <Button
             onMouseOver={() => {
               animate({
-                height: 70,
+                height: 100,
                 marginTop: 60,
                 opacity: 1.0,
               });
@@ -39,6 +39,7 @@ const LoginMenuContainer = ({ onLogout }) => {
               animate({
                 height: 30,
                 marginTop: 20,
+                opacity: 1.0,
               });
             }}
             style={{
@@ -56,6 +57,7 @@ const LoginMenuContainer = ({ onLogout }) => {
             <Link to="/" onClick={onLogout}>
               로그아웃
             </Link>
+            <br></br>
             <br></br>
             <Link to="/write">회원정보수정</Link>
             <br></br>
