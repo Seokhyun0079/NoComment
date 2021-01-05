@@ -17,6 +17,7 @@ export const insert = async (ctx) => {
   });
   try {
     await drawingComment.save();
+    ctx.body = drawingComment;
   } catch (e) {
     ctx.throw(500, e);
   }

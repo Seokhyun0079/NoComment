@@ -33,7 +33,7 @@ const RefreshButton = ({ onClick }) => {
         transform: spring(state.transform),
       }}
     >
-      {({ width, transform }) => (
+      {({ transform }) => (
         <div>
           <RefreshImage
             src="/refresh.png"

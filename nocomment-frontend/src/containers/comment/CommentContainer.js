@@ -1,11 +1,12 @@
-import React, { createRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../components/common/Button';
 import Responsive from '../../components/common/Responsive';
 import palette from '../../lib/styles/palette';
-import { insert, initialize } from '../../modules/drawingComment';
+import { insert } from '../../modules/drawingComment';
 import { withRouter } from 'react-router-dom';
+import { listDrawingComment } from '../../modules/drawingComments';
 
 const CommentWriteBlock = styled(Responsive)`
   border: 1px solid ${palette.gray[8]};
@@ -15,9 +16,16 @@ const CommentWriteBlock = styled(Responsive)`
 export const CommentContainer = ({ match }) => {
   const { postId } = match.params;
   const dispatch = useDispatch();
-  const { user } = useSelector(({ user }) => ({ user: user.user }));
+  const { user, drawingComment, drawingCommentError } = useSelector(
+    ({ user, hadnleDrawingCommentInsertActions }) => ({
+      user: user.user,
+      drawingComment: hadnleDrawingCommentInsertActions.drawingComment,
+      drawingCommentError:
+        hadnleDrawingCommentInsertActions.drawingCommentError,
+    }),
+  );
   let canvas;
-  let canvasRef = createRef();
+  let canvasRef = useRef();
   let pos = {
     drawble: false,
     X: -1,
@@ -25,17 +33,6 @@ export const CommentContainer = ({ match }) => {
   };
 
   let ctx;
-
-  useEffect(() => {
-    canvas = canvasRef.current;
-    if (canvas) {
-      ctx = canvas.getContext('2d');
-      canvas.addEventListener('mousedown', initDraw);
-      canvas.addEventListener('mousemove', draw);
-      canvas.addEventListener('mouseup', finishDraw);
-      canvas.addEventListener('mouseout', finishDraw);
-    }
-  }, []);
 
   const initDraw = (event) => {
     ctx.beginPath();
@@ -58,7 +55,8 @@ export const CommentContainer = ({ match }) => {
     pos = { drawble: false, X: -1, Y: -1 };
   };
   const onSubmit = () => {
-    let image = canvasRef.current.toDataURL('image/png');
+    let canvas = canvasRef.current;
+    let image = canvas.toDataURL('image/png');
     let blobBin = atob(image.split(',')[1]); // base64 데이터 디코딩
     let array = [];
     for (let i = 0; i < blobBin.length; i++) {
@@ -69,12 +67,33 @@ export const CommentContainer = ({ match }) => {
     formdata.append('file', imageFile); // file data 추가
     formdata.append('postId', postId);
     dispatch(insert(formdata));
+    //댓글등록후 캔버스 내용을 삭제함.
+    //コメント登録後、canvasの内容を消す。
   };
   useEffect(() => {
-    return () => {
-      dispatch(initialize());
-    };
-  }, [dispatch]);
+    canvas = canvasRef.current;
+    if (canvas) {
+      ctx = canvas.getContext('2d');
+      canvas.addEventListener('mousedown', initDraw);
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('mouseup', finishDraw);
+      canvas.addEventListener('mouseout', finishDraw);
+    }
+    if (drawingComment) {
+      dispatch(listDrawingComment({ postId }));
+      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+    }
+    if (drawingCommentError) {
+      console.log('댓글 등록 에러 발생');
+      console.log(drawingCommentError);
+    }
+  }, [
+    canvasRef.current,
+    dispatch,
+    postId,
+    drawingComment,
+    drawingCommentError,
+  ]);
   return (
     <div
       style={{

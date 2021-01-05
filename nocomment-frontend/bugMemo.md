@@ -5,6 +5,9 @@
   <tbody>
       <tr>
       <th>
+        Number
+      </th>
+      <th>
         Time
       </th>
       <th>
@@ -15,6 +18,9 @@
       </th>
     </tr>
     <tr>
+      <th>
+        1
+      </th>
       <th>
         [20200815:0334]
       </th>
@@ -37,6 +43,9 @@
     </tr>
     <tr>
       <th>
+        2
+      </th>
+      <th>
         [20200816:0537]
       </th>
       <td>
@@ -52,6 +61,9 @@
     </tr>
     <tr>
       <th>
+        3
+      </th>
+      <th>
         [20200904:1211]
       </th>
       <td>
@@ -62,6 +74,9 @@
       </td>
     </tr>
     <tr>
+      <th>
+        4
+      </th>
       <th>
         [20200904:1216]
       </th>
@@ -74,6 +89,9 @@
     </tr>
     <tr>
       <th>
+        5
+      </th>
+      <th>
         [20200904:1231]
       </th>
       <td>
@@ -83,7 +101,10 @@
        最初から位置を指定してくれるスタイル設定がいなかったため、追加。
       </td>
     </tr>    
-    <tr>
+    <tr>    
+      <th>
+        5
+      </th>
       <th>
         [20200906:0127]
       </th>
@@ -102,6 +123,9 @@
     </tr>
     <tr>
     <th>
+        5
+    </th>
+    <th>
     [20200922:2337]
     </th>
     <td>
@@ -111,6 +135,9 @@
     </td>
     </tr>
     <tr>
+    <th>
+        6
+    </th>
     <th>
     [20200922:2354]
     </th>
@@ -123,18 +150,24 @@
     </tr>
     <tr>
     <th>
+    7
+    </th>
+    <th>
     [20201004:2037]
     </th>
     <td>
     상당히 오랜 시간이 지나서야 이유를 파악했음. return next()해야하는데 next()해서 동작이 끊어져버리는듯. 단순한 오타였지만 귀중한 시간을 담보로 귀중한 배움을 얻었다.
     </td>
     <td>
-結構詰まっていたが、理由は突き止めた。return next()しなくちゃいけないのにただ next()してるからファンクションが終わったと判断した模様。
+    結構詰まっていたが、理由は突き止めた。return next()しなくちゃいけないのにただ next()してるからファンクションが終わったと判断した模様。
     </td>
     </tr>
     <tr>
     <th>
-[20201013:2003]    
+    8
+    </th>
+    <th>
+    [20201013:2003]  
     </th>
     <td>
     authForm.js에서 아이디값에 \_id, 객체 아이디 값을 집어넣고 있었음. 수정함.
@@ -149,44 +182,143 @@
     </th>
     <td>
     서버쪽에서 title을 받지못해 디비에 저장되지 않고 있었음.
-
-WriteActionButtonsContainer.js에서 변수이름을 write로 받고 있어서 안들어가고 있었음.
-title로 수정.
-
-</td>
-<td>
-サーバー側から title を貰っていない状況になっていて DB に登録されずにいた。
-WriteActionButtonsContainer.js から引数の名前を write で貰っていたからだった。
-title に修正。
-</td>
-</tr>
-  <tr>
-  <th>
-  [20201105:2352]
-  </th>
-  <td>
-  꽤 오랫동안 한 버그를 잡고 있었는데 해결책을 찾음.
-버그 내용은 PostListContainer.js에서 useEffect에 match.params를 돌리면 무한루프에 걸려버린다.
-match.params가 너무 깊은 게 원인으로 보이는데 애초에 match.params를 전부 넣어야할 필요가 없기때문에
-match.params에서 필요한 stringId값만 가져와 useEffect에서 사용한 뒤 해당 값을 useEffect의 인자값으로 사용했다.
-  </td>
-  <td>
-  結構長い間、一つのバグに取り込んでいたが、ようやく解決した。
-不具合の内容は PostListContainer.js から useEffect に match.params を入れてしまうと無限ルーフに落ちる、ということ。
-match.params の構造が深すぎるのが原因とみているが、そもそも match.params を全部入れる必要はなかったので、
-mtach.params に必要な stringId の値だけ持ってきて useEffect に使ったあと、useEffect の値を引数に渡した。
-  </td>
-  </tr>
-  <tr>
-  <th>
-  [20201217:2327]
-  </th>
-  <td>
-  코멘트를 등록할 때 ctx.state가 없어서 유저 정보를 못받음<br><br>
-  일일이 모든 필요한 정보를 폼데이터에 저장해서 보내려고 했는데 확인해보니 그러지 않아도 될 것 같음
-  <br><br>
-  ...state로 해결할 수 있을 것으로 보임
-  </td>
-  </tr>
+    WriteActionButtonsContainer.js에서 변수이름을 write로 받고 있어서 안들어가고 있었음.
+    title로 수정.
+    </td>
+    <td>
+    サーバー側から title を貰っていない状況になっていて DB に登録されずにいた。
+    WriteActionButtonsContainer.js から引数の名前を write で貰っていたからだった。
+    title に修正。
+    </td>
+    </tr>
+    <tr>
+    <th>
+    9
+    </th>
+    <th>
+    [20201105:2352]
+    </th>
+    <td>
+    꽤 오랫동안 한 버그를 잡고 있었는데 해결책을 찾음.
+    버그 내용은 PostListContainer.js에서 useEffect에 match.params를 돌리면 무한루프에 걸려버린다.
+    match.params가 너무 깊은 게 원인으로 보이는데 애초에 match.params를 전부 넣어야할 필요가 없기때문에
+    match.params에서 필요한 stringId값만 가져와 useEffect에서 사용한 뒤 해당 값을 useEffect의 인자값으로 사용했다.
+    </td>
+    <td>
+    結構長い間、一つのバグに取り込んでいたが、ようやく解決した。
+    不具合の内容は PostListContainer.js から useEffect に match.params を入れてしまうと無限ルーフに落ちる、ということ。
+    match.params の構造が深すぎるのが原因とみているが、そもそも match.params を全部入れる必要はなかったので、
+    mtach.params に必要な stringId の値だけ持ってきて useEffect に使ったあと、useEffect の値を引数に渡した。
+    </td>
+    <th>
+    10
+    </th>
+    <th>
+    [20201217:2327]
+    </th>
+    <td>
+    코멘트를 등록할 때 ctx.state가 없어서 유저 정보를 못받음<br><br>
+    일일이 모든 필요한 정보를 폼데이터에 저장해서 보내려고 했는데 확인해보니 그러지 않아도 될 것 같음
+    <br><br>
+    ...state을 axios.post에 같이 보내는 걸로 해결함.
+    </td>
+    <td>
+    コメント登録時にctx.stateがいなくてユーザー情報が登録できない。<br><br>
+    必要なフォームデータを格納することで解決しようとしたが、axios.postに...stateをつけることで解決。
+    <br><br>
+    </td>
+    </tr>
+    </tr>
+    <tr>
+    <th>
+    11
+    </th>
+    <th>
+    [20200105:2127]
+    </th>
+    <td>
+    그림댓글 작성후 404에러 발생。
+    </td>
+    <td>
+    コメント作成の後、404NotFound発生。
+    </td>
+    </tr>
+    <tr>
+    <th>
+    원인과대응<br><br>
+    原因と対応
+    </th>
+    <th>
+    [20200105:2203]
+    </th>
+    <td>
+    제조미스. drawingComment.insert메소드에 DB등록 후 <br><br>
+    ctx.body = drawingComment;<br><br>
+    추가함. 프론트단으로 결과값을 보냄.
+    </td>
+    <td>
+    製造漏れ。drawingComment.insertメソッドでDB登録の後、<br><br>
+    ctx.body = drawingComment;<br><br>
+    追記し、フロント側に結果を返す。
+    </td>
+    </tr>
+    <tr>
+    <th>
+    12
+    </th>
+    <th>
+    [20200105:2127]
+    </th>
+    <td>
+    그림댓글 작성후 화면이 전환되지않음.
+    </td>
+    <td>
+    コメント作成後画面が再表示されない。
+    </td>
+    </tr>
+    <tr>
+    <th>
+    원인과대응<br><br>
+    原因と対応
+    </th>
+    <th>
+    [20200105:2203]
+    </th>
+    <td>
+    제조미스. CommentContainer에서 결과값이 있으면 댓글창을 새로고침함.
+    </td>
+    <td>
+    製造もれ。CommentContianerから登録が成功した場合、コメントリストをリフレッシュさせるように修正。
+    </td>
+    </tr>
+    <tr>
+    <th>
+    13
+    </th>
+    <th>
+    [20200105:2127]
+    </th>
+    <td>
+    그림댓글 작성후 내용물이 지워지지않음.
+    </td>
+    <td>
+    コメント登録後、絵が消されない。
+    </td>
+    </tr>
+    <tr>
+    <th>
+    원인과대응<br><br>
+    原因と対応
+    </th>
+    <th>
+    [20200105:2203]
+    </th>
+    <td>
+    제조미스. 등록후 삭제되도록 수정.
+    </td>
+    <td>
+    製造もれ。登録成功時に消されるように修正。
+    </td>
+    </tr>
   </tbody>
 <table>
