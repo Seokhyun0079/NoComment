@@ -7,7 +7,7 @@ const RefreshImage = ({ staticContext, ...rest }) => {
   return <img alt="" {...rest}></img>;
 };
 
-const RefreshButton = () => {
+const RefreshButton = ({ onClick }) => {
   /**
    * 애니메이션에 필요한 값을 초기화
    * アニメーションに必要な値を初期化
@@ -23,15 +23,13 @@ const RefreshButton = () => {
    */
   const animate = () => {
     setState((state) => ({
-      width: state.width + 100 * state.switch,
-      transform: state.transform + 720 * state.switch,
+      transform: state.transform + 360 * state.switch,
       switch: state.switch * -1,
     }));
   };
   return (
     <Motion
       style={{
-        width: spring(state.width),
         transform: spring(state.transform),
       }}
     >
@@ -40,7 +38,8 @@ const RefreshButton = () => {
           <RefreshImage
             src="/refresh.png"
             style={{
-              width: width,
+              width: 100,
+              margin: '0 auto',
               transform: `rotate( ${transform}deg )`,
             }}
             onMouseOver={() => {
@@ -48,6 +47,9 @@ const RefreshButton = () => {
             }}
             onMouseOut={() => {
               animate();
+            }}
+            onClick={() => {
+              onClick();
             }}
           ></RefreshImage>
         </div>

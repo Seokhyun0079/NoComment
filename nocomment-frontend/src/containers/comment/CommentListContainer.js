@@ -2,8 +2,14 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
+import RefreshButton from '../../components/common/RefreshButton';
+import Responsive from '../../components/common/Responsive';
 import CommentList from '../../components/drawingComment/CommentList';
 import { listDrawingComment } from '../../modules/drawingComments';
+const CommentListBlock = styled(Responsive)`
+  margin-top: 3rem;
+`;
 
 export const CommentListContainer = ({ match }) => {
   const dispatch = useDispatch();
@@ -19,12 +25,18 @@ export const CommentListContainer = ({ match }) => {
     dispatch(listDrawingComment({ postId }));
   }, [dispatch, postId]);
 
+  const buttonClick = () => {
+    dispatch(listDrawingComment({ postId }));
+  };
   return (
-    <CommentList
-      drawingComments={drawingComments}
-      error={error}
-      loading={loading}
-    />
+    <CommentListBlock>
+      <RefreshButton onClick={buttonClick} />
+      <CommentList
+        drawingComments={drawingComments}
+        error={error}
+        loading={loading}
+      />
+    </CommentListBlock>
   );
 };
 
