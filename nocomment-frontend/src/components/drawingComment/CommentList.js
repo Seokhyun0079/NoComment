@@ -1,4 +1,5 @@
 import React from 'react';
+import SubInfo from '../common/SubInfo';
 
 const CommentItem = ({ fileName, alt }) => {
   return <img src={'/api/drawingComment/getImageFile/' + fileName} alt={alt} />;
@@ -20,7 +21,11 @@ const CommentList = ({ drawingComments, loading, error }) => {
         <div>
           {drawingComments.map((drawingComment) => (
             <div key={drawingComment._id}>
-              <span>{drawingComment.noCommenter.stringId}님의 댓글입니다.</span>
+              <SubInfo
+                username={drawingComment.noCommenter.stringId}
+                publishedDate={drawingComment.publishedDate}
+                hasMarginTop
+              />
               <CommentItem
                 fileName={drawingComment.fileName}
                 alt="이미지 로드에 실패하였습니다."

@@ -9,7 +9,9 @@ const EditorContainer = () => {
     body: write.body,
   }));
   const onChangeField = useCallback(
-    (payload) => dispatch(changeField(payload)),
+    (payload) => {
+      dispatch(changeField(payload));
+    },
     [dispatch],
   );
 

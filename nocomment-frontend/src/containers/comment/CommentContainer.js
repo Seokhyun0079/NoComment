@@ -9,8 +9,9 @@ import { withRouter } from 'react-router-dom';
 import { listDrawingComment } from '../../modules/drawingComments';
 
 const CommentWriteBlock = styled(Responsive)`
-  border: 1px solid ${palette.gray[8]};
   padding: 0 0 0 0;
+  padding-top: 3rem;
+  padding-bottom: 5rem;
 `;
 
 export const CommentContainer = ({ match }) => {
@@ -103,9 +104,16 @@ export const CommentContainer = ({ match }) => {
     >
       {user && (
         <CommentWriteBlock height="480px">
-          <canvas ref={canvasRef} id="stockGraph" width="925px" height="480px">
-            댓글판을 불러오는 데 실패했습니다.
-          </canvas>
+          <canvas
+            ref={canvasRef}
+            id="stockGraph"
+            width="925px"
+            height="480px"
+            style={{
+              border: 'solid 1px',
+              borderRadius: '4px',
+            }}
+          ></canvas>
           <Button
             style={{
               height: '480px',

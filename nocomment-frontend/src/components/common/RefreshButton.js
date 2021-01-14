@@ -38,8 +38,8 @@ const RefreshButton = ({ onClick }) => {
           <RefreshImage
             src="/refresh.png"
             style={{
-              width: 100,
-              margin: '0 auto',
+              width: 50,
+              margin: 'auto 0',
               transform: `rotate( ${transform}deg )`,
             }}
             onMouseOver={() => {
