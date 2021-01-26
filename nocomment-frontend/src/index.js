@@ -12,6 +12,7 @@ import createSagaMiddleware from 'redux-saga';
 import { rootSaga } from './modules/index';
 import { tempSetUser, check } from './modules/user';
 import { HelmetProvider } from 'react-helmet-async';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   rootReducer,
@@ -33,13 +34,15 @@ sagaMiddleware.run(rootSaga);
 loadUser();
 
 ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <HelmetProvider>
-      <App />
-      </HelmetProvider>
-    </BrowserRouter>
-  </Provider>,
+  <MuiThemeProvider>
+    <Provider store={store}>
+      <BrowserRouter>
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
+      </BrowserRouter>
+    </Provider>
+  </MuiThemeProvider>,
   document.getElementById('root'),
 );
 

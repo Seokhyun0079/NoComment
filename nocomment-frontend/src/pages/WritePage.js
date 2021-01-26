@@ -4,6 +4,7 @@ import HeaderContainer from '../containers/common/HeaderContainer';
 import EditorContainer from '../containers/write/EditorContainer';
 import TagBoxContainer from '../containers/write/TagBoxContainer';
 import WriteActionButtonsContainer from '../containers/common/WriteActionButtonsContainer';
+import ImageDailogContainer from '../containers/write/ImageDialogContainer';
 
 const WritePage = () => {
   return (
@@ -12,6 +13,7 @@ const WritePage = () => {
       <Responsive>
         <EditorContainer />
         <TagBoxContainer />
+        <ImageDailogContainer />
         <WriteActionButtonsContainer />
       </Responsive>
     </>
