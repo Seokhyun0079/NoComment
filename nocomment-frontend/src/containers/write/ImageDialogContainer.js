@@ -2,10 +2,10 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import PostImageUploadDialog from './PostImageUploadDialog';
-const emails = ['username@gmail.com', 'user02@gmail.com'];
+import { useState } from 'react';
 const ImageDailogContainer = () => {
   const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState(emails[1]);
+  const [selectedValue, setSelectedValue] = React.useState('selected');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -15,6 +15,8 @@ const ImageDailogContainer = () => {
     setOpen(false);
     setSelectedValue(value);
   };
+
+  const [files, setFiles] = useState([]);
 
   return (
     <div>
@@ -27,7 +29,8 @@ const ImageDailogContainer = () => {
         selectedValue={selectedValue}
         open={open}
         onClose={handleClose}
-        emails={emails}
+        files={files}
+        setFiles={setFiles}
       />
     </div>
   );
