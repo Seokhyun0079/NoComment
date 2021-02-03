@@ -7,7 +7,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import PersonIcon from '@material-ui/icons/Person';
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
 import { blue } from '@material-ui/core/colors';
@@ -53,19 +52,14 @@ const PostImageUploadDialog = (props) => {
    * @param {*} e
    */
   const onChange = (e) => {
-    let ref = inputRef.current;
-    let filename = ref.value;
-    let _fileLen = filename.length;
-    let _lastDot = filename.lastIndexOf('\\');
-    console.log(_lastDot);
-    let _fileExt = filename.substring(_lastDot + 1, _fileLen).toLowerCase();
-
-    let fileName = '/api/drawingComment/getImageFile/' + _fileExt;
-    setFiles(files.concat(fileName));
     let file = e.target.files[0];
     let formData = new FormData();
     formData.append('file', file);
-    imageFileUpload(formData);
+    imageFileUpload(formData).then((result) => {
+      const response = result.data;
+      let uploadedFileName = '/api/drawingComment/getImageFile/' + response;
+      setFiles(files.concat(uploadedFileName));
+    });
   };
   return (
     <Dialog
