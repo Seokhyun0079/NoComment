@@ -13,6 +13,8 @@ import { blue } from '@material-ui/core/colors';
 import styled from 'styled-components';
 import { imageFileUpload } from '../../lib/api/imageFileUpload';
 
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 const useStyles = makeStyles({
   avatar: {
     backgroundColor: blue[100],
@@ -27,6 +29,7 @@ const HiddenFileInput = styled.input`
 const PostImageUploadDialog = (props) => {
   const inputRef = useRef();
   const classes = useStyles();
+  const dispatch = useDispatch();
   const { onClose, selectedValue, open, files, setFiles } = props;
 
   const handleClose = () => {
@@ -59,8 +62,10 @@ const PostImageUploadDialog = (props) => {
       const response = result.data;
       let uploadedFileName = '/api/drawingComment/getImageFile/' + response;
       setFiles(files.concat(uploadedFileName));
+      onClose(selectedValue);
     });
   };
+
   return (
     <Dialog
       onClose={handleClose}

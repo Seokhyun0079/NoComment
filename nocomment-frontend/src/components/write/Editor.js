@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import Responsive from '../common/Responsive';
 import palette from '../../lib/styles/palette';
 import styled from 'styled-components';
+import ImageDailogContainer from '../../containers/write/ImageDialogContainer';
+import { useDispatch } from 'react-redux';
+import { imageFileUpload } from '../../lib/api/imageFileUpload';
 
 const EditorBlock = styled(Responsive)`
   padding-top: 5rem;
@@ -35,7 +38,8 @@ const QuillWrapper = styled.div`
 const Ediotr = ({ title, body, onChangeField }) => {
   const quillElement = useRef(null);
   const quillInstance = useRef(null);
-
+  const dispatch = useDispatch();
+  const imageRef = useRef();
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {
       theme: 'bubble',
@@ -50,6 +54,8 @@ const Ediotr = ({ title, body, onChangeField }) => {
       },
     });
     const quill = quillInstance.current;
+    const toolbar = quill.getModule('toolbar');
+    toolbar.addHandler('image', onClickImageBtn);
     quill.on('text-change', (delta, oldDelta, source) => {
       if (source === 'user') {
         onChangeField({ key: 'body', value: quill.root.innerHTML });
@@ -60,18 +66,38 @@ const Ediotr = ({ title, body, onChangeField }) => {
   const onChangeTitle = (e) => {
     onChangeField({ key: 'title', value: e.target.value });
   };
+  const onClickImageBtn = useCallback(() => {
+    imageRef.current.click();
+  }, [imageRef.current]);
+  const onChangeImageInput = (e) => {
+    const imageFormData = new FormData();
+    [].forEach.call(e.target.files, (f) => {
+      imageFormData.append('file', f);
+    });
+    imageFileUpload(imageFormData).then((result) => {
+      const response = result.data;
+      let uploadedFileName = '/api/drawingComment/getImageFile/' + response;
+      quillInstance.current.root.innerHTML =
+        quillInstance.current.root.innerHTML +
+        `<img width ="100%" src="${uploadedFileName}"/>`;
+    });
+  };
 
   return (
-    <EditorBlock>
-      <TitleInput
-        placeholder="제목을 입력하세요"
-        onChange={onChangeTitle}
-        value={title}
-      />
-      <QuillWrapper>
-        <div ref={quillElement} />
-      </QuillWrapper>
-    </EditorBlock>
+    <>
+      <EditorBlock>
+        <TitleInput
+          placeholder="제목을 입력하세요"
+          onChange={onChangeTitle}
+          value={title}
+        />
+        <QuillWrapper>
+          <div ref={quillElement} />
+        </QuillWrapper>
+      </EditorBlock>
+      {/* <ImageDailogContainer /> 開発保留 */}
+      <input hidden type="file" onChange={onChangeImageInput} ref={imageRef} />
+    </>
   );
 };
 
