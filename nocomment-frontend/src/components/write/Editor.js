@@ -79,7 +79,7 @@ const Ediotr = ({ title, body, onChangeField }) => {
       let uploadedFileName = '/api/drawingComment/getImageFile/' + response;
       quillInstance.current.root.innerHTML =
         quillInstance.current.root.innerHTML +
-        `<img width ="100%" src="${uploadedFileName}"/>`;
+        `<img max-width ="100%" src="${uploadedFileName}"/>`;
     });
   };
 
