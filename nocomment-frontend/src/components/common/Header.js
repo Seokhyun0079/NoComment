@@ -50,7 +50,7 @@ const Header = ({ user }) => {
           {user ? (
             <div className="right">
               <UserInfo>{user.username}</UserInfo>
-              <LogoutButton>로그아웃</LogoutButton>
+              <LogoutButton user={user}>로그아웃</LogoutButton>
             </div>
           ) : (
             <Button to="/login">로그인</Button>

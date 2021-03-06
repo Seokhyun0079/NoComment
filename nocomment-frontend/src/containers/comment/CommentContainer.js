@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../components/common/Button';
 import Responsive from '../../components/common/Responsive';
-import palette from '../../lib/styles/palette';
 import { insert } from '../../modules/drawingComment';
 import { withRouter } from 'react-router-dom';
 import { listDrawingComment } from '../../modules/drawingComments';

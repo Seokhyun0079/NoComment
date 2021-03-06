@@ -4,8 +4,6 @@ import 'quill/dist/quill.bubble.css';
 import Responsive from '../common/Responsive';
 import palette from '../../lib/styles/palette';
 import styled from 'styled-components';
-import ImageDailogContainer from '../../containers/write/ImageDialogContainer';
-import { useDispatch } from 'react-redux';
 import { imageFileUpload } from '../../lib/api/imageFileUpload';
 
 const EditorBlock = styled(Responsive)`
@@ -38,7 +36,6 @@ const QuillWrapper = styled.div`
 const Ediotr = ({ title, body, onChangeField }) => {
   const quillElement = useRef(null);
   const quillInstance = useRef(null);
-  const dispatch = useDispatch();
   const imageRef = useRef();
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {
@@ -74,7 +71,7 @@ const Ediotr = ({ title, body, onChangeField }) => {
     [].forEach.call(e.target.files, (f) => {
       imageFormData.append('file', f);
     });
-    imageFileUpload(imageFormData).then((result) => {
+    imageFileUpload('/postImage', imageFormData).then((result) => {
       const response = result.data;
       let uploadedFileName = '/api/drawingComment/getImageFile/' + response;
       quillInstance.current.root.innerHTML =
@@ -101,4 +98,4 @@ const Ediotr = ({ title, body, onChangeField }) => {
   );
 };
 
-export default Ediotr;
+export default Ediotr;x3

@@ -8,7 +8,7 @@ import LoginMenuContainer from '../../containers/common/LoginMenuContainer';
 共通化のため、ログアウトボタンをベットに用意する
 */
 
-const LogoutButton = ({ type }) => {
+const LogoutButton = ({ type, user }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const onLogout = () => {
@@ -21,8 +21,7 @@ const LogoutButton = ({ type }) => {
       로그아웃
     </Link>
   ) : (
-    <LoginMenuContainer onLogout={onLogout}>
-    </LoginMenuContainer>
+    <LoginMenuContainer onLogout={onLogout} user={user}></LoginMenuContainer>
   );
 };
 

@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { Route, useHistory } from 'react-router-dom';
 import WritePage from './pages/WritePage';
 import PostPage from './pages/Postpage';
+import MyInfoPage from './pages/MyInfoPage';
 //App.js
 function App() {
   let history = useHistory();
@@ -28,10 +29,11 @@ function App() {
     }
     //로그인하지 않았거나 이미 이메일인증한 상태에서 이메일 인증 화면으로 접근 시 메인화면으로 이동함
     //ログインしてない、または、すでにメールアドレス認証を行った状態でメールアドレス認証画面に接近するとメイン画面に遷移する
-    if (pathname === '/authCode' && (user === null || user.emailCheck)) {
-      history.push('/');
+    if (pathname === '/authCode' || pathname === '/myInfo') {
+      if (user === null || user.emailCheck) history.push('/');
     }
   }, [history, user]);
+
   return (
     <>
       <Route component={PostListPage} path={['/@:stringId', '/']} exact />
@@ -40,6 +42,7 @@ function App() {
       <Route component={AuthCodePage} path="/authCode" />
       <Route component={WritePage} path="/write" />
       <Route component={PostPage} path="/@:stringId/:postId" />
+      <Route component={MyInfoPage} path="/myInfo" />
     </>
   );
 }

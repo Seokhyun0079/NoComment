@@ -8,6 +8,7 @@ import { changeField, initializeForm, authCodeCheck } from '../../modules/auth';
 import { useEffect } from 'react';
 import { check } from '../../modules/user';
 import LogoutButton from '../../components/common/LogoutButton';
+import { StyledInput } from '../../components/common/StyledTag';
 
 const AuthFormBlock = styled.div`
   h3 {
@@ -17,21 +18,6 @@ const AuthFormBlock = styled.div`
   }
 `;
 
-const StyledInput = styled.input`
-  font-size: 1rem;
-  border: none;
-  border-bottom: 1px solid ${palette.gray[5]};
-  padding-bottom: 0.5rem;
-  outline: none;
-  width: 100%;
-  &:foncus {
-    color: $oc-teal-7;
-    border-bottom: 1px slid ${palette.gray[7]};
-  }
-  & + & {
-    margin-top: 1rem;
-  }
-`;
 const ButtonWidthMarginTop = styled(Button)`
   margin-top: 1rem;
 `;

@@ -4,14 +4,14 @@ import { Motion, spring } from 'react-motion';
 import { Link } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
 
-const LoginMenuContainer = ({ onLogout }) => {
+const LoginMenuContainer = ({ onLogout, user }) => {
   const [state, setState] = useState({
     height: 30,
     marginTop: 20,
     opacity: 1.0,
   });
   const animate = ({ height, marginTop, opacity }) => {
-    setState((state) => ({
+    setState(() => ({
       height: height,
       marginTop: marginTop,
       opacity: opacity,
@@ -59,9 +59,9 @@ const LoginMenuContainer = ({ onLogout }) => {
             </Link>
             <br></br>
             <br></br>
-            <Link to="/write">회원정보수정</Link>
+            <Link to="/myInfo">회원정보수정</Link>
             <br></br>
-            <Link to="/">내가 쓴 글</Link>
+            <Link to={'/?stringId=' + user.stringId}>내가 쓴 글</Link>
           </Button>
         )}
       </Motion>

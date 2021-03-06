@@ -22,6 +22,7 @@ const palette = {
     '#0c8599',
     '#ob7285',
   ],
+  yellow: ['#ffe57c'],
 };
 
 export default palette;
