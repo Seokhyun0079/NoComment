@@ -24,7 +24,7 @@ export const writePost = createAction(WRITE_POST, ({ title, body, tags }) => ({
   body,
   tags,
 }));
-export const setOriginalPost = createAction(SET_ORIGINAL_POST, post => post);
+export const setOriginalPost = createAction(SET_ORIGINAL_POST, (post) => post);
 const writePostSaga = createRequestSaga(WRITE_POST, postsAPI.writePost);
 
 export function* writeSaga() {
@@ -39,7 +39,6 @@ const initialState = {
   postError: null,
   originalPostId: null,
 };
-
 
 const write = handleActions(
   {

@@ -29,8 +29,12 @@ function App() {
     }
     //로그인하지 않았거나 이미 이메일인증한 상태에서 이메일 인증 화면으로 접근 시 메인화면으로 이동함
     //ログインしてない、または、すでにメールアドレス認証を行った状態でメールアドレス認証画面に接近するとメイン画面に遷移する
-    if (pathname === '/authCode' || pathname === '/myInfo') {
-      if (user === null || user.emailCheck) history.push('/');
+    if (pathname === '/authCode') {
+      if (user === null || user.emailCheck) {
+        history.push('/');
+      }
+    } else if (pathname === '/myInfo' && !user) {
+      history.push('/');
     }
   }, [history, user]);
 

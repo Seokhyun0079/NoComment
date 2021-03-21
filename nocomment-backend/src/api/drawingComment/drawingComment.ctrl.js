@@ -51,10 +51,27 @@ export const list = async (ctx) => {
   }
 };
 
-export const getImageFile = async (ctx) => {
+export const getDrawingCommentImageFile = async (ctx) => {
   const directory = path.resolve(__dirname, '../../');
   const { fileName } = ctx.params;
   await send(ctx, fileName, {
     root: directory + '/public/commentImage',
+  });
+};
+
+export const getPostImageFile = async (ctx) => {
+  const directory = path.resolve(__dirname, '../../');
+  const { fileName } = ctx.params;
+  await send(ctx, fileName, {
+    root: directory + '/public/commentImage',
+  });
+};
+
+export const getProfileImageFile = async (ctx) => {
+  console.log('getProfileImageFile');
+  const directory = path.resolve(__dirname, '../../');
+  const { fileName } = ctx.params;
+  await send(ctx, fileName, {
+    root: directory + '/public/profileImage',
   });
 };

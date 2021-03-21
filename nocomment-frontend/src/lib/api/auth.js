@@ -15,5 +15,10 @@ export const authCode = ({ stringId, authCode }) =>
     stringId,
     authCode,
   });
+
+export const update = ({ name }) =>
+  client.post('/api/noCommenters/update', {
+    name,
+  });
 export const check = () => client.get('/api/noCommenters/check');
 export const logout = () => client.post('/api/noCommenters/logout');

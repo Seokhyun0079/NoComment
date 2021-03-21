@@ -39,6 +39,8 @@ const buildDirectory = path.resolve(
   '../../nocomment-frontend/build',
 );
 app.use(serve(__dirname + '/public/commentImage'));
+app.use(serve(__dirname + '/public/postImage'));
+app.use(serve(__dirname + '/public/profileImage'));
 app.use(serve(buildDirectory));
 app.use(async (ctx) => {
   console.log('not expect root ' + ctx.path);

@@ -22,6 +22,12 @@ const [
   AUTH_CODE_CHECK_FAILURE,
 ] = createRequestActionTypes('noCommenters/AUTHCODE');
 
+const [
+  UPDATE_USER,
+  UPDATE_USER_SUCCESS,
+  UPADTE_USER_FAILURE,
+] = createRequestActionTypes('user/UPDATE');
+
 export const changeField = createAction(
   CHANGE_FILED,
   ({ form, key, value }) => ({
@@ -41,6 +47,9 @@ export const register = createAction(
     password,
   }),
 );
+export const update = createAction(UPDATE_USER, ({ name }) => ({
+  name,
+}));
 
 export const login = createAction(LOGIN, ({ stringId, password }) => ({
   stringId,
@@ -58,10 +67,13 @@ export const authCodeCheck = createAction(
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
 const authCodeSaga = createRequestSaga(AUTH_CODE_CHECK, authAPI.authCode);
+const updateUserSaga = createRequestSaga(UPDATE_USER, authAPI.update);
+
 export function* authSaga() {
   yield takeLatest(REGISTER, registerSaga);
   yield takeLatest(LOGIN, loginSaga);
   yield takeLatest(AUTH_CODE_CHECK, authCodeSaga);
+  yield takeLatest(UPDATE_USER, updateUserSaga);
 }
 
 const initialState = {
@@ -81,6 +93,9 @@ const initialState = {
   authCode: {
     stringId: '',
     authCode: '',
+  },
+  update: {
+    name: '',
   },
   auth: null,
   authError: null,
@@ -106,7 +121,6 @@ const auth = handleActions(
       ...state,
       authError: error,
     }),
-
     [LOGIN_SUCCESS]: (state, { payload: auth }) => ({
       ...state,
       authError: null,
@@ -123,6 +137,17 @@ const auth = handleActions(
     [AUTH_CODE_CHECK_FAILURE]: (state, { payload: error }) => ({
       ...state,
       authError: error,
+    }),
+    [UPDATE_USER]: (state) => ({
+      ...state,
+    }),
+    [UPDATE_USER_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      auth,
+    }),
+    [UPADTE_USER_FAILURE]: (state, { payload: userError }) => ({
+      ...state,
+      userError: userError,
     }),
   },
   initialState,

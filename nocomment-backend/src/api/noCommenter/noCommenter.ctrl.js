@@ -56,7 +56,7 @@ export const signin = async (ctx) => {
     ctx.body = noCommenter.serialize();
     const token = noCommenter.generateToken();
     ctx.cookies.set('access_token', token, {
-      maxAge: 1000 * 60 * 10,
+      maxAge: 1000 * 60 * 60,
       httpOnly: true,
     });
   } catch (e) {
@@ -96,7 +96,28 @@ export const authCode = async (ctx) => {
     ctx.body = noCommenter.serialize();
     const token = noCommenter.generateToken();
     ctx.cookies.set('access_token', token, {
-      maxAge: 1000 * 60 * 10,
+      maxAge: 1000 * 60 * 60,
+      httpOnly: true,
+    });
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+export const update = async (ctx) => {
+  try {
+    const { name } = ctx.request.body;
+    const result = await NoCommenter.updateOne(
+      { _id: ctx.state.noCommenter._id },
+      { name: name },
+    );
+    const noCommenter = await NoCommenter.findById({
+      _id: ctx.state.noCommenter._id,
+    });
+    ctx.body = noCommenter.serialize();
+    const token = noCommenter.generateToken();
+    ctx.cookies.set('access_token', token, {
+      maxAge: 1000 * 60 * 60,
       httpOnly: true,
     });
   } catch (e) {

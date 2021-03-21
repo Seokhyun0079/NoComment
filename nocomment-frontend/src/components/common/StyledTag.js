@@ -21,11 +21,24 @@ export const StyledInput = styled.input`
   padding-bottom: 0.5rem;
   outline: none;
   width: 100%;
-  &:foncus {
+  &:focus {
     color: $oc-teal-7;
-    border-bottom: 1px slid ${palette.gray[7]};
+    border-bottom: 1px solid ${palette.gray[7]};
   }
   & + & {
     margin-top: 1rem;
   }
+`;
+
+export const RoundInput = styled.input`
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid ${palette.gray[5]};
+  outline: none;
+  width: 100%;
+  height: 30px;
+  padding: 0.5rem;
+`;
+export const HiddenFileInput = styled.input`
+  display: none;
 `;

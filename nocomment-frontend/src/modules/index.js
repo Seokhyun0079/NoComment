@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import auth, { authSaga } from './auth';
-import user, { userSaga } from './user';
+import user, { userSaga, userUpdateSaga } from './user';
 import write, { writeSaga } from './write';
 import post, { postSaga } from './post';
 import posts, { postsSaga } from './posts';
