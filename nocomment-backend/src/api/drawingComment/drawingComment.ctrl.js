@@ -3,7 +3,6 @@ import DrawingComment from '../../models/drawingComment';
 import Post from '../../models/post';
 import path from 'path';
 import send from 'koa-send';
-import fs from 'fs';
 const { ObjectId } = mongoose.Types;
 export const insert = async (ctx) => {
   console.log('drawingComment insert');
@@ -58,31 +57,4 @@ export const getDrawingCommentImageFile = async (ctx) => {
   await send(ctx, fileName, {
     root: directory + '/public/commentImage',
   });
-};
-
-export const getPostImageFile = async (ctx) => {
-  const directory = path.resolve(__dirname, '../../');
-  const { fileName } = ctx.params;
-  await send(ctx, fileName, {
-    root: directory + '/public/commentImage',
-  });
-};
-
-export const getProfileImageFile = async (ctx) => {
-  console.log('getProfileImageFile');
-  const directory = path.resolve(__dirname, '../../') + '/public/profileImage';
-  let fileName = '';
-  let fileType = '';
-  let fileList = fs.readdirSync(directory);
-  for (let index in fileList) {
-    let item = fileList[index];
-    let itemName = (item + '').substr(0, item.length - 4);
-    if (ctx.params.fileName == itemName) {
-      fileType = (item + '').substring(item.length - 4);
-      fileName = itemName;
-      await send(ctx, fileName + fileType, {
-        root: directory,
-      });
-    }
-  }
 };

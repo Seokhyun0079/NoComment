@@ -29,15 +29,7 @@ drawingComment.post(
 );
 drawingComment.get('/list', drawingCommentCtrl.list);
 drawingComment.get(
-  '/getDrawingCommentImageFile/:fileName',
+  '/getImageFile/:fileName',
   drawingCommentCtrl.getDrawingCommentImageFile,
-);
-drawingComment.get(
-  '/getProfileImageFile/:fileName',
-  drawingCommentCtrl.getProfileImageFile,
-);
-drawingComment.get(
-  '/getPostImageFile/:fileName',
-  drawingCommentCtrl.getPostImageFile,
 );
 export default drawingComment;

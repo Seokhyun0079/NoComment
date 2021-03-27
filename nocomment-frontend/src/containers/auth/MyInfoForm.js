@@ -3,6 +3,7 @@ import Button from '../../components/common/Button';
 import { RoundInput } from '../../components/common/StyledTag';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, update } from '../../modules/auth';
+import ProfileContainer from './ProfileContainer';
 
 const MyInfoForm = () => {
   const dispatch = useDispatch();
@@ -43,13 +44,13 @@ const MyInfoForm = () => {
         }}
       >
         <h2>profile</h2>
-
+        <ProfileContainer />
         <form>
           <h4>아이디</h4>
           <RoundInput
             name="stringId"
             type="text"
-            value={user.stringId}
+            value={user.stringId || ''}
             readOnly
             disabled
           />
@@ -57,12 +58,17 @@ const MyInfoForm = () => {
           <RoundInput
             name="stringId"
             type="text"
-            value={user.email}
+            value={user.email || ''}
             readOnly
             disabled
           />
           <h4>유저명</h4>
-          <RoundInput name="name" type="text" onChange={onChange} />
+          <RoundInput
+            name="name"
+            type="text"
+            placeholder={user.username || ''}
+            onChange={onChange}
+          />
         </form>
         <Button
           style={{
