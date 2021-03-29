@@ -5,5 +5,5 @@ nocomment-backend/.env
 nocomment-frontend/.prettierrc
 nocomment-frontend/yarn-error.log
 nocomment.code-workspace
-nocomment-backend/*
+nocomment-backend/src/public/*
 nocomment-frontend/debug.log
