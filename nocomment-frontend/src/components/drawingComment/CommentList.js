@@ -22,7 +22,7 @@ const CommentList = ({ drawingComments, loading, error }) => {
           {drawingComments.map((drawingComment) => (
             <div key={drawingComment._id}>
               <SubInfo
-                username={drawingComment.noCommenter.stringId}
+                username={drawingComment.noCommenter.name}
                 publishedDate={drawingComment.publishedDate}
                 hasMarginTop
               />

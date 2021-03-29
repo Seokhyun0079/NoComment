@@ -8,7 +8,7 @@ const jwtMiddleware = (ctx, next) => {
     ctx.state.noCommenter = {
       _id: decoded._id,
       stringId: decoded.stringId,
-      username: decoded.name,
+      name: decoded.name,
       email: decoded.email,
       emailCheck: decoded.emailCheck,
     };
