@@ -52,6 +52,7 @@ export const list = async (ctx) => {
 };
 
 export const getDrawingCommentImageFile = async (ctx) => {
+  console.log('getDrawingCommentImageFile');
   const directory = path.resolve(__dirname, '../../');
   const { fileName } = ctx.params;
   await send(ctx, fileName, {

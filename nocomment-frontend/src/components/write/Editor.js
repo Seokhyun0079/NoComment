@@ -73,7 +73,8 @@ const Ediotr = ({ title, body, onChangeField }) => {
     });
     imageFileUpload('/postImage', imageFormData).then((result) => {
       const response = result.data;
-      let uploadedFileName = '/api/drawingComment/getImageFile/' + response;
+      let uploadedFileName =
+        '/api/imageFileUpload/getPostImageFile/' + response;
       quillInstance.current.root.innerHTML =
         quillInstance.current.root.innerHTML +
         `<img max-width ="100%" src="${uploadedFileName}"/>`;
