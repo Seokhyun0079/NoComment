@@ -10,6 +10,7 @@ const PostSchema = new Schema({
   },
   noCommenter: {
     _id: mongoose.Types.ObjectId,
+    name: String,
     stringId: String,
   },
 });

@@ -48,7 +48,8 @@ const PostItem = ({ post }) => {
         <Link to={`/@${noCommenter.stringId}/${_id}`}>{title}</Link>
       </h2>
       <SubInfo
-        username={noCommenter.stringId}
+        name={noCommenter.name}
+        stringId={noCommenter.stringId}
         publishedDate={new Date(publishedDate)}
       />
       <Tags tags={tags} />

@@ -14,6 +14,7 @@ const CommentList = ({ drawingComments, loading, error }) => {
      */
     return <div>에러가 발생하였습니다.</div>;
   }
+
   return (
     <>
       {/*  로딩 중 아니고, 포스트 배열이 존재할 때만 보여줌 */}
@@ -22,7 +23,8 @@ const CommentList = ({ drawingComments, loading, error }) => {
           {drawingComments.map((drawingComment) => (
             <div key={drawingComment._id}>
               <SubInfo
-                username={drawingComment.noCommenter.stringId}
+                name={drawingComment.noCommenter.name}
+                stringId={drawingComment.noCommenter.stringId}
                 publishedDate={drawingComment.publishedDate}
                 hasMarginTop
               />

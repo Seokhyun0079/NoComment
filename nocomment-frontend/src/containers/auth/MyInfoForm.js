@@ -66,7 +66,7 @@ const MyInfoForm = () => {
           <RoundInput
             name="name"
             type="text"
-            placeholder={user.username || ''}
+            placeholder={user.name || ''}
             onChange={onChange}
           />
         </form>

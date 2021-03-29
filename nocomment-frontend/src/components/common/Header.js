@@ -49,7 +49,7 @@ const Header = ({ user }) => {
           </Link>
           {user ? (
             <div className="right">
-              <UserInfo>{user.username}</UserInfo>
+              <UserInfo>{user.name}</UserInfo>
               <LogoutButton user={user}>로그아웃</LogoutButton>
             </div>
           ) : (

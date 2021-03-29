@@ -48,7 +48,8 @@ const PostViewer = ({ post, error, loading, actionButtons, ownPost }) => {
       <PostHead>
         <h1>{title}</h1>
         <SubInfo
-          username={noCommenter.stringId}
+          name={noCommenter.name}
+          stringId={noCommenter.stringId}
           publishedDate={publishedDate}
           hasMarginTop
         />
@@ -60,4 +61,4 @@ const PostViewer = ({ post, error, loading, actionButtons, ownPost }) => {
   );
 };
 
-export default PostViewer;             
+export default PostViewer;
