@@ -29,6 +29,7 @@ const sanitizeOption = {
 };
 export const write = async (ctx) => {
   const { title, body, tags } = ctx.request.body;
+  console.log(ctx.state.noCommenter);
   const post = new Post({
     title,
     body,
