@@ -77,7 +77,7 @@ const Ediotr = ({ title, body, onChangeField }) => {
         '/api/imageFileUpload/getPostImageFile/' + response;
       quillInstance.current.root.innerHTML =
         quillInstance.current.root.innerHTML +
-        `<img max-width ="100%" src="${uploadedFileName}"/>`;
+        `<img style="max-width: 100%;" src="${uploadedFileName}"/>`;
     });
   };
 
