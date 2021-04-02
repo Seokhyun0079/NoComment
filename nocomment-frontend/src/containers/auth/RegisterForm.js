@@ -27,9 +27,12 @@ const RegisterForm = ({ history }) => {
     e.preventDefault();
     const { stringId, name, email, password, passwordConfirm } = form;
     var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-
     if ([stringId, name, password, email, passwordConfirm].includes('')) {
       setError('빈 칸을 모두 입력해주세요.');
+      return;
+    }
+    if (stringId.indexOf('?') !== -1) {
+      setError("유감이지만 아이디에 '?'은 넣을 수 없습니다.");
       return;
     }
     if (password !== passwordConfirm) {
@@ -42,10 +45,6 @@ const RegisterForm = ({ history }) => {
     }
     if (!regExp.test(email)) {
       setError('이메일 형식이 올바르지 않습니다.');
-      dispatch(changeField({ form: 'register', key: 'password', value: '' }));
-      dispatch(
-        changeField({ form: 'register', key: 'passwordConfirm', value: '' }),
-      );
       return;
     }
     dispatch(register({ stringId, name, email, password }));
