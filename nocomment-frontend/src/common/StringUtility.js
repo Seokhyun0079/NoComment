@@ -1,12 +1,15 @@
 const StringUtility = {
   inputValidation: (value) => {
     let valid = true;
-    if (!!value) {
+    if (!value || value === undefined || value === null) {
       valid = false;
     } else if (value.trim() === '') {
       valid = false;
     }
     return valid;
+  },
+  deleteHtmlTag: (value) => {
+    return value.replaceAll(/<\/?[^>]*>/gi, '');
   },
 };
 
