@@ -14,7 +14,7 @@ const jwtMiddleware = (ctx, next) => {
     };
     return next();
   } catch (e) {
-    return next();
+    return;
   }
 };
 

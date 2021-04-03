@@ -24,7 +24,7 @@ export const signup = async (ctx) => {
     }
     await noCommenter.setPassword(password);
     await noCommenter.save();
-    emailSender(stringId, email, authCode);
+    await emailSender(stringId, email, authCode);
     ctx.body = noCommenter.serialize();
     const token = noCommenter.generateToken();
     ctx.cookies.set('access_token', token, {
@@ -32,7 +32,10 @@ export const signup = async (ctx) => {
       httpOnly: true,
     });
   } catch (e) {
-    ctx.throw(500, e);
+    console.log('회원가입 실패');
+    ctx.status = 500;
+    ctx.body = '회원가입에 실패하였습니다. 잠시후에 다시 시도해주세요.';
+    noCommenter.delete();
   }
 };
 
