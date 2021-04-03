@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import StringUtility from '../../common/StringUtility';
 import WriteActionButtons from '../../components/write/WriteActionButtons';
 import { writePost } from '../../modules/write';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const WriteActionButtonsContainer = ({ history }) => {
   const dispatch = useDispatch();
   const { title, body, tags, post, postError } = useSelector(({ write }) => ({
@@ -13,8 +15,21 @@ const WriteActionButtonsContainer = ({ history }) => {
     post: write.post,
     postError: write.postError,
   }));
-
   const onPublish = () => {
+    let validationFlg = true;
+    let innerText = StringUtility.deleteHtmlTag(body);
+    if (!StringUtility.inputValidation(title)) {
+      toast('제목을 입력해주세요!');
+      validationFlg = false;
+    }
+    if (!StringUtility.inputValidation(innerText)) {
+      toast('내용을 입력해주세요!');
+      validationFlg = false;
+    }
+    console.log(innerText);
+    if (!validationFlg) {
+      return;
+    }
     dispatch(
       writePost({
         title,
@@ -36,7 +51,12 @@ const WriteActionButtonsContainer = ({ history }) => {
       console.log(postError);
     }
   }, [history, post, postError]);
-  return <WriteActionButtons onPublish={onPublish} onCancel={onCancel} />;
+  return (
+    <>
+      <WriteActionButtons onPublish={onPublish} onCancel={onCancel} />
+      <ToastContainer />
+    </>
+  );
 };
 
 export default withRouter(WriteActionButtonsContainer);

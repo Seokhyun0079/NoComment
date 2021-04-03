@@ -2,6 +2,7 @@ import Post from '../../models/post';
 import mongoose from 'mongoose';
 import sanitizeHtml from 'sanitize-html';
 import Joi from 'joi';
+import StringUtility from '../../common/StringUtility';
 const { ObjectId } = mongoose.Types;
 
 const sanitizeOption = {
@@ -161,6 +162,23 @@ export const checkOwnPost = (ctx, next) => {
   const { noCommenter, post } = ctx.state;
   if (post.noCommenter._id.toString() !== noCommenter._id) {
     ctx.status = 403;
+    return;
+  }
+  return next();
+};
+export const postvalidation = (ctx, next) => {
+  const { post } = ctx.request.body;
+  let validationFlg = true;
+  let innerText = StringUtility.deleteHtmlTag(post.body);
+  if (!StringUtility.inputValidation(post.title)) {
+    validationFlg = false;
+  }
+  if (!StringUtility.inputValidation(innerText)) {
+    validationFlg = false;
+  }
+  if (!validationFlg) {
+    ctx.status = 500;
+    ctx.body = '잘못된 입력입니다.';
     return;
   }
   return next();
