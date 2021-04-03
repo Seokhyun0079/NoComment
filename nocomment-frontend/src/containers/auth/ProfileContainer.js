@@ -3,7 +3,6 @@ import { Avatar } from 'material-ui';
 import { HiddenFileInput } from '../../components/common/StyledTag';
 import palette from '../../lib/styles/palette';
 import { imageFileUpload } from '../../lib/api/imageFileUpload';
-import { useSelector } from 'react-redux';
 const ProfileContainer = () => {
   const inputRef = useRef();
   const [state, setState] = useState({
@@ -24,7 +23,6 @@ const ProfileContainer = () => {
     formData.append('file', file);
     imageFileUpload('profileImage', formData).then((result) => {
       setState({ time: new Date().valueOf() });
-      console.log(state.time);
     });
   };
   return (
