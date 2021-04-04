@@ -9,7 +9,11 @@ const StringUtility = {
     return valid;
   },
   deleteHtmlTag: (value) => {
-    return value.replace(/<\/?[^>]*>/gi, '');
+    try {
+      return value.replace(/<\/?[^>]*>/gi, '');
+    } catch (e) {
+      return;
+    }
   },
 };
 
