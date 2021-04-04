@@ -10,7 +10,8 @@ import { Route, useHistory } from 'react-router-dom';
 import WritePage from './pages/WritePage';
 import PostPage from './pages/Postpage';
 import MyInfoPage from './pages/MyInfoPage';
-//App.js
+import Responsive from './components/common/Responsive';
+
 function App() {
   let history = useHistory();
   const { user } = useSelector(({ user }) => ({ user: user.user }));
@@ -38,13 +39,15 @@ function App() {
 
   return (
     <>
-      <Route component={PostListPage} path={['/@:stringId', '/']} exact />
-      <Route component={LoginPage} path="/login" />
-      <Route component={RegisterPage} path="/register" />
-      <Route component={AuthCodePage} path="/authCode" />
-      <Route component={WritePage} path="/write" />
-      <Route component={PostPage} path="/@:stringId/:postId" />
-      <Route component={MyInfoPage} path="/myInfo" />
+      <Responsive>
+        <Route component={PostListPage} path={['/@:stringId', '/']} exact />
+        <Route component={LoginPage} path="/login" />
+        <Route component={RegisterPage} path="/register" />
+        <Route component={AuthCodePage} path="/authCode" />
+        <Route component={WritePage} path="/write" />
+        <Route component={PostPage} path="/@:stringId/:postId" />
+        <Route component={MyInfoPage} path="/myInfo" />
+      </Responsive>
     </>
   );
 }

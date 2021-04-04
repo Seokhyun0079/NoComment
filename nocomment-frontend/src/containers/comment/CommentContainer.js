@@ -11,6 +11,8 @@ const CommentWriteBlock = styled(Responsive)`
   padding: 0 0 0 0;
   padding-top: 3rem;
   padding-bottom: 5rem;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 export const CommentContainer = ({ match }) => {
@@ -87,6 +89,7 @@ export const CommentContainer = ({ match }) => {
       console.log('댓글 등록 에러 발생');
       console.log(drawingCommentError);
     }
+    setCanvasSize();
   }, [
     canvasRef.current,
     dispatch,
@@ -94,6 +97,19 @@ export const CommentContainer = ({ match }) => {
     drawingComment,
     drawingCommentError,
   ]);
+
+  window.onload = function (e) {
+    setCanvasSize();
+  };
+
+  window.onresize = function (e) {
+    setCanvasSize();
+  };
+
+  function setCanvasSize() {
+    canvas = canvasRef.current;
+    canvas.width = document.getElementById('commentWriteBlock').offsetWidth;
+  }
   return (
     <div
       style={{
@@ -102,11 +118,10 @@ export const CommentContainer = ({ match }) => {
       }}
     >
       {user && (
-        <CommentWriteBlock height="480px">
+        <CommentWriteBlock id="commentWriteBlock">
           <canvas
             ref={canvasRef}
             id="stockGraph"
-            width="925px"
             height="480px"
             style={{
               border: 'solid 1px',
@@ -114,9 +129,12 @@ export const CommentContainer = ({ match }) => {
             }}
           ></canvas>
           <Button
+            id="cavansButton"
             style={{
-              height: '480px',
-              float: 'right',
+              width: '100%',
+              height: '70px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
             }}
             onClick={onSubmit}
           >

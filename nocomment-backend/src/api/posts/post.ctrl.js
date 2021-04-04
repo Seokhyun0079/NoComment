@@ -167,10 +167,10 @@ export const checkOwnPost = (ctx, next) => {
   return next();
 };
 export const postvalidation = (ctx, next) => {
-  const { post } = ctx.request.body;
+  const { body, title } = ctx.request.body;
   let validationFlg = true;
-  let innerText = StringUtility.deleteHtmlTag(post.body);
-  if (!StringUtility.inputValidation(post.title)) {
+  let innerText = StringUtility.deleteHtmlTag(body);
+  if (!StringUtility.inputValidation(title)) {
     validationFlg = false;
   }
   if (!StringUtility.inputValidation(innerText)) {
