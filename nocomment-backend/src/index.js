@@ -9,6 +9,7 @@ import send from 'koa-send';
 
 import api from './api';
 import jwtMiddleware from './lib/jwtMiddleware';
+import log from './common/log';
 
 // 비구조화 할당을 통하여 process.env 내부 값에 대한 레퍼런스 만들기
 const { PORT, MONGO_URI } = process.env;
@@ -26,7 +27,7 @@ const app = new Koa();
 const router = new Router();
 
 // 라우터 설정
-router.use('/api', api.routes()); // api 라우트 적용
+router.use('/api', log, api.routes()); // api 라우트 적용
 
 // 라우터 적용 전에 bodyParser 적용
 app.use(bodyParser());
@@ -42,10 +43,11 @@ app.use(serve(__dirname + '/public/commentImage'));
 app.use(serve(__dirname + '/public/postImage'));
 app.use(serve(__dirname + '/public/profileImage'));
 app.use(serve(buildDirectory));
-app.use(async (ctx) => {
+app.use(async (ctx, next) => {
   console.log('not expect root ' + ctx.path);
   console.log('original URI  : ' + ctx.originalUrl);
   // Not Found 이고, 주소가 /api 로 시작하지 않는 경우
+  log(ctx, next);
   if (ctx.status === 404 && ctx.path.indexOf('/api') !== 0) {
     // index.html 내용을 반환
     await send(ctx, 'index.html', { root: buildDirectory });

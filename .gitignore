@@ -7,3 +7,4 @@ nocomment-frontend/yarn-error.log
 nocomment.code-workspace
 nocomment-backend/src/public/*
 nocomment-frontend/debug.log
+nocomment-backend/log.log.*
