@@ -98,10 +98,6 @@ export const CommentContainer = ({ match }) => {
     drawingCommentError,
   ]);
 
-  window.onload = function (e) {
-    setCanvasSize();
-  };
-
   window.onresize = function (e) {
     setCanvasSize();
   };
