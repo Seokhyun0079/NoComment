@@ -32,6 +32,7 @@ const log = (ctx, next) => {
   try {
     logger.info('log start : ' + moment().format('YYYY-MM-DD HH:mm:ss'));
     logger.info(ctx.request.ip);
+    logger.info(ctx.request.url);
     logger.info(ctx.request.body);
     logger.info(ctx.params);
     logger.info(ctx.query);

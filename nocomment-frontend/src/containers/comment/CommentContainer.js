@@ -104,7 +104,10 @@ export const CommentContainer = ({ match }) => {
 
   function setCanvasSize() {
     canvas = canvasRef.current;
-    canvas.width = document.getElementById('commentWriteBlock').offsetWidth;
+    let width = document.getElementById('commentWriteBlock');
+    if (!!width) {
+      canvas.width = width.offsetWidth;
+    }
   }
   return (
     <div
