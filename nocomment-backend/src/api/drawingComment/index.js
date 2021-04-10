@@ -2,12 +2,12 @@ import Router from '@koa/router';
 import multer from '@koa/multer';
 import * as drawingCommentCtrl from './drawingComment.ctrl';
 import checkLoggedIn from '../../lib/checkLoggedIn';
-
+import { DRAWING_COMMENT_UPLOAD_PATH } from '../../common/const';
 const path = require('path');
 const drawingComment = new Router();
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join('src/public/commentImage'));
+    cb(null, path.join(DRAWING_COMMENT_UPLOAD_PATH));
   },
   filename: function (req, file, cb) {
     let type = 'png';

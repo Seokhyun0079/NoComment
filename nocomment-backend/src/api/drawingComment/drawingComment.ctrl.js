@@ -2,10 +2,12 @@ import mongoose from 'mongoose';
 import DrawingComment from '../../models/drawingComment';
 import Post from '../../models/post';
 import path from 'path';
+import fs from 'fs';
 import send from 'koa-send';
+import { logger } from '../../common/log';
+import { DRAWING_COMMENT_UPLOAD_PATH } from '../../common/const';
 const { ObjectId } = mongoose.Types;
 export const insert = async (ctx) => {
-  console.log('drawingComment insert');
   const { filename } = ctx.request.file;
   const { postId } = ctx.request.body;
   const drawingComment = new DrawingComment({
@@ -23,13 +25,51 @@ export const insert = async (ctx) => {
   }
 };
 
+export const removeWithPost = async (ctx) => {
+  const { id } = ctx.params;
+  try {
+    const drawingComments = await DrawingComment.find({
+      'post._id': id,
+    })
+      .lean()
+      .exec();
+
+    let result = await DrawingComment.deleteMany({
+      'post._id': id,
+    });
+    logger.info('remove drawingComment with post');
+    logger.info(result);
+    deleteDrawingCommentFiles(drawingComments);
+    ctx.status = 204; // No Content (성공은 했지만 응답할 데이터는 없음)
+  } catch (e) {
+    logger.error(e);
+  }
+};
+
+const deleteDrawingCommentFiles = async (drawingComments) => {
+  try {
+    for (let comment of drawingComments) {
+      fs.unlink(DRAWING_COMMENT_UPLOAD_PATH + '/' + comment.fileName, () => {
+        logger.info(
+          'delete file : ' +
+            DRAWING_COMMENT_UPLOAD_PATH +
+            '/' +
+            comment.fileName,
+        );
+      });
+    }
+  } catch (e) {
+    logger.info(e);
+  }
+
+  logger.info('remove drawingComment files');
+};
+
 export const list = async (ctx) => {
-  console.log('drawingComment list');
   const { postId } = ctx.query;
   const id = postId;
   if (!ObjectId.isValid(id)) {
-    console.log('not valid');
-    ctx.status = 400;
+    ctx.status = 403;
     return;
   }
   try {

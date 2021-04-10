@@ -91,11 +91,12 @@ export const read = async (ctx) => {
   ctx.body = ctx.state.post;
 };
 
-export const remove = async (ctx) => {
+export const remove = async (ctx, next) => {
   const { id } = ctx.params;
   try {
     await Post.findByIdAndRemove(id).exec();
-    ctx.status = 204; // No Content (성공은 했지만 응답할 데이터는 없음)
+
+    return next();
   } catch (e) {
     ctx.throw(500, e);
   }
@@ -160,7 +161,10 @@ export const getPostById = async (ctx, next) => {
 export const checkOwnPost = (ctx, next) => {
   console.log('checkOwnPost');
   const { noCommenter, post } = ctx.state;
-  if (post.noCommenter._id.toString() !== noCommenter._id) {
+  if (
+    post.noCommenter._id.toString() !== noCommenter._id &&
+    noCommenter.level != 'admin'
+  ) {
     ctx.status = 403;
     return;
   }
