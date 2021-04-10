@@ -30,9 +30,13 @@ const log = (ctx, next) => {
     ],
   });
   try {
-    logger.info(moment().format('YYYY-MM-DD HH:mm:ss'));
-    logger.info(ctx.request);
+    logger.info('log start : ' + moment().format('YYYY-MM-DD HH:mm:ss'));
+    logger.info(ctx.request.ip);
+    logger.info(ctx.request.body);
+    logger.info(ctx.params);
+    logger.info(ctx.query);
     logger.info(ctx.state);
+    logger.info('log end');
   } catch (exception) {
     logger.error('ERROR=>' + exception);
   }
