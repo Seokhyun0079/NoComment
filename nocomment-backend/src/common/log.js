@@ -33,9 +33,15 @@ const log = (ctx, next) => {
     logger.info('log start : ' + moment().format('YYYY-MM-DD HH:mm:ss'));
     logger.info(ctx.request.ip);
     logger.info(ctx.request.url);
-    logger.info(ctx.request.body);
-    logger.info(ctx.params);
-    logger.info(ctx.query);
+    if (ctx.request.body) {
+      logger.info(ctx.request.body);
+    }
+    if (ctx.params) {
+      logger.info(ctx.params);
+    }
+    if (ctx.query) {
+      logger.info(ctx.query);
+    }
     logger.info(ctx.state);
     logger.info('log end');
   } catch (exception) {
