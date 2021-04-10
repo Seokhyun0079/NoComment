@@ -38,8 +38,9 @@ const PostViewContainer = ({ match, history }) => {
       console.log(e);
     }
   };
-  const ownPost = (user && user._id) === (post && post.noCommenter._id);
-
+  const ownPost =
+    (user && user._id) === (post && post.noCommenter._id) ||
+    user.level === 'admin';
   return (
     <PostViewer
       post={post}

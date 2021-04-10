@@ -11,6 +11,7 @@ const jwtMiddleware = (ctx, next) => {
       name: decoded.name,
       email: decoded.email,
       emailCheck: decoded.emailCheck,
+      level: decoded.level,
     };
     return next();
   } catch (e) {

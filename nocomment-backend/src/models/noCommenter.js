@@ -10,6 +10,7 @@ const noCommenterSchema = new Schema({
   emailCheck: Boolean,
   authCode: String,
   hashPassword: String,
+  level: String,
 });
 
 noCommenterSchema.methods.setPassword = async function (password) {
@@ -45,6 +46,7 @@ noCommenterSchema.methods.generateToken = function () {
       name: this.name,
       email: this.email,
       emailCheck: this.emailCheck,
+      level: this.level,
     },
     process.env.JWT_SECRET,
     {
