@@ -2,7 +2,15 @@ import React from 'react';
 import SubInfo from '../common/SubInfo';
 
 const CommentItem = ({ fileName, alt }) => {
-  return <img src={'/api/drawingComment/getImageFile/' + fileName} alt={alt} />;
+  return (
+    <img
+      src={
+        'https://nocommentbuket.s3-ap-northeast-1.amazonaws.com/drawingComment/' +
+        fileName
+      }
+      alt={alt}
+    />
+  );
 };
 
 //

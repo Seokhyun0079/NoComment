@@ -8,13 +8,14 @@ import { logger } from '../../common/log';
 import { DRAWING_COMMENT_UPLOAD_PATH } from '../../common/const';
 const { ObjectId } = mongoose.Types;
 export const insert = async (ctx) => {
-  const { filename } = ctx.request.file;
+  const { key } = ctx.request.file;
   const { postId } = ctx.request.body;
+  logger.info(ctx.request.file);
   const drawingComment = new DrawingComment({
     post: {
       _id: postId,
     },
-    fileName: filename,
+    fileName: key,
     noCommenter: ctx.state.noCommenter,
   });
   try {

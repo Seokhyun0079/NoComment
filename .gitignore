@@ -8,3 +8,5 @@ nocomment.code-workspace
 nocomment-backend/src/public/*
 nocomment-frontend/debug.log
 nocomment-backend/log.log.*
+nocomment-backend/yarn.lock
+nocomment-backend/yarn-error.log

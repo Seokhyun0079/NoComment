@@ -56,7 +56,9 @@ const PostImageUploadDialog = (props) => {
     formData.append('file', file);
     imageFileUpload('postImage', formData).then((result) => {
       const response = result.data;
-      let uploadedFileName = '/api/drawingComment/getImageFile/' + response;
+      let uploadedFileName =
+        'https://nocommentbuket.s3-ap-northeast-1.amazonaws.com/drawingComment/' +
+        response;
       setFiles(files.concat(uploadedFileName));
       onClose(selectedValue);
     });
