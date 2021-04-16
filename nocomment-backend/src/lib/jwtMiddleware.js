@@ -12,6 +12,7 @@ const jwtMiddleware = (ctx, next) => {
       email: decoded.email,
       emailCheck: decoded.emailCheck,
       level: decoded.level,
+      profileImg: decoded.profileImg,
     };
     return next();
   } catch (e) {

@@ -11,6 +11,7 @@ const noCommenterSchema = new Schema({
   authCode: String,
   hashPassword: String,
   level: String,
+  profileImg: String,
 });
 
 noCommenterSchema.methods.setPassword = async function (password) {
@@ -47,6 +48,7 @@ noCommenterSchema.methods.generateToken = function () {
       email: this.email,
       emailCheck: this.emailCheck,
       level: this.level,
+      profileImg: this.profileImg,
     },
     process.env.JWT_SECRET,
     {

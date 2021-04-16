@@ -1,31 +1,40 @@
 import path from 'path';
 import send from 'koa-send';
 import fs from 'fs';
+import s3 from '../../common/awsS3Buket';
+import NoCommenter from '../../models/noCommenter';
+import { logger } from '../../common/log';
 export const uploadImageFile = (ctx) => {
   const { filename } = ctx.request.file;
   ctx.body = filename;
 };
 
 export const uploadProfileImageFile = async (ctx) => {
-  const { filename } = ctx.request.file;
-  const { stringId } = ctx.state.noCommenter;
-  console.log(ctx.state.noCommenter);
-  const directory = path.resolve(__dirname, '../../') + '/public/profileImage';
-  let oldFile = await findProfileFileName(directory, stringId);
-  let newFileType = filename.substring(filename.length - 4);
-  fs.unlink(directory + '/' + oldFile, () => {
-    console.log('file deletecd');
-    console.log('file name : ' + directory + '/' + oldFile);
-    fs.rename(
-      directory + '/' + filename,
-      directory + '/' + stringId + newFileType,
-      () => {
-        console.log('파일 이름 변경 완료');
-        ctx.body = true;
-      },
-    );
+  logger.info(ctx.request.file);
+  const { key } = ctx.request.file;
+  const { profileImg, _id } = ctx.state.noCommenter;
+  const params = {
+    Bucket: 'nocommentbuket/profileImage',
+    Key: profileImg,
+  };
+  s3.deleteObject(params, function (err, data) {
+    logger.error(err);
+    logger.error(data);
   });
-  ctx.body = false;
+  try {
+    await NoCommenter.updateOne({ _id: _id }, { profileImg: key });
+    const noCommenter = await NoCommenter.findById({
+      _id: _id,
+    });
+    ctx.body = noCommenter.serialize();
+    const token = noCommenter.generateToken();
+    ctx.cookies.set('access_token', token, {
+      maxAge: 1000 * 60 * 60,
+      httpOnly: true,
+    });
+  } catch (e) {
+    ctx.throw(500, e);
+  }
 };
 
 export const getPostImageFile = async (ctx) => {
