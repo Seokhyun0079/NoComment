@@ -71,14 +71,17 @@ const Ediotr = ({ title, body, onChangeField }) => {
     [].forEach.call(e.target.files, (f) => {
       imageFormData.append('file', f);
     });
-    imageFileUpload('/postImage', imageFormData).then((result) => {
-      const response = result.data;
-      let uploadedFileName =
-        '/api/imageFileUpload/getPostImageFile/' + response;
-      quillInstance.current.root.innerHTML =
-        quillInstance.current.root.innerHTML +
-        `<img style="max-width: 100%;" src="${uploadedFileName}"/>`;
-    });
+    imageFileUpload({ url: 'postImage', formData: imageFormData }).then(
+      (result) => {
+        const response = result.data;
+        let uploadedFileName =
+          'https://nocommentbuket.s3-ap-northeast-1.amazonaws.com/postImage/' +
+          response;
+        quillInstance.current.root.innerHTML =
+          quillInstance.current.root.innerHTML +
+          `<img style="max-width: 100%;" src="${uploadedFileName}"/>`;
+      },
+    );
   };
 
   return (
