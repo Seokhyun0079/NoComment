@@ -5,6 +5,8 @@ import { logger } from './log';
 import dotenv from 'dotenv';
 
 dotenv.config();
+console.log(process.env.AWS_KEY_ID);
+console.log(process.env.AWS_KEY);
 const s3 = new aws.S3({
   accessKeyId: process.env.AWS_KEY_ID, // user 만들면서 지급받은 키값
   secretAccessKey: process.env.AWS_KEY,
