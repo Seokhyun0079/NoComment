@@ -2,11 +2,14 @@ import aws from 'aws-sdk';
 import multer from '@koa/multer';
 import multerS3 from 'multer-s3';
 import { logger } from './log';
-const s3 = new aws.S3({
-  accessKeyId: process.env.aws_access_key_id, // user 만들면서 지급받은 키값
-  secretAccessKey: process.env.aws_secret_access_key,
-  region: 'ap-northeast-1',
+aws.config.getCredentials(function (err) {
+  if (err) console.log(err.stack);
+  // credentials not loaded
+  else {
+    console.log('Access key:', aws.config.credentials.accessKeyId);
+  }
 });
+const s3 = new aws.S3();
 
 export const drawingCommentMulter = multer({
   storage: multerS3({
