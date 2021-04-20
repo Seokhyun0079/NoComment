@@ -1,21 +1,20 @@
 import Router from 'koa-router';
 import * as imageFileUploadCtrl from './imageFileUpload.ctrl';
 import checkLoggedIn from '../../lib/checkLoggedIn';
-import { postImageMulter, profileImageMulter } from '../../common/awsS3Buket';
-import koaBody from 'koa-body';
+import { s3ImageMulter } from '../../common/awsS3Buket';
 
 const imageFileUploadRouter = new Router();
 
 imageFileUploadRouter.post(
   '/postImage',
   checkLoggedIn,
-  postImageMulter.single('file'),
+  s3ImageMulter('/postImage').single('file'),
   imageFileUploadCtrl.uploadImageFile,
 );
 imageFileUploadRouter.post(
   '/profileImage',
   checkLoggedIn,
-  profileImageMulter.single('file'),
+  s3ImageMulter('/profileImage').single('file'),
   imageFileUploadCtrl.uploadProfileImageFile,
 );
 export default imageFileUploadRouter;

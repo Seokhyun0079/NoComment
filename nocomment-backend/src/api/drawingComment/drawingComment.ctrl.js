@@ -60,7 +60,7 @@ const deleteDrawingCommentFiles = async (drawingComments) => {
       });
     }
   } catch (e) {
-    logger.info(e);
+    logger.error(e);
   }
 
   logger.info('remove drawingComment files');

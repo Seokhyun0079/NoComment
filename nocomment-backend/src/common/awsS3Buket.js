@@ -15,7 +15,7 @@ const s3 = new aws.S3({
 
 export const drawingCommentMulter = multer({
   storage: multerS3({
-    s3: s3, // s3만 써도 됩니다.
+    s3: s3,
     acl: 'public-read',
     bucket: process.env.AWS_BUCKET_NAME + '/drawingComment',
     key: function (req, file, cb) {
@@ -23,25 +23,34 @@ export const drawingCommentMulter = multer({
     },
   }),
 });
-export const profileImageMulter = multer({
-  storage: multerS3({
-    s3: s3, // s3만 써도 됩니다.
-    acl: 'public-read',
-    bucket: process.env.AWS_BUCKET_NAME + '/profileImage',
-    key: function (req, file, cb) {
-      cb(null, `${Date.now().toString(16)}${file.originalname}`);
+export const s3ImageMulter = (path) => {
+  return multer({
+    storage: multerS3({
+      s3: s3,
+      acl: 'public-read',
+      bucket: process.env.AWS_BUCKET_NAME + path,
+      //  '/profileImage',
+      // '/postImage',
+      key: function (req, file, cb) {
+        cb(null, `${Date.now().toString(16)}${file.originalname}`);
+      },
+    }),
+  });
+};
+
+export const deleteFiles = (files, path) => {
+  var params = {
+    Bucket: process.env.AWS_BUCKET_NAME + path,
+    Delete: {
+      Objects: [files],
+      Quiet: false,
     },
-  }),
-});
-export const postImageMulter = multer({
-  storage: multerS3({
-    s3: s3, // s3만 써도 됩니다.
-    acl: 'public-read',
-    bucket: process.env.AWS_BUCKET_NAME + '/postImage',
-    key: function (req, file, cb) {
-      cb(null, `${Date.now().toString(16)}${file.originalname}`);
-    },
-  }),
-});
+  };
+  s3.deleteObjects(params, function (err, data) {
+    if (err) console.log(err, err.stack);
+    // an error occurred
+    else console.log(data); // successful response
+  });
+};
 
 export default s3;
