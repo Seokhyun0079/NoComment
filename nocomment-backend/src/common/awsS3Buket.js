@@ -38,11 +38,11 @@ export const s3ImageMulter = (path) => {
   });
 };
 
-export const deleteFiles = (files, path) => {
+export const deleteFiles = (files) => {
   var params = {
-    Bucket: process.env.AWS_BUCKET_NAME + path,
+    Bucket: process.env.AWS_BUCKET_NAME,
     Delete: {
-      Objects: [files],
+      Objects: files,
       Quiet: false,
     },
   };

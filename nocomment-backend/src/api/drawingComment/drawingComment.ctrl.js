@@ -6,6 +6,7 @@ import fs from 'fs';
 import send from 'koa-send';
 import { logger } from '../../common/log';
 import { DRAWING_COMMENT_UPLOAD_PATH } from '../../common/const';
+import { deleteFiles } from '../../common/awsS3Buket';
 const { ObjectId } = mongoose.Types;
 export const insert = async (ctx) => {
   const { key } = ctx.request.file;
@@ -40,30 +41,17 @@ export const removeWithPost = async (ctx) => {
     });
     logger.info('remove drawingComment with post');
     logger.info(result);
-    deleteDrawingCommentFiles(drawingComments);
+    let files = [];
+    for (let comment of drawingComments) {
+      files.push({
+        Key: 'drawingComment/' + comment.fileName,
+      });
+    }
+    deleteFiles(files);
     ctx.status = 204; // No Content (성공은 했지만 응답할 데이터는 없음)
   } catch (e) {
     logger.error(e);
   }
-};
-
-const deleteDrawingCommentFiles = async (drawingComments) => {
-  try {
-    for (let comment of drawingComments) {
-      fs.unlink(DRAWING_COMMENT_UPLOAD_PATH + '/' + comment.fileName, () => {
-        logger.info(
-          'delete file : ' +
-            DRAWING_COMMENT_UPLOAD_PATH +
-            '/' +
-            comment.fileName,
-        );
-      });
-    }
-  } catch (e) {
-    logger.error(e);
-  }
-
-  logger.info('remove drawingComment files');
 };
 
 export const list = async (ctx) => {
