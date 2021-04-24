@@ -1,8 +1,11 @@
 import mongoose from 'mongoose';
 import DrawingComment from '../../models/drawingComment';
 import Post from '../../models/post';
+import path from 'path';
+import fs from 'fs';
+import send from 'koa-send';
 import { logger } from '../../common/log';
-import { S3_DIRECTORY_DRAWING_COMMENT } from '../../common/const';
+import { DRAWING_COMMENT_UPLOAD_PATH } from '../../common/const';
 import { deleteFiles } from '../../common/awsS3Buket';
 const { ObjectId } = mongoose.Types;
 export const insert = async (ctx) => {
@@ -41,7 +44,7 @@ export const removeWithPost = async (ctx) => {
     let files = [];
     for (let comment of drawingComments) {
       files.push({
-        Key: S3_DIRECTORY_DRAWING_COMMENT + comment.fileName,
+        Key: 'drawingComment/' + comment.fileName,
       });
     }
     deleteFiles(files);
@@ -75,4 +78,13 @@ export const list = async (ctx) => {
   } catch (e) {
     ctx.throw(500, e);
   }
+};
+
+export const getDrawingCommentImageFile = async (ctx) => {
+  console.log('getDrawingCommentImageFile');
+  const directory = path.resolve(__dirname, '../../');
+  const { fileName } = ctx.params;
+  await send(ctx, fileName, {
+    root: directory + '/public/commentImage',
+  });
 };
