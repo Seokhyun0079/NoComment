@@ -23,14 +23,13 @@ export const drawingCommentMulter = multer({
     },
   }),
 });
+
 export const s3ImageMulter = (path) => {
   return multer({
     storage: multerS3({
       s3: s3,
       acl: 'public-read',
       bucket: process.env.AWS_BUCKET_NAME + path,
-      //  '/profileImage',
-      // '/postImage',
       key: function (req, file, cb) {
         cb(null, `${Date.now().toString(16)}${file.originalname}`);
       },
@@ -47,9 +46,14 @@ export const deleteFiles = (files) => {
     },
   };
   s3.deleteObjects(params, function (err, data) {
-    if (err) console.log(err, err.stack);
-    // an error occurred
-    else console.log(data); // successful response
+    if (err) {
+      // an error occurred
+      logger.error(err);
+      logger.error(err.stack);
+    } else {
+      // successful response
+      logger.info(data);
+    }
   });
 };
 
