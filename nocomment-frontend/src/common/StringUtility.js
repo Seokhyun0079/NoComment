@@ -15,6 +15,14 @@ const StringUtility = {
       return;
     }
   },
+  findImg: (value) => {
+    try {
+      // const regex = RegExp('<img[^>]*src=["\']?([^>"\']+)["\']?[^>]*>');
+      return [...value.matchAll('<img[^>]*src=["\']?([^>"\']+)["\']?[^>]*>')];
+    } catch (e) {
+      return;
+    }
+  },
 };
 
 export default StringUtility;
