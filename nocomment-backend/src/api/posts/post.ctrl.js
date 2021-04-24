@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import sanitizeHtml from 'sanitize-html';
 import Joi from 'joi';
 import StringUtility from '../../common/StringUtility';
+import { S3_DIRECTORY_POST_IMAGE } from '../../common/const';
+import { deleteFiles } from '../../common/awsS3Buket';
 const { ObjectId } = mongoose.Types;
 
 const sanitizeOption = {
@@ -94,8 +96,19 @@ export const read = async (ctx) => {
 export const remove = async (ctx, next) => {
   const { id } = ctx.params;
   try {
-    await Post.findByIdAndRemove(id).exec();
-
+    const { body } = await Post.findByIdAndRemove(id).exec();
+    let imgUrls = StringUtility.findImg(body);
+    let imgFiles = [];
+    for (let index in imgUrls) {
+      let item = imgUrls[index][1].toString();
+      let fileNameStart = item.lastIndexOf('/');
+      imgFiles.push({
+        Key: S3_DIRECTORY_POST_IMAGE + item.substring(fileNameStart + 1),
+      });
+    }
+    if (imgFiles.length > 0) {
+      deleteFiles(imgFiles);
+    }
     return next();
   } catch (e) {
     ctx.throw(500, e);
