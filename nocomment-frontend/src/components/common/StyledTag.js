@@ -39,6 +39,24 @@ export const RoundInput = styled.input`
   height: 30px;
   padding: 0.5rem;
 `;
+
 export const HiddenFileInput = styled.input`
   display: none;
+`;
+
+export const RoundInputContainer = styled.div`
+  width: 30%;
+  border-bottom: 1px solid ${palette.gray[1]};
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px 5px 1px 5px;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.08);
+`;
+
+export const NonStyleInput = styled.input`
+  width: 100%;
+  border: 0;
+  &:focus {
+    outline: none;
+  }
 `;

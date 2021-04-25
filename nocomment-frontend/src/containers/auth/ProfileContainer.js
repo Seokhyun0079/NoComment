@@ -5,7 +5,6 @@ import palette from '../../lib/styles/palette';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { profileImgUp } from '../../modules/user';
-import { useEffect } from 'react';
 const ProfileContainer = () => {
   const inputRef = useRef();
   const dispatch = useDispatch();
@@ -28,6 +27,9 @@ const ProfileContainer = () => {
     formData.append('file', file);
     formData.append('stringId', user.stringId);
     dispatch(profileImgUp({ url: 'profileImage', formData: formData }));
+    setState({
+      time: new Date().valueOf(),
+    });
   };
   return (
     <>
