@@ -113,7 +113,7 @@ export const CommentContainer = ({ match }) => {
     }
   }
   if (!user) {
-    return;
+    return null;
   }
   return (
     <CommentWriteBlock id="commentWriteBlock">

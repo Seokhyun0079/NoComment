@@ -38,12 +38,15 @@ function App() {
     history.push('/');
   }
 
+  useEffect(() => {
+    console.log(document.getElementsByTagName('body'));
+    document.getElementsByTagName(
+      'body',
+    )[0].style.background = `${palette.gray[2]}`;
+  }, []);
+
   return (
-    <div
-      style={{
-        background: `${palette.gray[2]}`,
-      }}
-    >
+    <div>
       <Responsive>
         <Route component={PostListPage} path={['/@:stringId', '/']} exact />
         <Route component={LoginPage} path="/login" />

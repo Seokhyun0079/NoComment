@@ -9,7 +9,12 @@ const WritePage = () => {
   return (
     <>
       <HeaderContainer />
-      <Responsive>
+      <Responsive
+        style={{
+          marginTop: '50px',
+          background: 'white',
+        }}
+      >
         <EditorContainer />
         <TagBoxContainer />
         <WriteActionButtonsContainer />

@@ -7,7 +7,12 @@ const MyInfoPage = () => {
   return (
     <>
       <HeaderContainer />
-      <Responsive>
+      <Responsive
+        style={{
+          marginTop: '50px',
+          background: 'white',
+        }}
+      >
         <MyInfoForm />
       </Responsive>
     </>
