@@ -5,10 +5,11 @@ import Responsive from '../common/Responsive';
 import SubInfo from '../common/SubInfo';
 import Tags from '../common/Tags';
 import { Helmet } from 'react-helmet-async';
-import Avatar from "@material-ui/core/Avatar";
+import Avatar from '@material-ui/core/Avatar';
 
 const PostViewerBlock = styled(Responsive)`
   margin-top: 4rem;
+  background: white;
 `;
 const PostHead = styled.div`
   border-bottom: 1px solid ${palette.gray[2]};
@@ -41,11 +42,10 @@ const ImageInfoArea = styled.div`
 `;
 
 // 기본 프로필 이미지 경로
-const fallbackImage = "https://nocommentbuket.s3-ap-northeast-1.amazonaws.com/commonImage/defualt-profile-img.png"
+const fallbackImage =
+  'https://nocommentbuket.s3-ap-northeast-1.amazonaws.com/commonImage/defualt-profile-img.png';
 
 const PostViewer = ({ post, error, loading, actionButtons, ownPost }) => {
-
-
   // 에러 발생 시
   if (error) {
     if (error.response && error.response.status === 404) {
@@ -61,7 +61,9 @@ const PostViewer = ({ post, error, loading, actionButtons, ownPost }) => {
 
   const { title, body, noCommenter, publishedDate, tags } = post;
 
-  const profileImage = noCommenter.profileImage ? noCommenter.profileImage : fallbackImage;
+  const profileImage = noCommenter.profileImage
+    ? noCommenter.profileImage
+    : fallbackImage;
 
   return (
     <PostViewerBlock>
@@ -75,7 +77,7 @@ const PostViewer = ({ post, error, loading, actionButtons, ownPost }) => {
               src={profileImage}
               style={{
                 width: 95,
-                height: 95
+                height: 95,
               }}
             ></Avatar>
           </ImageInfoArea>
@@ -91,9 +93,9 @@ const PostViewer = ({ post, error, loading, actionButtons, ownPost }) => {
           </TextInfoArea>
         </InfoArea>
       </PostHead>
-      { actionButtons}
+      {actionButtons}
       <PostContent dangerouslySetInnerHTML={{ __html: body }} />
-    </PostViewerBlock >
+    </PostViewerBlock>
   );
 };
 

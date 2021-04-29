@@ -9,6 +9,7 @@ import CommentList from '../../components/drawingComment/CommentList';
 import { listDrawingComment } from '../../modules/drawingComments';
 const CommentListBlock = styled(Responsive)`
   margin-top: 3rem;
+  background: white;
 `;
 
 export const CommentListContainer = ({ match }) => {

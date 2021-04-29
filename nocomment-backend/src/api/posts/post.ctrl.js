@@ -56,14 +56,17 @@ export const list = async (ctx) => {
     ctx.status = 400;
     return;
   }
-
-  const { tag, stringId } = ctx.query;
-  // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음
+  const { tag, stringId, search } = ctx.query;
+  // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음 {name: /a/}
   const query = {
     ...(stringId ? { 'noCommenter.stringId': stringId } : {}),
     ...(tag ? { tags: tag } : {}),
+    ...(search
+      ? {
+          $or: [{ title: new RegExp(search) }, { body: new RegExp(search) }],
+        }
+      : {}),
   };
-
   try {
     const posts = await Post.find(query)
       .sort({ _id: -1 })

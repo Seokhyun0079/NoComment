@@ -11,6 +11,7 @@ import WritePage from './pages/WritePage';
 import PostPage from './pages/Postpage';
 import MyInfoPage from './pages/MyInfoPage';
 import Responsive from './components/common/Responsive';
+import palette from './lib/styles/palette';
 
 function App() {
   let history = useHistory();
@@ -38,7 +39,11 @@ function App() {
   }
 
   return (
-    <>
+    <div
+      style={{
+        background: `${palette.gray[2]}`,
+      }}
+    >
       <Responsive>
         <Route component={PostListPage} path={['/@:stringId', '/']} exact />
         <Route component={LoginPage} path="/login" />
@@ -48,7 +53,7 @@ function App() {
         <Route component={PostPage} path="/@:stringId/:postId" />
         <Route component={MyInfoPage} path="/myInfo" />
       </Responsive>
-    </>
+    </div>
   );
 }
 

@@ -5,11 +5,12 @@ export const writePost = ({ title, body, tags }) =>
 
 export const readPost = (id) => client.get(`/api/posts/${id}`);
 export const removePost = (id) => client.delete(`/api/posts/${id}`);
-export const listPosts = ({ page, stringId, tag }) => {
+export const listPosts = ({ page, stringId, tag, search }) => {
   const queryString = qs.stringify({
     page,
     stringId,
     tag,
+    search,
   });
   const url = `/api/posts?${queryString}`;
   return client.get(url);

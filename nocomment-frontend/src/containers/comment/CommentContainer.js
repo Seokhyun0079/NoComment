@@ -11,8 +11,10 @@ const CommentWriteBlock = styled(Responsive)`
   padding: 0 0 0 0;
   padding-top: 3rem;
   padding-bottom: 5rem;
+  padding-left: 2rem;
   margin-left: auto;
   margin-right: auto;
+  background: white;
 `;
 
 export const CommentContainer = ({ match }) => {
@@ -105,43 +107,68 @@ export const CommentContainer = ({ match }) => {
   function setCanvasSize() {
     canvas = canvasRef.current;
     let width = document.getElementById('commentWriteBlock');
+
     if (!!width) {
-      canvas.width = width.offsetWidth;
+      canvas.width = width.offsetWidth * 0.95;
     }
   }
+  if (!user) {
+    return;
+  }
   return (
-    <div
-      style={{
-        height: 'auto',
-        marginBottom: '50px',
-      }}
-    >
-      {user && (
-        <CommentWriteBlock id="commentWriteBlock">
-          <canvas
-            ref={canvasRef}
-            id="stockGraph"
-            height="480px"
-            style={{
-              border: 'solid 1px',
-              borderRadius: '4px',
-            }}
-          ></canvas>
-          <Button
-            id="cavansButton"
-            style={{
-              width: '100%',
-              height: '70px',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-            onClick={onSubmit}
-          >
-            댓글등록
-          </Button>
-        </CommentWriteBlock>
-      )}
-    </div>
+    <CommentWriteBlock id="commentWriteBlock">
+      <Button
+        style={{
+          borderRadius: '5px 5px 0 0',
+        }}
+        id="cavansButton"
+        onClick={onSubmit}
+      >
+        댓글등록
+      </Button>
+      <Button
+        style={{
+          borderRadius: '5px 5px 0 0',
+        }}
+        id="cavansButton"
+      >
+        지우기
+      </Button>
+      <Button
+        style={{
+          borderRadius: '5px 5px 0 0',
+        }}
+        id="cavansButton"
+      >
+        색상변경
+      </Button>
+
+      <Button
+        style={{
+          borderRadius: '5px 5px 0 0',
+        }}
+        id="cavansButton"
+      >
+        선굵기
+      </Button>
+      <Button
+        style={{
+          borderRadius: '5px 5px 0 0',
+        }}
+        id="cavansButton"
+      >
+        배경넣기
+      </Button>
+      <canvas
+        ref={canvasRef}
+        id="stockGraph"
+        height="480px"
+        style={{
+          border: 'solid 1px',
+          borderRadius: '4px',
+        }}
+      ></canvas>
+    </CommentWriteBlock>
   );
 };
 
