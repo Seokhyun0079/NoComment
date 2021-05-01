@@ -23,6 +23,12 @@ const TightTd = styled.td`
   padding: 0 0 0 0;
 `;
 
+const Table = styled.table`
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 const SearchBarContainer = () => {
   const history = useHistory();
   const inputRef = useRef();
@@ -47,35 +53,31 @@ const SearchBarContainer = () => {
           width: '500px',
         }}
       >
-        <table
-          style={{
-            borderCollapse: 'collapse',
-          }}
-        >
-          <tr>
-            <TightTd>
-              <SearchBar ref={inputRef} />
-            </TightTd>
-            <TightTd
-              style={{
-                margin: '0 0 0 0',
-                padding: '0 0 0 0',
-              }}
-            >
-              <Button
-                style={{
-                  height: '50px',
-                  padding: '0px 16px 0px 16px',
-                  borderRadius: '0',
-                  display: 'inline-block',
-                }}
-                onClick={onClick}
-              >
-                검색
-              </Button>
-            </TightTd>
-          </tr>
-        </table>
+        <Table>
+          <tbody>
+            <tr>
+              <TightTd>
+                <SearchBar
+                  placeholder="╰(*°▽°*)╯(●'◡'●)`(*>﹏<*)′"
+                  ref={inputRef}
+                />
+              </TightTd>
+              <TightTd>
+                <Button
+                  style={{
+                    height: '50px',
+                    padding: '0px 16px 0px 16px',
+                    borderRadius: '0',
+                    display: 'inline-block',
+                  }}
+                  onClick={onClick}
+                >
+                  검색
+                </Button>
+              </TightTd>
+            </tr>
+          </tbody>
+        </Table>
       </RoundInputContainer>
     </>
   );

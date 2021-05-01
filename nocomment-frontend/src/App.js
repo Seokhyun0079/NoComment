@@ -39,7 +39,6 @@ function App() {
   }
 
   useEffect(() => {
-    console.log(document.getElementsByTagName('body'));
     document.getElementsByTagName(
       'body',
     )[0].style.background = `${palette.gray[2]}`;

@@ -1,6 +1,6 @@
 import React from 'react';
 import HeaderContainer from '../containers/common/HeaderContainer';
-import SearchBarContainer from '../containers/posts/PagingContainer';
+import SearchBarContainer from '../containers/posts/SearchBarContainer';
 import PostListContainer from '../containers/posts/PostListContainer';
 
 const PostListPage = () => {
