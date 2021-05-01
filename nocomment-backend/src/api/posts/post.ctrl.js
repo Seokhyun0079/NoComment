@@ -33,6 +33,7 @@ const sanitizeOption = {
 };
 export const write = async (ctx) => {
   const { title, body, tags } = ctx.request.body;
+  console.dir(body);
   const post = new Post({
     title,
     body,
@@ -176,7 +177,6 @@ export const getPostById = async (ctx, next) => {
     }
     post.noCommenter.profileImg = user.profileImg;
     ctx.state.post = post;
-    console.log(post.noCommenter);
     return next();
   } catch (e) {
     ctx.throw(500, e);

@@ -10,6 +10,10 @@ import Avatar from '@material-ui/core/Avatar';
 const PostViewerBlock = styled(Responsive)`
   margin-top: 4rem;
   background: white;
+  padding-top: 1rem;
+  img {
+    max-width: 100%;
+  }
 `;
 const PostHead = styled.div`
   border-bottom: 1px solid ${palette.gray[2]};
@@ -60,7 +64,6 @@ const PostViewer = ({ post, error, loading, actionButtons, ownPost }) => {
   }
 
   const { title, body, noCommenter, publishedDate, tags } = post;
-  console.log(noCommenter);
   const profileImage = noCommenter.profileImg
     ? 'https://nocommentbuket.s3-ap-northeast-1.amazonaws.com/profileImage/' +
       noCommenter.profileImg

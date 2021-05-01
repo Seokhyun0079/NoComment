@@ -49,8 +49,8 @@ const SearchBarContainer = () => {
       <RoundInputContainer
         onKeyUp={onkeyUp}
         style={{
-          marginTop: '100px',
-          width: '500px',
+          marginTop: '50px',
+          width: '380px',
         }}
       >
         <Table>

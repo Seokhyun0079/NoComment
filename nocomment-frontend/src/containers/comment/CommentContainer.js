@@ -109,7 +109,7 @@ export const CommentContainer = ({ match }) => {
     let width = document.getElementById('commentWriteBlock');
 
     if (!!width) {
-      canvas.width = width.offsetWidth * 0.95;
+      canvas.width = width.offsetWidth * 0.8;
     }
   }
   if (!user) {

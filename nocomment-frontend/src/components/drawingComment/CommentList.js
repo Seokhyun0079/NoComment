@@ -4,6 +4,9 @@ import SubInfo from '../common/SubInfo';
 const CommentItem = ({ fileName, alt }) => {
   return (
     <img
+      style={{
+        maxWidth: '100%',
+      }}
       src={
         'https://nocommentbuket.s3-ap-northeast-1.amazonaws.com/drawingComment/' +
         fileName
