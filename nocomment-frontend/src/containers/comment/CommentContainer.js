@@ -39,14 +39,22 @@ export const CommentContainer = ({ match }) => {
   let ctx;
 
   const initDraw = (event) => {
+    console.log('init Draw');
+    event.preventDefault();
     ctx.beginPath();
     pos = { drawble: true, ...getPositon(event) };
     ctx.moveTo(pos.X, pos.Y);
   };
   const getPositon = (event) => {
-    return { X: event.offsetX, Y: event.offsetY };
+    return {
+      X: event.offsetX ? event.offsetX : event.changedTouches[0].clientX - 45,
+      Y: event.offsetY ? event.offsetY : event.changedTouches[0].clientY - 315,
+    };
   };
   const draw = (event) => {
+    console.log('draw');
+    console.dir(event);
+    event.preventDefault();
     if (pos.drawble) {
       pos = { ...pos, ...getPositon(event) };
       var circle = new Path2D();
@@ -82,6 +90,9 @@ export const CommentContainer = ({ match }) => {
       canvas.addEventListener('mousemove', draw);
       canvas.addEventListener('mouseup', finishDraw);
       canvas.addEventListener('mouseout', finishDraw);
+      canvas.addEventListener('touchstart', initDraw, false);
+      canvas.addEventListener('touchmove', draw, false);
+      canvas.addEventListener('touchend', finishDraw, false);
     }
     if (drawingComment) {
       dispatch(listDrawingComment({ postId }));
