@@ -60,9 +60,10 @@ const PostViewer = ({ post, error, loading, actionButtons, ownPost }) => {
   }
 
   const { title, body, noCommenter, publishedDate, tags } = post;
-
-  const profileImage = noCommenter.profileImage
-    ? noCommenter.profileImage
+  console.log(noCommenter);
+  const profileImage = noCommenter.profileImg
+    ? 'https://nocommentbuket.s3-ap-northeast-1.amazonaws.com/profileImage/' +
+      noCommenter.profileImg
     : fallbackImage;
 
   return (

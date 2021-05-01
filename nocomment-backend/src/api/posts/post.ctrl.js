@@ -5,6 +5,7 @@ import Joi from 'joi';
 import StringUtility from '../../common/StringUtility';
 import { S3_DIRECTORY_POST_IMAGE } from '../../common/const';
 import { deleteFiles } from '../../common/awsS3Buket';
+import NoCommenter from '../../models/noCommenter';
 const { ObjectId } = mongoose.Types;
 
 const sanitizeOption = {
@@ -166,13 +167,16 @@ export const getPostById = async (ctx, next) => {
     return;
   }
   try {
-    const post = await Post.findById(id);
+    let post = await Post.findById(id);
+    let user = await NoCommenter.findByStringId(post.noCommenter.stringId);
     // 포스트가 존재하지 않을 때
     if (!post) {
       ctx.status = 404; // Not Found
       return;
     }
+    post.noCommenter.profileImg = user.profileImg;
     ctx.state.post = post;
+    console.log(post.noCommenter);
     return next();
   } catch (e) {
     ctx.throw(500, e);

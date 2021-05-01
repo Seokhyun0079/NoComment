@@ -12,6 +12,7 @@ const PostSchema = new Schema({
     _id: mongoose.Types.ObjectId,
     name: String,
     stringId: String,
+    profileImg: String,
   },
 });
 
