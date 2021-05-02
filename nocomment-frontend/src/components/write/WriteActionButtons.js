@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { POST_EDIT_TYPE } from '../../common/const';
 import Button from '../common/Button';
 
 const WriteActionButtonsBlock = styled.div`
@@ -17,11 +18,13 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const WriteActionButtons = ({ onCancel, onPublish }) => {
+const WriteActionButtons = ({ onCancel, onPublish, writeType }) => {
+  let writeTypeText = '등록';
+  if (writeType === POST_EDIT_TYPE) writeTypeText = '수정';
   return (
     <WriteActionButtonsBlock>
       <StyledButton cyan onClick={onPublish}>
-        포스트 등록
+        포스트 {writeTypeText}
       </StyledButton>
       <StyledButton onClick={onCancel}>취소</StyledButton>
     </WriteActionButtonsBlock>

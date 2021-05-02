@@ -27,7 +27,7 @@ const PostViewContainer = ({ match, history }) => {
   }, [dispatch, postId]);
   const onEdit = () => {
     dispatch(setOriginalPost(post));
-    history.push('/write');
+    history.push('/write/' + postId);
   };
 
   const onRemove = async () => {

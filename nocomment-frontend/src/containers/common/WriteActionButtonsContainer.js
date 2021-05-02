@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import StringUtility from '../../common/StringUtility';
 import WriteActionButtons from '../../components/write/WriteActionButtons';
-import { writePost } from '../../modules/write';
+import { writePost, updatePost } from '../../modules/write';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-const WriteActionButtonsContainer = ({ history }) => {
+import { POST_EDIT_TYPE, POST_WRITE_TYPE } from '../../common/const';
+
+const WriteActionButtonsContainer = ({ history, match }) => {
   const dispatch = useDispatch();
   const { title, body, tags, post, postError } = useSelector(({ write }) => ({
     title: write.title,
@@ -15,6 +17,9 @@ const WriteActionButtonsContainer = ({ history }) => {
     post: write.post,
     postError: write.postError,
   }));
+
+  const id = match.params.postId;
+  const writeType = (id === undefined ? POST_WRITE_TYPE : POST_EDIT_TYPE);
   const onPublish = () => {
     let validationFlg = true;
     let innerText = StringUtility.deleteHtmlTag(body);
@@ -30,13 +35,25 @@ const WriteActionButtonsContainer = ({ history }) => {
     if (!validationFlg) {
       return;
     }
-    dispatch(
-      writePost({
-        title,
-        body,
-        tags,
-      }),
-    );
+    if (match.params.postId) {
+      dispatch(
+        updatePost({
+          id,
+          title,
+          body,
+          tags,
+        })
+      );
+
+    } else {
+      dispatch(
+        writePost({
+          title,
+          body,
+          tags,
+        }),
+      );
+    }
   };
   const onCancel = () => {
     history.goBack();
@@ -53,7 +70,7 @@ const WriteActionButtonsContainer = ({ history }) => {
   }, [history, post, postError]);
   return (
     <>
-      <WriteActionButtons onPublish={onPublish} onCancel={onCancel} />
+      <WriteActionButtons onPublish={onPublish} onCancel={onCancel} writeType={writeType} />
       <ToastContainer />
     </>
   );

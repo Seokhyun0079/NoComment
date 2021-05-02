@@ -44,7 +44,7 @@ function App() {
         <Route component={LoginPage} path="/login" />
         <Route component={RegisterPage} path="/register" />
         <Route component={AuthCodePage} path="/authCode" />
-        <Route component={WritePage} path="/write" />
+        <Route component={WritePage} path={['/write/:postId', '/write']} exact />
         <Route component={PostPage} path="/@:stringId/:postId" />
         <Route component={MyInfoPage} path="/myInfo" />
       </Responsive>
