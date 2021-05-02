@@ -11,8 +11,10 @@ const CommentWriteBlock = styled(Responsive)`
   padding: 0 0 0 0;
   padding-top: 3rem;
   padding-bottom: 5rem;
+  padding-left: 2rem;
   margin-left: auto;
   margin-right: auto;
+  background: white;
 `;
 
 export const CommentContainer = ({ match }) => {
@@ -37,14 +39,22 @@ export const CommentContainer = ({ match }) => {
   let ctx;
 
   const initDraw = (event) => {
+    console.log('init Draw');
+    event.preventDefault();
     ctx.beginPath();
     pos = { drawble: true, ...getPositon(event) };
     ctx.moveTo(pos.X, pos.Y);
   };
   const getPositon = (event) => {
-    return { X: event.offsetX, Y: event.offsetY };
+    return {
+      X: event.offsetX ? event.offsetX : event.changedTouches[0].clientX - 45,
+      Y: event.offsetY ? event.offsetY : event.changedTouches[0].clientY - 315,
+    };
   };
   const draw = (event) => {
+    console.log('draw');
+    console.dir(event);
+    event.preventDefault();
     if (pos.drawble) {
       pos = { ...pos, ...getPositon(event) };
       var circle = new Path2D();
@@ -80,6 +90,9 @@ export const CommentContainer = ({ match }) => {
       canvas.addEventListener('mousemove', draw);
       canvas.addEventListener('mouseup', finishDraw);
       canvas.addEventListener('mouseout', finishDraw);
+      canvas.addEventListener('touchstart', initDraw, false);
+      canvas.addEventListener('touchmove', draw, false);
+      canvas.addEventListener('touchend', finishDraw, false);
     }
     if (drawingComment) {
       dispatch(listDrawingComment({ postId }));
@@ -105,43 +118,68 @@ export const CommentContainer = ({ match }) => {
   function setCanvasSize() {
     canvas = canvasRef.current;
     let width = document.getElementById('commentWriteBlock');
+
     if (!!width) {
-      canvas.width = width.offsetWidth;
+      canvas.width = width.offsetWidth * 0.8;
     }
   }
+  if (!user) {
+    return null;
+  }
   return (
-    <div
-      style={{
-        height: 'auto',
-        marginBottom: '50px',
-      }}
-    >
-      {user && (
-        <CommentWriteBlock id="commentWriteBlock">
-          <canvas
-            ref={canvasRef}
-            id="stockGraph"
-            height="480px"
-            style={{
-              border: 'solid 1px',
-              borderRadius: '4px',
-            }}
-          ></canvas>
-          <Button
-            id="cavansButton"
-            style={{
-              width: '100%',
-              height: '70px',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-            onClick={onSubmit}
-          >
-            댓글등록
-          </Button>
-        </CommentWriteBlock>
-      )}
-    </div>
+    <CommentWriteBlock id="commentWriteBlock">
+      <Button
+        style={{
+          borderRadius: '5px 5px 0 0',
+        }}
+        id="cavansButton"
+        onClick={onSubmit}
+      >
+        댓글등록
+      </Button>
+      <Button
+        style={{
+          borderRadius: '5px 5px 0 0',
+        }}
+        id="cavansButton"
+      >
+        지우기
+      </Button>
+      <Button
+        style={{
+          borderRadius: '5px 5px 0 0',
+        }}
+        id="cavansButton"
+      >
+        색상변경
+      </Button>
+
+      <Button
+        style={{
+          borderRadius: '5px 5px 0 0',
+        }}
+        id="cavansButton"
+      >
+        선굵기
+      </Button>
+      <Button
+        style={{
+          borderRadius: '5px 5px 0 0',
+        }}
+        id="cavansButton"
+      >
+        배경넣기
+      </Button>
+      <canvas
+        ref={canvasRef}
+        id="stockGraph"
+        height="480px"
+        style={{
+          border: 'solid 1px',
+          borderRadius: '4px',
+        }}
+      ></canvas>
+    </CommentWriteBlock>
   );
 };
 

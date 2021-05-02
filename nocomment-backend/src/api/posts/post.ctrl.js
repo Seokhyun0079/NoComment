@@ -5,7 +5,7 @@ import Joi from 'joi';
 import StringUtility from '../../common/StringUtility';
 import { S3_DIRECTORY_POST_IMAGE } from '../../common/const';
 import { deleteFiles } from '../../common/awsS3Buket';
-import { logger } from '../../common/log';
+import NoCommenter from '../../models/noCommenter';
 const { ObjectId } = mongoose.Types;
 
 const sanitizeOption = {
@@ -33,7 +33,7 @@ const sanitizeOption = {
 };
 export const write = async (ctx) => {
   const { title, body, tags } = ctx.request.body;
-  console.log(ctx.state.noCommenter);
+  console.dir(body);
   const post = new Post({
     title,
     body,
@@ -51,20 +51,29 @@ export const write = async (ctx) => {
 export const list = async (ctx) => {
   // query 는 문자열이기 때문에 숫자로 변환해주어야합니다.
   // 값이 주어지지 않았다면 1 을 기본으로 사용합니다.
-  const page = parseInt(ctx.query.page || '1', 10);
-
-  if (page < 1) {
-    ctx.status = 400;
-    return;
-  }
-
-  const { tag, stringId } = ctx.query;
-  // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음
+  const { tag, stringId, search } = ctx.query;
+  // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음 {name: /a/}
   const query = {
     ...(stringId ? { 'noCommenter.stringId': stringId } : {}),
     ...(tag ? { tags: tag } : {}),
+    ...(search
+      ? {
+        $or: [{ title: new RegExp(search) }, { body: new RegExp(search) }],
+      }
+      : {}),
   };
-
+  let page;
+  const postCount = await Post.countDocuments(query).exec();
+  try {
+    page = page = parseInt(ctx.query.page || '1', 10);
+    if (page < 1) {
+      page = 1;
+    } else if (page > Math.ceil(postCount / 10)) {
+      page = Math.ceil(postCount / 10);
+    }
+  } catch (e) {
+    page = 1;
+  }
   try {
     const posts = await Post.find(query)
       .sort({ _id: -1 })
@@ -72,7 +81,6 @@ export const list = async (ctx) => {
       .skip((page - 1) * 10)
       .lean()
       .exec();
-    const postCount = await Post.countDocuments(query).exec();
     ctx.set('Last-Page', Math.ceil(postCount / 10));
     ctx.body = posts.map((post) => ({
       ...post,
@@ -155,12 +163,14 @@ export const getPostById = async (ctx, next) => {
     return;
   }
   try {
-    const post = await Post.findById(id);
+    let post = await Post.findById(id);
+    let user = await NoCommenter.findByStringId(post.noCommenter.stringId);
     // 포스트가 존재하지 않을 때
     if (!post) {
       ctx.status = 404; // Not Found
       return;
     }
+    post.noCommenter.profileImg = user.profileImg;
     ctx.state.post = post;
     return next();
   } catch (e) {

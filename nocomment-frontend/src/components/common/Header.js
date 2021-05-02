@@ -28,10 +28,6 @@ const Wrapper = styled(Responsive)`
   }
 `;
 
-const Spacer = styled.div`
-  height: 4rem;
-`;
-
 const UserInfo = styled.div`
   font-weight: 800;
   margin-right: 1rem;
@@ -55,7 +51,6 @@ const Header = ({ user }) => {
           )}
         </Wrapper>
       </HeaderBlock>
-      <Spacer />
     </>
   );
 };
