@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../components/common/Button';
@@ -6,15 +6,26 @@ import Responsive from '../../components/common/Responsive';
 import { insert } from '../../modules/drawingComment';
 import { withRouter } from 'react-router-dom';
 import { listDrawingComment } from '../../modules/drawingComments';
+import { Motion, spring } from 'react-motion';
 
 const CommentWriteBlock = styled(Responsive)`
   padding: 0 0 0 0;
   padding-top: 3rem;
   padding-bottom: 5rem;
-  padding-left: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   margin-left: auto;
   margin-right: auto;
   background: white;
+  @media only screen and (max-width: 768px) {
+    width: 85%;
+    position: fixed;
+    padding-top: 0px;
+    margin-left: 10px;
+    top: 790px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 `;
 
 export const CommentContainer = ({ match }) => {
@@ -28,6 +39,16 @@ export const CommentContainer = ({ match }) => {
         hadnleDrawingCommentInsertActions.drawingCommentError,
     }),
   );
+  const [state, setState] = useState({
+    top: 790,
+  });
+  const animate = ({ top }) => {
+    console.log(top);
+    top = top === 790 ? 240 : 790;
+    setState(() => ({
+      top: top,
+    }));
+  };
   let canvas;
   let canvasRef = useRef();
   let pos = {
@@ -48,12 +69,10 @@ export const CommentContainer = ({ match }) => {
   const getPositon = (event) => {
     return {
       X: event.offsetX ? event.offsetX : event.changedTouches[0].clientX - 45,
-      Y: event.offsetY ? event.offsetY : event.changedTouches[0].clientY - 315,
+      Y: event.offsetY ? event.offsetY : event.changedTouches[0].clientY - 320,
     };
   };
   const draw = (event) => {
-    console.log('draw');
-    console.dir(event);
     event.preventDefault();
     if (pos.drawble) {
       pos = { ...pos, ...getPositon(event) };
@@ -120,66 +139,95 @@ export const CommentContainer = ({ match }) => {
     let width = document.getElementById('commentWriteBlock');
 
     if (!!width) {
-      canvas.width = width.offsetWidth * 0.8;
+      canvas.width = width.offsetWidth * 0.9;
     }
   }
   if (!user) {
     return null;
   }
-  return (
-    <CommentWriteBlock id="commentWriteBlock">
-      <Button
-        style={{
-          borderRadius: '5px 5px 0 0',
-        }}
-        id="cavansButton"
-        onClick={onSubmit}
-      >
-        댓글등록
-      </Button>
-      <Button
-        style={{
-          borderRadius: '5px 5px 0 0',
-        }}
-        id="cavansButton"
-      >
-        지우기
-      </Button>
-      <Button
-        style={{
-          borderRadius: '5px 5px 0 0',
-        }}
-        id="cavansButton"
-      >
-        색상변경
-      </Button>
 
-      <Button
-        style={{
-          borderRadius: '5px 5px 0 0',
-        }}
-        id="cavansButton"
-      >
-        선굵기
-      </Button>
-      <Button
-        style={{
-          borderRadius: '5px 5px 0 0',
-        }}
-        id="cavansButton"
-      >
-        배경넣기
-      </Button>
-      <canvas
-        ref={canvasRef}
-        id="stockGraph"
-        height="480px"
-        style={{
-          border: 'solid 1px',
-          borderRadius: '4px',
-        }}
-      ></canvas>
-    </CommentWriteBlock>
+  return (
+    <Motion
+      style={{
+        top: spring(state.top),
+      }}
+    >
+      {({ top }) => (
+        <CommentWriteBlock id="commentWriteBlock" style={{ top: top }}>
+          <Button
+            onClick={() => {
+              animate({
+                top: top,
+              });
+            }}
+            style={{
+              width: '100%',
+              background: 'red',
+            }}
+          >
+            댓글!
+          </Button>
+          <br></br>
+          <br></br>
+          <Button
+            style={{
+              width: '19%',
+              borderRadius: '5px 5px 0 0',
+            }}
+            id="cavansButton"
+            onClick={onSubmit}
+          >
+            댓글등록
+          </Button>
+          <Button
+            style={{
+              width: '19%',
+              borderRadius: '5px 5px 0 0',
+            }}
+            id="cavansButton"
+          >
+            댓글샤샥
+          </Button>
+          <Button
+            style={{
+              width: '19%',
+              borderRadius: '5px 5px 0 0',
+            }}
+            id="cavansButton"
+          >
+            색상변경
+          </Button>
+
+          <Button
+            style={{
+              width: '19%',
+              borderRadius: '5px 5px 0 0',
+            }}
+            id="cavansButton"
+          >
+            굵기변경
+          </Button>
+          <Button
+            style={{
+              width: '19%',
+              borderRadius: '5px 5px 0 0',
+            }}
+            id="cavansButton"
+          >
+            배경넣기
+          </Button>
+          <canvas
+            ref={canvasRef}
+            id="stockGraph"
+            height="480px"
+            style={{
+              border: 'solid 1px',
+              borderRadius: '4px',
+            }}
+          ></canvas>
+        </CommentWriteBlock>
+      )}
+    </Motion>
   );
 };
 

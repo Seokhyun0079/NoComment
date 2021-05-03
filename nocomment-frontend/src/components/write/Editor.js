@@ -54,7 +54,7 @@ const Ediotr = ({ title, body, onChangeField }) => {
     const toolbar = quill.getModule('toolbar');
     toolbar.addHandler('image', onClickImageBtn);
 
-    if (body != '') quill.setContents(quill.clipboard.convert(body)); // 수정 페이지 / 기존 텍스트 세팅 / 2021.05.02(sohot8653)
+    if (body !== '') quill.setContents(quill.clipboard.convert(body)); // 수정 페이지 / 기존 텍스트 세팅 / 2021.05.02(sohot8653)
     quill.on('text-change', (delta, oldDelta, source) => {
       if (source === 'user') {
         onChangeField({ key: 'body', value: quill.root.innerHTML });
