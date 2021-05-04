@@ -17,14 +17,28 @@ const CommentWriteBlock = styled(Responsive)`
   margin-left: auto;
   margin-right: auto;
   background: white;
-  @media only screen and (max-width: 768px) {
+  @media only screen and (max-width: 1024px) {
     width: 85%;
     position: fixed;
     padding-top: 0px;
     margin-left: 10px;
-    top: 790px;
+    bottom: 0;
     padding-top: 0;
     padding-bottom: 0;
+  }
+`;
+
+const CommentOpenButton = styled(Button)`
+  visibility: hidden;
+  @media only screen and (max-width: 1024px) {
+    visibility: visible;
+    width: 100%;
+    height: 50px;
+    background: red;
+    margin-bottom: 15px;
+    &:hover {
+      background: red;
+    }
   }
 `;
 
@@ -40,13 +54,13 @@ export const CommentContainer = ({ match }) => {
     }),
   );
   const [state, setState] = useState({
-    top: 790,
+    bottom: -540,
   });
-  const animate = ({ top }) => {
-    console.log(top);
-    top = top === 790 ? 240 : 790;
+  const animate = ({ bottom }) => {
+    console.dir(bottom);
+    bottom = bottom === -540 ? 0 : -540;
     setState(() => ({
-      top: top,
+      bottom: bottom,
     }));
   };
   let canvas;
@@ -69,7 +83,9 @@ export const CommentContainer = ({ match }) => {
   const getPositon = (event) => {
     return {
       X: event.offsetX ? event.offsetX : event.changedTouches[0].clientX - 45,
-      Y: event.offsetY ? event.offsetY : event.changedTouches[0].clientY - 320,
+      Y: event.offsetY
+        ? event.offsetY
+        : event.changedTouches[0].clientY - window.innerHeight + 480,
     };
   };
   const draw = (event) => {
@@ -149,29 +165,23 @@ export const CommentContainer = ({ match }) => {
   return (
     <Motion
       style={{
-        top: spring(state.top),
+        bottom: spring(state.bottom),
       }}
     >
-      {({ top }) => (
-        <CommentWriteBlock id="commentWriteBlock" style={{ top: top }}>
-          <Button
+      {({ bottom }) => (
+        <CommentWriteBlock id="commentWriteBlock" style={{ bottom: bottom }}>
+          <CommentOpenButton
             onClick={() => {
               animate({
-                top: top,
+                bottom: bottom,
               });
-            }}
-            style={{
-              width: '100%',
-              background: 'red',
             }}
           >
             댓글!
-          </Button>
-          <br></br>
-          <br></br>
+          </CommentOpenButton>
           <Button
             style={{
-              width: '19%',
+              marginLeft: '5px',
               borderRadius: '5px 5px 0 0',
             }}
             id="cavansButton"
@@ -181,40 +191,11 @@ export const CommentContainer = ({ match }) => {
           </Button>
           <Button
             style={{
-              width: '19%',
               borderRadius: '5px 5px 0 0',
             }}
             id="cavansButton"
           >
             댓글샤샥
-          </Button>
-          <Button
-            style={{
-              width: '19%',
-              borderRadius: '5px 5px 0 0',
-            }}
-            id="cavansButton"
-          >
-            색상변경
-          </Button>
-
-          <Button
-            style={{
-              width: '19%',
-              borderRadius: '5px 5px 0 0',
-            }}
-            id="cavansButton"
-          >
-            굵기변경
-          </Button>
-          <Button
-            style={{
-              width: '19%',
-              borderRadius: '5px 5px 0 0',
-            }}
-            id="cavansButton"
-          >
-            배경넣기
           </Button>
           <canvas
             ref={canvasRef}
