@@ -41,7 +41,7 @@ const CommentOpenButton = styled(Button)`
     }
   }
 `;
-
+const DEFAULT_BOTTOM = -540;
 export const CommentContainer = ({ match }) => {
   const { postId } = match.params;
   const dispatch = useDispatch();
@@ -54,17 +54,18 @@ export const CommentContainer = ({ match }) => {
     }),
   );
   const [state, setState] = useState({
-    bottom: -540,
+    bottom: DEFAULT_BOTTOM,
   });
   const animate = ({ bottom }) => {
-    console.dir(bottom);
-    bottom = bottom === -540 ? 0 : -540;
+    bottom = bottom === DEFAULT_BOTTOM ? 0 : DEFAULT_BOTTOM;
     setState(() => ({
       bottom: bottom,
     }));
   };
+
   let canvas;
   let canvasRef = useRef();
+  let colorRef = useRef();
   let pos = {
     drawble: false,
     X: -1,
@@ -94,7 +95,8 @@ export const CommentContainer = ({ match }) => {
       pos = { ...pos, ...getPositon(event) };
       var circle = new Path2D();
       circle.moveTo(pos.X, pos.Y);
-      circle.arc(pos.X, pos.Y, 7, 0, 2 * Math.PI);
+      circle.arc(pos.X, pos.Y, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = colorRef.current.value;
       ctx.fill(circle);
     }
   };
@@ -127,7 +129,6 @@ export const CommentContainer = ({ match }) => {
       canvas.addEventListener('mouseout', finishDraw);
       canvas.addEventListener('touchstart', initDraw, false);
       canvas.addEventListener('touchmove', draw, false);
-      canvas.addEventListener('touchend', finishDraw, false);
     }
     if (drawingComment) {
       dispatch(listDrawingComment({ postId }));
@@ -150,6 +151,10 @@ export const CommentContainer = ({ match }) => {
     setCanvasSize();
   };
 
+  const clearCanvas = () => {
+    let canvas = canvasRef.current;
+    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+  };
   function setCanvasSize() {
     canvas = canvasRef.current;
     let width = document.getElementById('commentWriteBlock');
@@ -161,6 +166,10 @@ export const CommentContainer = ({ match }) => {
   if (!user) {
     return null;
   }
+
+  const changeColor = () => {
+    colorRef.current.click();
+  };
 
   return (
     <Motion
@@ -179,6 +188,15 @@ export const CommentContainer = ({ match }) => {
           >
             댓글!
           </CommentOpenButton>
+          <input
+            type="color"
+            style={{
+              visibility: 'hidden',
+            }}
+            ref={colorRef}
+          ></input>
+
+          <br />
           <Button
             style={{
               marginLeft: '5px',
@@ -193,10 +211,12 @@ export const CommentContainer = ({ match }) => {
             style={{
               borderRadius: '5px 5px 0 0',
             }}
-            id="cavansButton"
+            onClick={clearCanvas}
+            id="claerButton"
           >
-            댓글샤샥
+            백지
           </Button>
+          <Button onClick={changeColor}>색</Button>
           <canvas
             ref={canvasRef}
             id="stockGraph"
