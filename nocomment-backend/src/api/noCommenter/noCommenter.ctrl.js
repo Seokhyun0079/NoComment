@@ -1,5 +1,7 @@
 import NoCommenter from '../../models/noCommenter';
 import emailSender from '../../lib/emailSender';
+import noCommenters from '.';
+import { logger } from '../../common/log';
 export const signup = async (ctx) => {
   const { stringId, name, email, password } = ctx.request.body;
   const authCode = Math.random().toString(16).substr(2, 6);
@@ -32,6 +34,7 @@ export const signup = async (ctx) => {
       httpOnly: true,
     });
   } catch (e) {
+    logger.error(e);
     console.log('회원가입 실패');
     ctx.status = 500;
     ctx.body = '회원가입에 실패하였습니다. 잠시후에 다시 시도해주세요.';
@@ -122,6 +125,38 @@ export const update = async (ctx) => {
     ctx.cookies.set('access_token', token, {
       maxAge: 1000 * 60 * 60,
       httpOnly: true,
+    });
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+export const list = async (ctx, next) => {
+  const { tag, stringId, search } = ctx.query;
+  // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음 {name: /a/}
+  const query = {
+    ...(stringId ? { 'noCommenter.stringId': stringId } : {}),
+    ...(tag ? { tags: tag } : {}),
+    ...(search
+      ? {
+          $or: [{ title: new RegExp(search) }, { body: new RegExp(search) }],
+        }
+      : {}),
+  };
+  try {
+    let page;
+    page = page = parseInt(ctx.query.page || '1', 10);
+    let noCommnterList = await NoCommenter.find(query)
+      .sort({ _id: -1 })
+      .limit(10)
+      .skip((page - 1) * 10)
+      .lean()
+      .exec();
+    ctx.body = noCommnterList.map((item) => {
+      delete item.hashPassword;
+      delete item.authCode;
+      delete item._id;
+      return item;
     });
   } catch (e) {
     ctx.throw(500, e);

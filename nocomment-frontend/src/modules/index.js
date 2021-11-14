@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import auth, { authSaga } from './auth';
-import user, { userSaga, userUpdateSaga } from './user';
+import user, { userSaga } from './user';
 import write, { writeSaga } from './write';
 import post, { postSaga } from './post';
 import posts, { postsSaga } from './posts';
@@ -12,6 +12,7 @@ import { all } from 'redux-saga/effects';
 import drawingCommentsHandleActions, {
   drawingCommentsSaga,
 } from './drawingComments';
+import handleNocommneterActions, { nocommneterSaga } from './nocommneter';
 const rootReducer = combineReducers({
   auth,
   loading,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   posts,
   drawingCommentsHandleActions,
   hadnleDrawingCommentInsertActions,
+  handleNocommneterActions,
 });
 
 export function* rootSaga() {
@@ -32,6 +34,7 @@ export function* rootSaga() {
     postsSaga(),
     drawingCommentSaga(),
     drawingCommentsSaga(),
+    nocommneterSaga(),
   ]);
 }
 

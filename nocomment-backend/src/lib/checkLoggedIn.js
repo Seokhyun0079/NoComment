@@ -6,4 +6,12 @@ const checkLoggedIn = (ctx, next) => {
   return next();
 };
 
+export const authorityCheck = (ctx, next) => {
+  if (!ctx.state.noCommenter.level === 'admin') {
+    ctx.status = 401;
+    return;
+  }
+  return next();
+};
+
 export default checkLoggedIn;

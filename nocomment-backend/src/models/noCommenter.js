@@ -10,7 +10,8 @@ const noCommenterSchema = new Schema({
   emailCheck: Boolean,
   authCode: String,
   hashPassword: String,
-  level: String,
+  level: { type: String, default: 'nomal' },
+  useable: { type: Boolean, default: true },
   profileImg: String,
 });
 

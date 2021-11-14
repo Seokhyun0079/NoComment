@@ -12,6 +12,7 @@ import PostPage from './pages/Postpage';
 import MyInfoPage from './pages/MyInfoPage';
 import Responsive from './components/common/Responsive';
 import palette from './lib/styles/palette';
+import NocommenterManagementPage from './pages/NocommenterManagementPage';
 
 function App() {
   let history = useHistory();
@@ -51,9 +52,17 @@ function App() {
         <Route component={LoginPage} path="/login" />
         <Route component={RegisterPage} path="/register" />
         <Route component={AuthCodePage} path="/authCode" />
-        <Route component={WritePage} path={['/write/:postId', '/write']} exact />
+        <Route
+          component={WritePage}
+          path={['/write/:postId', '/write']}
+          exact
+        />
         <Route component={PostPage} path="/@:stringId/:postId" />
         <Route component={MyInfoPage} path="/myInfo" />
+        <Route
+          component={NocommenterManagementPage}
+          path="/nocommneterManagement"
+        />
       </Responsive>
     </div>
   );

@@ -28,7 +28,6 @@ const router = new Router();
 
 // 라우터 설정
 router.use('/api', log, api.routes()); // api 라우트 적용
-
 // 라우터 적용 전에 bodyParser 적용
 app.use(bodyParser());
 app.use(jwtMiddleware);
@@ -42,6 +41,7 @@ const buildDirectory = path.resolve(
 app.use(serve(__dirname + '/public/commentImage'));
 app.use(serve(__dirname + '/public/postImage'));
 app.use(serve(__dirname + '/public/profileImage'));
+app.use(serve(__dirname + '/public/material-design-icons-4.0.0/font'));
 app.use(serve(buildDirectory));
 app.use(async (ctx, next) => {
   console.log('not expect root ' + ctx.path);

@@ -4,7 +4,6 @@ import Responsive from './Responsive';
 import Button from './Button';
 import { Link } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
-
 const HeaderBlock = styled.div`
   background: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
@@ -47,7 +46,9 @@ const Header = ({ user }) => {
               <LogoutButton user={user}>로그아웃</LogoutButton>
             </div>
           ) : (
-            <Button to="/login">로그인</Button>
+            <div>
+              <Button to="/login">로그인</Button>
+            </div>
           )}
         </Wrapper>
       </HeaderBlock>
