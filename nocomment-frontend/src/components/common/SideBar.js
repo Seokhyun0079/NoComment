@@ -15,7 +15,7 @@ const SideBar = ({ onLogout, user, animate, state }) => {
       {({ top, opacity, right }) => (
         <div
           style={{
-            position: 'absolute',
+            position: 'fixed',
             top: top,
             right: right,
             opacity: opacity,
