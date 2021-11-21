@@ -12,6 +12,7 @@ const noCommenterSchema = new Schema({
   hashPassword: String,
   level: { type: String, default: 'nomal' },
   useable: { type: Boolean, default: true },
+  invaliDate: Date,
   profileImg: String,
 });
 

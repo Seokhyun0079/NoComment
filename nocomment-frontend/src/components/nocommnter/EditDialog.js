@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AskModal from '../common/AskModal';
 import { ToastContainer, toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { initialize, updateNocommneterAction } from '../../modules/nocommneter';
+import { DatePicker } from 'material-ui';
 const NocommnterEditDialog = ({ state, setState }) => {
+  const dispatch = useDispatch();
+  const { user } = useSelector(({ user }) => ({
+    user: user.user,
+  }));
+  useEffect(() => {
+    dispatch(initialize('update'));
+  }, [dispatch, user]);
+
   if (!state.visible) return null;
   const radioClick = (value) => {
+    console.dir(state.nocommneter.invaliDate);
     setState({
       ...state,
       nocommneter: {
@@ -21,12 +33,26 @@ const NocommnterEditDialog = ({ state, setState }) => {
       },
     });
   };
+  const selectDate = (value) => {
+    setState({
+      ...state,
+      nocommneter: {
+        ...state.nocommneter,
+        invaliDate: value,
+      },
+    });
+  };
   const onConfirm = () => {
     toast('갱신처리 넣는중');
-    // setState({
-    //   ...state,
-    //   visible: false,
-    // });
+    console.dir(state.nocommneter.invaliDate);
+    dispatch(
+      updateNocommneterAction({
+        stringId: state.nocommneter.stringId,
+        level: state.nocommneter.level,
+        useable: state.nocommneter.useable,
+        // invaliDate: invaliDate,
+      }),
+    );
   };
   const onCancel = () => {
     setState({
@@ -34,6 +60,7 @@ const NocommnterEditDialog = ({ state, setState }) => {
       visible: false,
     });
   };
+
   const EditDailogBody = (
     <>
       <h4>ID</h4>
@@ -93,11 +120,12 @@ const NocommnterEditDialog = ({ state, setState }) => {
       />
       <label for="disable">정지</label>
       <br />
-      <input
-        type="date"
-        id="start"
-        name="trip-start"
+      <DatePicker
         disabled={state.nocommneter.useable}
+        onChange={(x, event) => {
+          selectDate(event);
+        }}
+        value={state.nocommneter.invaliDate}
       />
     </>
   );

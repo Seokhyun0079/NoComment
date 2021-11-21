@@ -11,10 +11,18 @@ const [
   NOCOMMNETER_UPDATE,
   NOCOMMNETER_UPDATE_SUCCESS,
   NOCOMMNETER_UPDATE_FAILURE,
-] = createRequestActionTypes('nocommneter/update');
+] = createRequestActionTypes('nocommneter/updateByAdmin');
 
 export const getNocommneterListAction = createAction(NOCOMMNETER_LIST);
-export const updateNocommneterAction = createAction(NOCOMMNETER_UPDATE);
+export const updateNocommneterAction = createAction(
+  NOCOMMNETER_UPDATE,
+  ({ stringId, useable, invaliDate, level }) => ({
+    stringId,
+    useable,
+    invaliDate,
+    level,
+  }),
+);
 
 export const getNocommneterListReqSaga = createRequestSaga(
   NOCOMMNETER_LIST,
@@ -22,7 +30,7 @@ export const getNocommneterListReqSaga = createRequestSaga(
 );
 export const updateNocommneterSaga = createRequestSaga(
   NOCOMMNETER_UPDATE,
-  nocommneterApi.update,
+  nocommneterApi.updateByAdmin,
 );
 
 export function* nocommneterSaga() {
@@ -35,8 +43,13 @@ export const initialize = createAction(INITIALIZE);
 const initialState = {
   ncList: null,
   nocommneterListError: null,
+  update: {
+    stringId: '',
+    level: '',
+    useable: '',
+    invaliDate: '',
+  },
 };
-
 const handleNocommneterActions = handleActions(
   {
     [INITIALIZE]: (state) => initialState,
@@ -47,11 +60,17 @@ const handleNocommneterActions = handleActions(
     [NOCOMMNETER_LIST_SUCCESS]: (
       state,
       { payload: ncList, meta: response },
-    ) => ({
-      ...state,
-      ncList,
-      lastPage: parseInt(response.headers['last-page'], 10), // 문자열을 숫자로 변환
-    }),
+    ) => {
+      ncList = ncList.map((item) => ({
+        ...item,
+        invaliDate: item.invaliDate ? new Date(item.invaliDate) : '',
+      }));
+      return {
+        ...state,
+        ncList,
+        lastPage: parseInt(response.headers['last-page'], 10), // 문자열을 숫자로 변환
+      };
+    },
     [NOCOMMNETER_LIST_FAILURE]: (state, { payload: nocommneterListError }) => ({
       ...state,
       nocommneterListError,

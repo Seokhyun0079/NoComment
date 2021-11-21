@@ -4,3 +4,12 @@ export const update = ({ nocmmneter }) =>
   client.post('/api/noCommenters/authCode', {
     nocmmneter,
   });
+export const updateByAdmin = ({ stringId, useable, invaliDate, level }) => {
+  console.dir(invaliDate);
+  client.post('/api/noCommenters/updateByAdmin', {
+    stringId,
+    useable,
+    invaliDate,
+    level,
+  });
+};

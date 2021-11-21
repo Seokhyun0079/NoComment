@@ -131,6 +131,23 @@ export const update = async (ctx) => {
   }
 };
 
+export const updateByAdmin = async (ctx) => {
+  try {
+    const { stringId, level, useable, invaliDate } = ctx.request.body;
+    console.dir(invaliDate);
+    await NoCommenter.updateOne(
+      { stringId: stringId },
+      {
+        level: level,
+        useable: useable,
+        invaliDate: !useable ? new Date(invaliDate) : null,
+      },
+    );
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
 export const list = async (ctx, next) => {
   const { tag, stringId, search } = ctx.query;
   // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음 {name: /a/}

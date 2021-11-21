@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Button from '../../components/common/Button';
-import { Motion, spring } from 'react-motion';
 import palette from '../../lib/styles/palette';
 import SideBar from '../../components/common/SideBar';
 
@@ -38,7 +37,12 @@ const LoginMenuContainer = ({ onLogout, user }) => {
       >
         메뉴
       </Button>
-      <SideBar user={user} state={state} animate={animate}></SideBar>
+      <SideBar
+        user={user}
+        state={state}
+        animate={animate}
+        onLogout={onLogout}
+      ></SideBar>
     </>
   );
 };

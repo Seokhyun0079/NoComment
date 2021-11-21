@@ -10,6 +10,10 @@ noCommenters.get('/check', noCommenterCtrl.check);
 noCommenters.post('/logout', noCommenterCtrl.logout);
 noCommenters.post('/authCode', noCommenterCtrl.authCode);
 noCommenters.post('/update', noCommenterCtrl.update);
-// noCommenters.post('/updateByAdmin', noCommenterCtrl.updateByAdmin);
+noCommenters.post(
+  '/updateByAdmin',
+  authorityCheck,
+  noCommenterCtrl.updateByAdmin,
+);
 noCommenters.get('/list', checkLoggedIn, authorityCheck, noCommenterCtrl.list);
 export default noCommenters;
