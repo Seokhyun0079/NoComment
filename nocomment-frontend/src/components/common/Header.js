@@ -4,6 +4,7 @@ import Responsive from './Responsive';
 import Button from './Button';
 import { Link } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
+import { useTranslation } from 'react-i18next';
 const HeaderBlock = styled.div`
   background: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
@@ -33,6 +34,7 @@ const UserInfo = styled.div`
 `;
 
 const Header = ({ user }) => {
+  const { t } = useTranslation();
   return (
     <>
       <HeaderBlock>
@@ -43,11 +45,11 @@ const Header = ({ user }) => {
           {user ? (
             <div className="right">
               <UserInfo>{user.name}</UserInfo>
-              <LogoutButton user={user}>로그아웃</LogoutButton>
+              <LogoutButton user={user}>{t('signout')}</LogoutButton>
             </div>
           ) : (
             <div>
-              <Button to="/login">로그인</Button>
+              <Button to="/login">{t('signin')}</Button>
             </div>
           )}
         </Wrapper>

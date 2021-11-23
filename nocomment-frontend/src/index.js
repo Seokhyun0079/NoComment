@@ -13,6 +13,7 @@ import { rootSaga } from './modules/index';
 import { tempSetUser, check } from './modules/user';
 import { HelmetProvider } from 'react-helmet-async';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import './i18n'; // 다국어 지원 파일
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   rootReducer,

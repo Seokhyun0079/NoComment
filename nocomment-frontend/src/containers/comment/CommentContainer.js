@@ -7,7 +7,7 @@ import { insert } from '../../modules/drawingComment';
 import { withRouter } from 'react-router-dom';
 import { listDrawingComment } from '../../modules/drawingComments';
 import { Motion, spring } from 'react-motion';
-
+import { useTranslation } from 'react-i18next';
 const CommentWriteBlock = styled(Responsive)`
   padding: 0 0 0 0;
   padding-top: 3rem;
@@ -43,6 +43,7 @@ const CommentOpenButton = styled(Button)`
 `;
 const DEFAULT_BOTTOM = -540;
 export const CommentContainer = ({ match }) => {
+  const { t } = useTranslation();
   const { postId } = match.params;
   const dispatch = useDispatch();
   const { user, drawingComment, drawingCommentError } = useSelector(
@@ -135,7 +136,7 @@ export const CommentContainer = ({ match }) => {
       canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
     }
     if (drawingCommentError) {
-      console.log('댓글 등록 에러 발생');
+      console.log(t('commentSaveError'));
       console.log(drawingCommentError);
     }
     setCanvasSize();

@@ -13,9 +13,12 @@ import MyInfoPage from './pages/MyInfoPage';
 import Responsive from './components/common/Responsive';
 import palette from './lib/styles/palette';
 import NocommenterManagementPage from './pages/NocommenterManagementPage';
+import { useTranslation } from 'react-i18next';
 
 function App() {
   let history = useHistory();
+  const userLanguage = window.navigator.language;
+  const { i18n, t } = useTranslation(); // (*) change the language (118n instace)
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   let { pathname } = history.location;
   if (user !== null) {
@@ -40,6 +43,11 @@ function App() {
   }
 
   useEffect(() => {
+    i18n.changeLanguage(userLanguage);
+    if (t('test') != 'true' || true) {
+      console.dir(userLanguage);
+      i18n.changeLanguage('ja');
+    }
     document.getElementsByTagName(
       'body',
     )[0].style.background = `${palette.gray[2]}`;

@@ -6,7 +6,7 @@ import palette from '../../lib/styles/palette';
 import SubInfo from '../common/SubInfo';
 import Tags from '../common/Tags';
 import { Link } from 'react-router-dom';
-
+import { useTranslation } from 'react-i18next';
 const PostListBlock = styled(Responsive)`
   margin-top: 1.5rem;
 `;
@@ -60,9 +60,10 @@ const PostItem = ({ post }) => {
 };
 
 const PostList = ({ posts, loading, error, showWriteButton }) => {
+  const { t } = useTranslation();
   // 에러 발생 시
   if (error) {
-    return <PostListBlock>에러가 발생했습니다.</PostListBlock>;
+    return <PostListBlock>{t('writePostError')}</PostListBlock>;
   }
 
   return (
@@ -70,7 +71,7 @@ const PostList = ({ posts, loading, error, showWriteButton }) => {
       <WritePostButtonWrapper>
         {showWriteButton && (
           <Button cyan to="/write">
-            새 글 작성하기
+            {t('writeBtn')}
           </Button>
         )}
       </WritePostButtonWrapper>
