@@ -17,7 +17,7 @@ const MONGO_URI: string = process.env.MONGO_URI
   ? process.env.MONGO_URI
   : 'localhost:27017';
 mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false })
+  .connect(MONGO_URI)
   .then(() => {
     console.log('Connected to MongoDB');
   })
