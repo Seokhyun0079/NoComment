@@ -6,11 +6,16 @@
   "dependencies": {
     "@koa/multer": "^3.0.0",
     "@koa/router": "^10.0.0",
+    "@types/koa": "^2.13.4",
+    "@types/koa-bodyparser": "^4.3.4",
+    "@types/koa-router": "^7.4.4",
+    "@types/koa-static": "^4.0.2",
+    "@types/node": "^16.11.10",
     "aws-sdk": "^2.884.0",
     "bcrypt": "^5.0.0",
     "buffer-image": "^1.0.0",
     "connect-multiparty": "^2.2.0",
-    "dotenv": "^7.0.0",
+    "dotenv": "^10.0.0",
     "eslint-config-prettier": "^4.1.0",
     "esm": "^3.2.25",
     "joi": "^14.3.1",
@@ -28,6 +33,8 @@
     "quill": "^1.3.7",
     "react-router-dom": "^5.2.0",
     "sanitize-html": "^2.3.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.1"
@@ -37,7 +44,9 @@
     "nodemon": "^1.18.11"
   },
   "scripts": {
-    "start": "node -r esm src",
-    "start:dev": "nodemon --watch src/ -r esm src/index.js"
+    "start:dev": "nodemon --watch src/ -r esm src/index.js",
+    "start": "npm run build:live",
+    "build": "tsc -p. ",
+    "build:live": "nodemon --watch 'src/**/*.ts' --exec \"ts-node\" src/index.ts"
   }
 }
