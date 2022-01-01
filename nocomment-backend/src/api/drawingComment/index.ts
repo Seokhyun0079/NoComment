@@ -1,4 +1,4 @@
-import Router from '@koa/router';
+import Router from 'koa-router';
 import * as drawingCommentCtrl from './drawingComment.ctrl';
 import checkLoggedIn from '../../lib/checkLoggedIn';
 import { drawingCommentMulter } from '../../common/awsS3Buket';

@@ -11,3 +11,9 @@ nocomment-backend/log.log.*
 nocomment-backend/yarn.lock
 nocomment-backend/yarn-error.log
 nocomment-backend/config/*
+nocomment-backend/yarn-error.log
+nocomment-backend/yarn.lock
+nocomment-backend/yarn-error.log
+nocomment-frontend/yarn.lock
+nocomment-backend/dist/*
+nocomment-backend/report*
