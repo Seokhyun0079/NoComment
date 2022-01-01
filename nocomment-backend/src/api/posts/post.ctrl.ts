@@ -1,3 +1,4 @@
+import Koa from 'koa';
 import Post from '../../models/post';
 import mongoose from 'mongoose';
 import sanitizeHtml from 'sanitize-html';
@@ -6,6 +7,7 @@ import StringUtility from '../../common/StringUtility';
 import { S3_DIRECTORY_POST_IMAGE } from '../../common/const';
 import { deleteFiles } from '../../common/awsS3Buket';
 import NoCommenter from '../../models/noCommenter';
+import { ParamConverter } from '../../lib/ParamConvert';
 const { ObjectId } = mongoose.Types;
 
 const sanitizeOption = {
@@ -31,7 +33,7 @@ const sanitizeOption = {
   },
   allowedSchemes: ['data', 'http'],
 };
-export const write = async (ctx) => {
+export const write = async (ctx: Koa.Context) => {
   const { title, body, tags } = ctx.request.body;
   console.dir(body);
   const post = new Post({
@@ -44,28 +46,33 @@ export const write = async (ctx) => {
     await post.save();
     ctx.body = post;
   } catch (e) {
-    ctx.throw(500, e);
+    ctx.throw('faild write post', 500);
   }
 };
 
-export const list = async (ctx) => {
+export const list = async (ctx: Koa.Context, next: Function) => {
   // query 는 문자열이기 때문에 숫자로 변환해주어야합니다.
   // 값이 주어지지 않았다면 1 을 기본으로 사용합니다.
-  const { tag, stringId, search } = ctx.query;
+  let tag: string;
+  let stringId: string;
+  let search: string;
+  tag = ParamConverter.ctxQueryConvert(ctx.query.tag);
+  stringId = ParamConverter.ctxQueryConvert(ctx.query.stringId);
+  search = ParamConverter.ctxQueryConvert(ctx.query.search);
   // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음 {name: /a/}
   const query = {
     ...(stringId ? { 'noCommenter.stringId': stringId } : {}),
     ...(tag ? { tags: tag } : {}),
     ...(search
       ? {
-        $or: [{ title: new RegExp(search) }, { body: new RegExp(search) }],
-      }
+          $or: [{ title: new RegExp(search) }, { body: new RegExp(search) }],
+        }
       : {}),
   };
-  let page;
-  const postCount = await Post.countDocuments(query).exec();
+  let page: number;
+  const postCount: number = await Post.countDocuments(query).exec();
   try {
-    page = page = parseInt(ctx.query.page || '1', 10);
+    page = parseInt(ParamConverter.ctxQueryConvert(ctx.query.page) || '1', 10);
     if (page < 1) {
       page = 1;
     } else if (page > Math.ceil(postCount / 10)) {
@@ -81,35 +88,36 @@ export const list = async (ctx) => {
       .skip((page - 1) * 10)
       .lean()
       .exec();
-    ctx.set('Last-Page', Math.ceil(postCount / 10));
-    ctx.body = posts.map((post) => ({
+    //ctx.set's second parameter is string of string[]?
+    ctx.set('Last-Page', Math.ceil(postCount / 10) + '');
+    ctx.body = posts.map((post: any) => ({
       ...post,
       body: removeHtmlAndShorten(post.body),
     }));
   } catch (e) {
-    ctx.throw(500, e);
+    ctx.throw('faild get Post List', 500);
   }
 };
 // html 을 없애고 내용이 너무 길으면 200자로 제한시키는 함수
-const removeHtmlAndShorten = (body) => {
+const removeHtmlAndShorten = (body: string) => {
   const filtered = sanitizeHtml(body, {
     allowedTags: [],
   });
   return filtered.length < 200 ? filtered : `${filtered.slice(0, 200)}...`;
 };
 
-export const read = async (ctx) => {
+export const read = async (ctx: Koa.Context) => {
   ctx.body = ctx.state.post;
 };
 
-export const remove = async (ctx, next) => {
+export const remove = async (ctx: Koa.Context, next: Function) => {
   const { id } = ctx.params;
   try {
     const { body } = await Post.findByIdAndRemove(id).exec();
-    let imgUrls = StringUtility.findImg(body);
+    let imgUrls = StringUtility.findImg(body)!;
     let imgFiles = [];
-    for (let index in imgUrls) {
-      let item = imgUrls[index][1].toString();
+    for (let url of imgUrls) {
+      let item = url[1].toString();
       let fileNameStart = item.lastIndexOf('/');
       imgFiles.push({
         Key: S3_DIRECTORY_POST_IMAGE + item.substring(fileNameStart + 1),
@@ -120,11 +128,11 @@ export const remove = async (ctx, next) => {
     }
     return next();
   } catch (e) {
-    ctx.throw(500, e);
+    ctx.throw('faild remove file', 500);
   }
 };
 
-export const update = async (ctx) => {
+export const update = async (ctx: Koa.Context, next: Function) => {
   const { id } = ctx.params;
   // write 에서 사용한 schema 와 비슷한데, required() 가 없습니다.
   const schema = Joi.object().keys({
@@ -152,10 +160,10 @@ export const update = async (ctx) => {
     }
     ctx.body = post;
   } catch (e) {
-    ctx.throw(500, e);
+    ctx.throw('faild update post', 500);
   }
 };
-export const getPostById = async (ctx, next) => {
+export const getPostById = async (ctx: Koa.Context, next: Function) => {
   console.log('getPostById');
   const { id } = ctx.params;
   if (!ObjectId.isValid(id)) {
@@ -177,7 +185,7 @@ export const getPostById = async (ctx, next) => {
     ctx.throw(500, e);
   }
 };
-export const checkOwnPost = (ctx, next) => {
+export const checkOwnPost = (ctx: Koa.Context, next: Function) => {
   console.log('checkOwnPost');
   const { noCommenter, post } = ctx.state;
   if (
@@ -189,7 +197,7 @@ export const checkOwnPost = (ctx, next) => {
   }
   return next();
 };
-export const postvalidation = (ctx, next) => {
+export const postvalidation = (ctx: Koa.Context, next: Function) => {
   const { body, title } = ctx.request.body;
   let validationFlg = true;
   let innerText = StringUtility.deleteHtmlTag(body);
